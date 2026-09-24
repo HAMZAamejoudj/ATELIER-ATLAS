@@ -1,0 +1,118 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Heart } from "lucide-react";
+
+const PRODUCTS = [
+  {
+    href: "/seating",
+    name: "The Lenoir Sofa",
+    price: "$4,800",
+    image: "/images/products/product-lenoir-sofa.png",
+    alt: "The Lenoir Sofa in beige upholstery",
+  },
+  {
+    href: "/tables-consoles",
+    name: "The Arden Dining Table",
+    price: "$3,250",
+    image: "/images/products/product-arden-table.png",
+    alt: "The Arden round dining table",
+  },
+  {
+    href: "/seating",
+    name: "The Vale Lounge Chair",
+    price: "$2,950",
+    image: "/images/products/product-vale-chair.png",
+    alt: "The Vale leather lounge chair",
+  },
+  {
+    href: "/decor",
+    name: "The Marais Sideboard",
+    price: "$4,200",
+    image: "/images/products/product-marais-sideboard.png",
+    alt: "The Marais wood sideboard",
+  },
+  {
+    href: "/lighting",
+    name: "The Odette Table Lamp",
+    price: "$1,450",
+    image: "/images/products/product-odette-lamp.png",
+    alt: "The Odette bronze table lamp",
+  },
+] as const;
+
+export function BestSellers() {
+  return (
+    <section
+      className="bg-[#f9f8f3] py-14 sm:py-16 lg:py-20"
+      aria-labelledby="best-sellers-heading"
+    >
+      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2
+              id="best-sellers-heading"
+              className="font-serif text-3xl font-semibold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
+            >
+              Best Sellers
+            </h2>
+            <p className="mt-2 font-serif text-base font-medium text-atlas-charcoal/85 sm:text-lg">
+              Enduring designs, chosen again and again.
+            </p>
+          </div>
+          <Link
+            href="/seating"
+            className="inline-flex shrink-0 items-center gap-2 self-start text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:self-auto sm:text-xs"
+          >
+            Shop all
+            <ArrowRight className="size-3.5" aria-hidden />
+          </Link>
+        </div>
+
+        <ul
+          className="mt-10 flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-5 lg:mt-12 lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden"
+        >
+          {PRODUCTS.map((product) => (
+            <li
+              key={product.name}
+              className="w-[72vw] max-w-[16rem] shrink-0 sm:w-[42vw] sm:max-w-[18rem] lg:w-full lg:min-w-0 lg:max-w-none"
+            >
+              <article className="group">
+                <Link href={product.href} className="block">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f0ebe3]">
+                    <Image
+                      src={product.image}
+                      alt={product.alt}
+                      fill
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+                      sizes="(max-width: 1024px) 72vw, 18vw"
+                    />
+                  </div>
+                </Link>
+                <div className="mt-4 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <Link
+                      href={product.href}
+                      className="block font-serif text-[15px] font-bold leading-snug text-atlas-charcoal transition-opacity hover:opacity-75 sm:text-base"
+                    >
+                      {product.name}
+                    </Link>
+                    <p className="mt-1.5 font-sans text-[15px] font-semibold not-italic tabular-nums tracking-normal text-atlas-charcoal sm:text-base">
+                      {product.price}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="shrink-0 pt-0.5 text-atlas-charcoal transition-colors hover:text-atlas-charcoal/70"
+                    aria-label={`Add ${product.name} to wishlist`}
+                  >
+                    <Heart className="size-[18px] stroke-[1.75]" />
+                  </button>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
