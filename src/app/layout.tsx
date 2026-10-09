@@ -43,6 +43,25 @@ const notoArabic = Noto_Sans_Arabic({
   weight: ["400", "500", "600", "700"],
 });
 
+function getSiteUrl(): URL {
+  const envUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL;
+  if (!envUrl) {
+    return new URL("https://moroccantravertine.com");
+  }
+  const formatted =
+    envUrl.startsWith("http://") || envUrl.startsWith("https://")
+      ? envUrl
+      : `https://${envUrl}`;
+  try {
+    return new URL(formatted);
+  } catch {
+    return new URL("https://moroccantravertine.com");
+  }
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("seo");
   return {
@@ -51,9 +70,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${BRAND_NAME}`,
     },
     description: t("home.description"),
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-    ),
+    metadataBase: getSiteUrl(),
   };
 }
 
