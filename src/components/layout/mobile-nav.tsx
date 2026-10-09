@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 
 import { BRAND_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import {
   Sheet,
   SheetClose,
@@ -26,11 +27,13 @@ export function MobileNav({
   items: readonly NavItem[];
   className?: string;
 }) {
+  const t = useTranslations("common");
+
   return (
     <Sheet>
       <SheetTrigger
         className={cn(iconLinkClass, "lg:hidden", className)}
-        aria-label="Open menu"
+        aria-label={t("openMenu")}
       >
         <Menu className="size-[18px] stroke-[1.25]" />
       </SheetTrigger>

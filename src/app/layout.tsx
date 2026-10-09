@@ -1,9 +1,22 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Geist,
+  Geist_Mono,
+  Noto_Sans_Arabic,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getTranslations } from "next-intl/server";
 
+import { AuthProvider } from "@/app/providers";
+import { AppProviders } from "@/components/cart/app-providers";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { BRAND_NAME, SITE_DESCRIPTION } from "@/lib/constants";
+import { StorefrontPopupWrapper } from "@/components/layout/storefront-popup-wrapper";
+import { BRAND_NAME } from "@/lib/constants";
+import { getLocale } from "@/lib/get-locale";
+import { localeDirection } from "@/lib/locale";
 
 import "./globals.css";
 
@@ -24,26 +37,49 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: `${BRAND_NAME} — Handmade Moroccan Furniture`,
-    template: `%s | ${BRAND_NAME}`,
-  },
-  description: SITE_DESCRIPTION,
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  ),
-};
+const notoArabic = Noto_Sans_Arabic({
+  variable: "--font-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+});
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("seo");
+  return {
+    title: {
+      default: t("home.title"),
+      template: `%s | ${BRAND_NAME}`,
+    },
+    description: t("home.description"),
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    ),
+  };
+}
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} h-full antialiased`}
+      lang={locale}
+      dir={localeDirection(locale)}
+      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} ${locale === "ar" ? notoArabic.variable : ""} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <SiteFooter />
+        <NextIntlClientProvider messages={messages}>
+          <AuthProvider>
+            <AppProviders>
+              <SiteChrome
+                footer={<SiteFooter />}
+                popup={<StorefrontPopupWrapper />}
+              >
+                {children}
+              </SiteChrome>
+            </AppProviders>
+          </AuthProvider>
+        </NextIntlClientProvider>
         <Analytics />
       </body>
     </html>

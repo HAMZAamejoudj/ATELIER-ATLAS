@@ -1,46 +1,94 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { AddToWishlistButton } from "@/components/wishlist/add-to-wishlist-button";
+import { useLocalizedProduct } from "@/hooks/use-localized-product";
 
 const PRODUCTS = [
   {
     href: "/seating",
     name: "The Lenoir Sofa",
-    price: "$4,800",
+    priceUsd: 4800,
     image: "/images/products/product-lenoir-sofa.png",
     alt: "The Lenoir Sofa in beige upholstery",
   },
   {
     href: "/tables-consoles",
     name: "The Arden Dining Table",
-    price: "$3,250",
+    priceUsd: 3250,
     image: "/images/products/product-arden-table.png",
     alt: "The Arden round dining table",
   },
   {
     href: "/seating",
     name: "The Vale Lounge Chair",
-    price: "$2,950",
+    priceUsd: 2950,
     image: "/images/products/product-vale-chair.png",
     alt: "The Vale leather lounge chair",
   },
   {
     href: "/decor",
     name: "The Marais Sideboard",
-    price: "$4,200",
+    priceUsd: 4200,
     image: "/images/products/product-marais-sideboard.png",
     alt: "The Marais wood sideboard",
   },
   {
     href: "/lighting",
     name: "The Odette Table Lamp",
-    price: "$1,450",
+    priceUsd: 1450,
     image: "/images/products/product-odette-lamp.png",
     alt: "The Odette bronze table lamp",
   },
 ] as const;
 
+function BestSellerCard({
+  product,
+}: {
+  product: (typeof PRODUCTS)[number];
+}) {
+  const { displayName, displayPrice, cartProduct } = useLocalizedProduct(product);
+
+  return (
+    <article className="group">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f0ebe3]">
+        <div className="absolute top-3 left-3 z-10">
+          <AddToCartButton product={cartProduct} />
+        </div>
+        <AddToWishlistButton product={cartProduct} />
+        <Link href={product.href} className="block size-full">
+          <Image
+            src={product.image}
+            alt={product.alt}
+            fill
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+            sizes="(max-width: 1024px) 72vw, 18vw"
+          />
+        </Link>
+      </div>
+      <div className="mt-4">
+        <Link
+          href={product.href}
+          className="block font-serif text-[15px] font-bold leading-snug text-atlas-charcoal transition-opacity hover:opacity-75 sm:text-base"
+        >
+          {displayName}
+        </Link>
+        <p className="mt-1.5 font-sans text-[15px] font-semibold not-italic tabular-nums tracking-normal text-atlas-charcoal sm:text-base">
+          {displayPrice}
+        </p>
+      </div>
+    </article>
+  );
+}
+
 export function BestSellers() {
+  const t = useTranslations("home.bestSellers");
+
   return (
     <section
       className="bg-[#f9f8f3] py-14 sm:py-16 lg:py-20"
@@ -53,17 +101,17 @@ export function BestSellers() {
               id="best-sellers-heading"
               className="font-serif text-3xl font-semibold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
             >
-              Best Sellers
+              {t("title")}
             </h2>
             <p className="mt-2 font-serif text-base font-medium text-atlas-charcoal/85 sm:text-lg">
-              Enduring designs, chosen again and again.
+              {t("subtitle")}
             </p>
           </div>
           <Link
             href="/seating"
             className="inline-flex shrink-0 items-center gap-2 self-start text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:self-auto sm:text-xs"
           >
-            Shop all
+            {t("shopAll")}
             <ArrowRight className="size-3.5" aria-hidden />
           </Link>
         </div>
@@ -76,39 +124,7 @@ export function BestSellers() {
               key={product.name}
               className="w-[72vw] max-w-[16rem] shrink-0 sm:w-[42vw] sm:max-w-[18rem] lg:w-full lg:min-w-0 lg:max-w-none"
             >
-              <article className="group">
-                <Link href={product.href} className="block">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f0ebe3]">
-                    <Image
-                      src={product.image}
-                      alt={product.alt}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
-                      sizes="(max-width: 1024px) 72vw, 18vw"
-                    />
-                  </div>
-                </Link>
-                <div className="mt-4 flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <Link
-                      href={product.href}
-                      className="block font-serif text-[15px] font-bold leading-snug text-atlas-charcoal transition-opacity hover:opacity-75 sm:text-base"
-                    >
-                      {product.name}
-                    </Link>
-                    <p className="mt-1.5 font-sans text-[15px] font-semibold not-italic tabular-nums tracking-normal text-atlas-charcoal sm:text-base">
-                      {product.price}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    className="shrink-0 pt-0.5 text-atlas-charcoal transition-colors hover:text-atlas-charcoal/70"
-                    aria-label={`Add ${product.name} to wishlist`}
-                  >
-                    <Heart className="size-[18px] stroke-[1.75]" />
-                  </button>
-                </div>
-              </article>
+              <BestSellerCard product={product} />
             </li>
           ))}
         </ul>

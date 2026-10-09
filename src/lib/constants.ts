@@ -5,7 +5,7 @@ export const SITE_DESCRIPTION =
 
 export const NAV_CATEGORIES = [
   { href: "/seating", label: "Seating" },
-  { href: "/tables-consoles", label: "Tables & Consoles" },
+  { href: "/tables-consoles", label: "Tables" },
   { href: "/lighting", label: "Lighting" },
   { href: "/mirrors", label: "Mirrors" },
   { href: "/decor", label: "Decor" },

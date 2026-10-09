@@ -1,31 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { BRAND_NAME } from "@/lib/constants";
 import { Input } from "@/components/ui/input";
-
-const SHOP_LINKS = [
-  { href: "/seating", label: "Furniture" },
-  { href: "/lighting", label: "Lighting" },
-  { href: "/decor", label: "Decor" },
-  { href: "/mirrors", label: "Rugs" },
-  { href: "/contact", label: "Gift Cards" },
-] as const;
-
-const COMPANY_LINKS = [
-  { href: "/about", label: "Our Story" },
-  { href: "/about#sustainability", label: "Sustainability" },
-  { href: "/contact#trade", label: "Trade Program" },
-  { href: "/contact", label: "Find a Studio" },
-  { href: "/contact", label: "Contact" },
-] as const;
-
-const HELP_LINKS = [
-  { href: "/contact#shipping", label: "Shipping & Delivery" },
-  { href: "/contact#returns", label: "Returns" },
-  { href: "/blog", label: "Care & Maintenance" },
-  { href: "/contact#faq", label: "FAQs" },
-] as const;
 
 function FooterLinkColumn({
   title,
@@ -97,8 +75,28 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-export function SiteFooter() {
+export async function SiteFooter() {
   const year = new Date().getFullYear();
+  const t = await getTranslations("footer");
+
+  const shopLinks = [
+    { href: "/seating", label: t("links.seating") },
+    { href: "/tables-consoles", label: t("links.tables") },
+    { href: "/lighting", label: t("links.lighting") },
+    { href: "/decor", label: t("links.decor") },
+    { href: "/mirrors", label: t("links.mirrors") },
+  ];
+
+  const companyLinks = [
+    { href: "/about", label: t("links.ourStory") },
+    { href: "/blog", label: t("links.blog") },
+    { href: "/contact", label: t("links.contact") },
+  ];
+
+  const helpLinks = [
+    { href: "/contact", label: t("links.bespoke") },
+    { href: "/wishlist", label: t("links.wishlist") },
+  ];
 
   return (
     <footer className="bg-[#141210] text-white">
@@ -115,36 +113,36 @@ export function SiteFooter() {
             </Link>
             <div className="mt-4 h-px w-full max-w-[12rem] bg-white/25" />
             <p className="mt-4 font-serif text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
-              A more considered home
+              {t("tagline")}
             </p>
-            <p className="mt-auto hidden pt-10 font-serif text-xs text-white/45 lg:block">
-              © {year} {BRAND_NAME}. All rights reserved.
+            <p className="mt-4 max-w-sm font-serif text-sm leading-relaxed text-white/55">
+              {t("description")}
             </p>
           </div>
 
-          <FooterLinkColumn title="Shop" links={SHOP_LINKS} />
-          <FooterLinkColumn title="Company" links={COMPANY_LINKS} />
-          <FooterLinkColumn title="Help" links={HELP_LINKS} />
+          <FooterLinkColumn title={t("columns.shop")} links={shopLinks} />
+          <FooterLinkColumn title={t("columns.company")} links={companyLinks} />
+          <FooterLinkColumn title={t("columns.help")} links={helpLinks} />
 
           <div className="sm:col-span-2 lg:col-span-1">
             <h3 className="font-serif text-lg font-medium text-white">
-              Join our mailing list
+              {t("newsletter.title")}
             </h3>
             <p className="mt-2 font-serif text-sm italic text-white/60">
-              Inspiration, new arrivals and stories worth sharing.
+              {t("newsletter.description")}
             </p>
             <form className="mt-5 flex max-w-md" action="#" method="post">
               <Input
                 type="email"
                 name="email"
-                placeholder="Your email address"
+                placeholder={t("newsletter.placeholder")}
                 autoComplete="email"
                 className="h-11 flex-1 rounded-none border-white/20 bg-white/10 text-sm text-white placeholder:text-white/45 focus-visible:border-white/40 focus-visible:ring-white/20"
               />
               <button
                 type="submit"
                 className="flex h-11 w-11 shrink-0 items-center justify-center border border-l-0 border-white/20 bg-white/10 text-white transition-colors hover:bg-white/20"
-                aria-label="Subscribe to mailing list"
+                aria-label={t("newsletter.subscribeAria")}
               >
                 <ArrowRight className="size-4" />
               </button>
@@ -155,7 +153,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-colors hover:text-white"
-                aria-label="Instagram"
+                aria-label={t("social.instagram")}
               >
                 <InstagramIcon className="size-[18px]" />
               </a>
@@ -164,7 +162,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-colors hover:text-white"
-                aria-label="Pinterest"
+                aria-label={t("social.pinterest")}
               >
                 <PinterestIcon className="size-[18px]" />
               </a>
@@ -173,7 +171,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-colors hover:text-white"
-                aria-label="X"
+                aria-label={t("social.x")}
               >
                 <XIcon className="size-[18px]" />
               </a>
@@ -181,22 +179,11 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div
-          className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between lg:hidden"
-        >
+        <div className="mt-12 border-t border-white/10 pt-8 text-center text-xs text-white/45">
           <p className="font-serif">
-            © {year} {BRAND_NAME}. All rights reserved.
-          </p>
-          <p className="font-serif text-[10px] font-semibold uppercase tracking-[0.16em] text-white/50">
-            Beautiful spaces for a brighter tomorrow.
+            {t("copyright", { year, brand: BRAND_NAME })}
           </p>
         </div>
-
-        <p
-          className="mt-10 hidden text-right font-serif text-[10px] font-semibold uppercase tracking-[0.16em] text-white/50 lg:block"
-        >
-          Beautiful spaces for a brighter tomorrow.
-        </p>
       </div>
     </footer>
   );

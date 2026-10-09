@@ -1,35 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
-const ROOMS = [
-  {
-    label: "Living Room",
-    href: "/seating",
-    image: "/images/rooms/room-living.png",
-    alt: "Living room with sculptural seating",
-  },
-  {
-    label: "Dining Room",
-    href: "/tables-consoles",
-    image: "/images/rooms/room-dining.png",
-    alt: "Dining room with solid wood table",
-  },
-  {
-    label: "Bedroom",
-    href: "/decor",
-    image: "/images/rooms/room-bedroom.png",
-    alt: "Bedroom with neutral linens and wood accents",
-  },
-  {
-    label: "Workspace",
-    href: "/lighting",
-    image: "/images/rooms/room-workspace.png",
-    alt: "Workspace with wood desk and chair",
-  },
-] as const;
+export async function RoomsWithPurpose() {
+  const t = await getTranslations("home.rooms");
 
-export function RoomsWithPurpose() {
+  const rooms = [
+    {
+      label: t("livingRoom"),
+      href: "/seating",
+      image: "/images/rooms/room-living.png",
+      alt: t("alts.living"),
+    },
+    {
+      label: t("diningRoom"),
+      href: "/tables-consoles",
+      image: "/images/rooms/room-dining.png",
+      alt: t("alts.dining"),
+    },
+    {
+      label: t("bedroom"),
+      href: "/decor",
+      image: "/images/rooms/room-bedroom.png",
+      alt: t("alts.bedroom"),
+    },
+    {
+      label: t("workspace"),
+      href: "/lighting",
+      image: "/images/rooms/room-workspace.png",
+      alt: t("alts.workspace"),
+    },
+  ];
+
   return (
     <section
       className="border-y border-atlas-charcoal/10"
@@ -46,23 +49,23 @@ export function RoomsWithPurpose() {
               id="rooms-with-purpose-heading"
               className="font-serif text-[1.65rem] font-semibold uppercase leading-[1.08] tracking-[0.06em] sm:text-3xl lg:text-[1.85rem] xl:text-[2rem]"
             >
-              Rooms
-              <span className="block">With Purpose</span>
+              {t("titleLine1")}
+              <span className="block">{t("titleLine2")}</span>
             </h2>
             <p className="mt-4 max-w-[14rem] font-serif text-sm leading-relaxed text-white/90 sm:text-base">
-              Considered furnishings for real lives.
+              {t("subtitle")}
             </p>
           </div>
           <Link
             href="/blog"
             className="inline-flex w-fit items-center gap-2 border border-white/85 px-6 py-3.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-white/10"
           >
-            Explore the looks
+            {t("cta")}
             <ArrowRight className="size-3.5" aria-hidden />
           </Link>
         </div>
 
-        {ROOMS.map((room) => (
+        {rooms.map((room) => (
           <Link
             key={room.label}
             href={room.href}

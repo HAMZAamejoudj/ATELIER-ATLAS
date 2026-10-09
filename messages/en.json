@@ -1,0 +1,865 @@
+{
+  "common": {
+    "languages": {
+      "en": "English",
+      "ar": "العربية"
+    },
+    "chooseLanguage": "Choose language",
+    "language": "Language",
+    "openMenu": "Open menu",
+    "account": "Account",
+    "tradeProgram": "Trade program",
+    "findStudio": "Find a studio",
+    "badges": {
+      "bestSeller": "Best seller",
+      "new": "New"
+    },
+    "availableColors": "Available colors"
+  },
+  "nav": {
+    "furniture": "Furniture",
+    "tablesConsoles": "Tables",
+    "lighting": "Lighting",
+    "decor": "Decor",
+    "mirrors": "Mirrors",
+    "blog": "Blog",
+    "inspiration": "Blog",
+    "ourStory": "Our Story",
+    "contact": "Contact",
+    "announcement": "Complimentary white glove delivery on orders over {threshold} | A more considered home"
+  },
+  "cart": {
+    "title": "Your bag",
+    "itemCount": "{count, plural, =0 {No items yet} one {# item} other {# items}}",
+    "emptyTitle": "Your bag is empty",
+    "emptyDescription": "Browse our collections and add pieces you love.",
+    "shopFurniture": "Shop furniture",
+    "subtotal": "Subtotal",
+    "shippingNote": "Shipping and taxes calculated at checkout.",
+    "continueInquiry": "Continue to inquiry",
+    "proceedToCheckout": "Proceed to Checkout (Cash on Delivery)",
+    "addToCart": "Add to cart",
+    "addToBagAria": "Add {product} to bag",
+    "decreaseQuantity": "Decrease quantity of {product}",
+    "increaseQuantity": "Increase quantity of {product}",
+    "removeFromBag": "Remove {product} from bag",
+    "cartLabel": "Cart",
+    "cartWithItems": "Cart, {count} items"
+  },
+  "catalog": {
+    "filters": "Filters",
+    "clear": "Clear",
+    "allLabel": "All {filter}",
+    "sort": {
+      "featured": "Featured",
+      "priceAsc": "Price: Low to high",
+      "priceDesc": "Price: High to low",
+      "nameAsc": "Name: A–Z"
+    },
+    "priceBuckets": {
+      "under_500": "Under {under500}",
+      "500_999": "{from500} – {to999}",
+      "1000_1499": "{from1000} – {to1499}",
+      "1500_plus": "{from1500}+"
+    },
+    "empty": {
+      "title": "No pieces match these filters",
+      "description": "Try adjusting or clearing your filters to see more of the collection.",
+      "clearAll": "Clear all filters"
+    },
+    "seating": {
+      "category": "Category",
+      "style": "Style",
+      "material": "Material",
+      "color": "Color",
+      "availability": "Availability",
+      "price": "Price",
+      "options": {
+        "sofas": "Sofas",
+        "loveseats": "Loveseats",
+        "armchairs": "Armchairs",
+        "swivelChairs": "Swivel Chairs",
+        "ottomans": "Ottomans",
+        "diningChairs": "Dining Chairs",
+        "benchesStools": "Benches & Stools",
+        "contemporary": "Contemporary",
+        "classic": "Classic",
+        "relaxed": "Relaxed",
+        "boucle": "Bouclé",
+        "linen": "Linen",
+        "leather": "Leather",
+        "oak": "Oak",
+        "walnut": "Walnut",
+        "travertine": "Travertine",
+        "neutral": "Neutral",
+        "warm": "Warm",
+        "dark": "Dark",
+        "inStock": "In stock",
+        "newArrivals": "New arrivals"
+      }
+    },
+    "lighting": {
+      "category": "Category",
+      "style": "Style",
+      "material": "Material",
+      "color": "Color",
+      "location": "Location",
+      "price": "Price",
+      "options": {
+        "pendants": "Pendants",
+        "tableLamps": "Table Lamps",
+        "wallSconces": "Wall Sconces",
+        "floorLamps": "Floor Lamps",
+        "outdoor": "Outdoor",
+        "contemporary": "Contemporary",
+        "sculptural": "Sculptural",
+        "classic": "Classic",
+        "travertine": "Travertine",
+        "ceramic": "Ceramic",
+        "bronze": "Bronze",
+        "linen": "Linen",
+        "walnut": "Walnut",
+        "neutral": "Neutral",
+        "warm": "Warm",
+        "dark": "Dark",
+        "indoor": "Indoor"
+      }
+    },
+    "decor": {
+      "category": "Category",
+      "material": "Material",
+      "color": "Color",
+      "style": "Style",
+      "size": "Size",
+      "availability": "Availability",
+      "price": "Price",
+      "options": {
+        "mirrors": "Mirrors",
+        "vases": "Vases",
+        "objects": "Objects",
+        "trays": "Trays",
+        "candleholders": "Candleholders",
+        "bronze": "Bronze",
+        "travertine": "Travertine",
+        "ceramic": "Ceramic",
+        "stone": "Stone",
+        "marble": "Marble",
+        "brass": "Brass",
+        "walnut": "Walnut",
+        "neutral": "Neutral",
+        "warm": "Warm",
+        "dark": "Dark",
+        "modern": "Modern",
+        "heritage": "Heritage",
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large",
+        "inStock": "In stock"
+      }
+    },
+    "mirrors": {
+      "style": "Style",
+      "shape": "Shape",
+      "size": "Size",
+      "frameMaterial": "Frame material",
+      "color": "Color",
+      "price": "Price",
+      "options": {
+        "statement": "Statement",
+        "classic": "Classic",
+        "minimal": "Minimal",
+        "arched": "Arched",
+        "round": "Round",
+        "rectangular": "Rectangular",
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large",
+        "extraLarge": "Extra large",
+        "antiqueBrass": "Antique Brass",
+        "travertine": "Travertine",
+        "walnut": "Walnut",
+        "agedBronze": "Aged Bronze",
+        "oak": "Oak",
+        "blackenedSteel": "Blackened Steel",
+        "brass": "Brass",
+        "marble": "Marble",
+        "neutral": "Neutral",
+        "warm": "Warm",
+        "dark": "Dark"
+      }
+    },
+    "tablesConsoles": {
+      "category": "Category",
+      "style": "Style",
+      "material": "Material",
+      "color": "Color",
+      "availability": "Availability",
+      "price": "Price",
+      "options": {
+        "diningTables": "Dining Tables",
+        "consoleTables": "Console Tables",
+        "sideboards": "Sideboards",
+        "coffeeTables": "Coffee Tables",
+        "sideTables": "Side Tables",
+        "contemporary": "Contemporary",
+        "classic": "Classic",
+        "sculptural": "Sculptural",
+        "travertine": "Travertine",
+        "walnut": "Walnut",
+        "oak": "Oak",
+        "marble": "Marble",
+        "metal": "Metal",
+        "neutral": "Neutral",
+        "warm": "Warm",
+        "dark": "Dark",
+        "inStock": "In stock",
+        "newArrivals": "New arrivals"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "A more considered home",
+    "description": "Sculptural handmade Moroccan furniture in travertine, solid wood, and hammered metal — made to order in a Marrakech workshop.",
+    "columns": {
+      "shop": "Shop",
+      "company": "Company",
+      "help": "Services"
+    },
+    "links": {
+      "seating": "Seating",
+      "tables": "Tables & Consoles",
+      "lighting": "Lighting",
+      "decor": "Decor",
+      "mirrors": "Mirrors",
+      "ourStory": "Our Story",
+      "blog": "Journal & Blog",
+      "contact": "Contact Studio",
+      "bespoke": "Bespoke Orders",
+      "wishlist": "Wishlist"
+    },
+    "newsletter": {
+      "title": "Join our mailing list",
+      "description": "Inspiration, new arrivals and stories worth sharing.",
+      "placeholder": "Your email address",
+      "subscribeAria": "Subscribe to mailing list"
+    },
+    "social": {
+      "instagram": "Instagram",
+      "pinterest": "Pinterest",
+      "x": "X"
+    },
+    "copyright": "© {year} {brand}. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "imageAlt": "Sculptural living room with curved velvet seating and travertine coffee table",
+      "title": "Furniture with a longer horizon",
+      "cta": "Explore the collection"
+    },
+    "categories": {
+      "title": "Shop by Category",
+      "viewAll": "View all",
+      "items": {
+        "sofasSeating": "Sofas & Seating",
+        "tables": "Tables",
+        "storage": "Storage",
+        "lighting": "Lighting",
+        "rugs": "Rugs",
+        "decor": "Decor"
+      },
+      "alts": {
+        "seating": "Sculptural sofa and seating in neutral tones",
+        "tables": "The Arden round dining table",
+        "storage": "Carved wood storage cabinet",
+        "lighting": "Hammered metal dome pendant light",
+        "rugs": "Handwoven natural fiber rug",
+        "decor": "Ceramic vases and decor objects"
+      }
+    },
+    "bestSellers": {
+      "title": "Best Sellers",
+      "subtitle": "Enduring designs, chosen again and again.",
+      "shopAll": "Shop all"
+    },
+    "rooms": {
+      "titleLine1": "Rooms",
+      "titleLine2": "With Purpose",
+      "subtitle": "Considered furnishings for real lives.",
+      "cta": "Explore the looks",
+      "livingRoom": "Living Room",
+      "diningRoom": "Dining Room",
+      "bedroom": "Bedroom",
+      "workspace": "Workspace",
+      "alts": {
+        "living": "Living room with sculptural seating",
+        "dining": "Dining room with solid wood table",
+        "bedroom": "Bedroom with neutral linens and wood accents",
+        "workspace": "Workspace with wood desk and chair"
+      }
+    },
+    "materialLibrary": {
+      "title": "The Material Library",
+      "subtitle": "Extraordinary spaces begin with extraordinary materials.",
+      "cta": "Explore our materials",
+      "materials": {
+        "oak": "Oak",
+        "walnut": "Walnut",
+        "travertine": "Travertine",
+        "marble": "Marble",
+        "linen": "Linen",
+        "boucle": "Bouclé",
+        "leather": "Leather",
+        "brass": "Brass",
+        "ceramic": "Ceramic",
+        "wool": "Wool"
+      },
+      "materialAlts": {
+        "oak": "Oak wood grain",
+        "walnut": "Walnut wood grain",
+        "travertine": "Travertine stone",
+        "marble": "Marble stone",
+        "linen": "Linen fabric",
+        "boucle": "Bouclé fabric",
+        "leather": "Leather",
+        "brass": "Brushed brass",
+        "ceramic": "Ceramic glaze",
+        "wool": "Wool textile"
+      }
+    },
+    "testimonial": {
+      "ariaLabel": "Customer testimonial",
+      "quote": "Atelier Atlas pieces bring a rare sense of permanence to our home. You can feel the thought, the craft, the care in every detail.",
+      "attribution": "— Danielle R., Austin TX",
+      "keywords": {
+        "beautiful": "Beautiful",
+        "useful": "Useful",
+        "lasting": "Lasting"
+      }
+    },
+    "tradeJournal": {
+      "ariaLabel": "Trade program and journal",
+      "trade": {
+        "title": "Trade Program",
+        "description": "Thoughtful partnerships for inspired spaces.",
+        "cta": "Learn more",
+        "imageAlt": "Trade program interior with desk and lamp"
+      },
+      "journal": {
+        "title": "The Atlas Journal",
+        "description": "Ideas, interiors and a more considered way of living.",
+        "viewAll": "View all"
+      }
+    },
+    "craftLegacy": {
+      "titleThe": "The",
+      "titleLine1": "Craft Legacy",
+      "titleLine2": "Archive",
+      "description": "A living record of materials, makers and milestones — charting a deeper kind of progress.",
+      "cta": "Explore our history",
+      "milestones": {
+        "y1928": {
+          "line1": "A small workshop",
+          "line2": "A bigger idea",
+          "alt": "Historic workshop exterior, 1928"
+        },
+        "y1956": {
+          "line1": "Form meets",
+          "line2": "function",
+          "alt": "Charcoal sketch of an armchair, 1956"
+        },
+        "y1984": {
+          "line1": "A global",
+          "line2": "perspective",
+          "alt": "Atelier Atlas maker mark, 1984"
+        },
+        "y2012": {
+          "line1": "Materials",
+          "line2": "reimagined",
+          "alt": "Handwoven textile detail, 2012"
+        },
+        "today": {
+          "line1": "A more conscious",
+          "line2": "tomorrow",
+          "alt": "Contemporary showroom interior"
+        }
+      }
+    }
+  },
+  "seating": {
+    "breadcrumb": {
+      "home": "Home",
+      "furniture": "Furniture",
+      "seating": "Seating"
+    },
+    "featured": {
+      "label": "Featured",
+      "prevProduct": "Previous featured product",
+      "nextProduct": "Next featured product",
+      "thumbnails": "Featured product thumbnails",
+      "slideIndicators": "Featured slide indicators",
+      "showProduct": "Show {product}"
+    },
+    "trust": {
+      "whiteGlove": "Complimentary White Glove Delivery",
+      "guarantee": "10 Year Craftsmanship Guarantee",
+      "sustainable": "Sustainably Sourced Materials"
+    },
+    "subcategories": {
+      "heading": "Shop seating by type",
+      "sofas": "Sofas",
+      "loveseats": "Loveseats",
+      "armchairs": "Armchairs",
+      "ottomans": "Ottomans",
+      "diningChairs": "Dining Chairs"
+    },
+    "collection": {
+      "heading": "Seating collection"
+    },
+    "approach": {
+      "eyebrow": "Our approach",
+      "title": "Seating for a More Human Tomorrow",
+      "body": "Every chair, sofa, and bench begins with how people gather — the pause before dinner, the afternoon with a book, the conversation that runs late. We shape seating to honor those moments, not trends.",
+      "cta": "Our story",
+      "quote": "Beautiful furniture does more than fill a space. It brings people closer.",
+      "imageAlt": "Curved sofa in a warm living room"
+    }
+  },
+  "tablesConsoles": {
+    "featured": {
+      "label": "Featured",
+      "prevProduct": "Previous featured product",
+      "nextProduct": "Next featured product",
+      "thumbnails": "Featured product thumbnails",
+      "slideIndicators": "Featured slide indicators",
+      "showProduct": "Show {product}"
+    },
+    "subcategories": {
+      "heading": "Shop tables by type",
+      "dining": "Dining Tables",
+      "consoles": "Console Tables",
+      "sideboards": "Sideboards",
+      "coffee": "Coffee Tables",
+      "side": "Side Tables"
+    },
+    "collection": {
+      "heading": "Tables & consoles collection"
+    },
+    "approach": {
+      "eyebrow": "Our approach",
+      "title": "Surfaces for Gathering",
+      "body": "Dining tables, consoles, and side tables begin with how you live — meals shared, keys dropped at the door, books stacked at bedside. We cut stone and wood to meet those rituals.",
+      "cta": "Custom sizing",
+      "quote": "A table is where the day slows down — if the material is honest, the moment lasts.",
+      "imageAlt": "Dining table set for an evening meal"
+    }
+  },
+  "lighting": {
+    "breadcrumb": {
+      "home": "Home",
+      "lighting": "Lighting"
+    },
+    "featured": {
+      "label": "Featured",
+      "prevProduct": "Previous featured product",
+      "nextProduct": "Next featured product",
+      "thumbnails": "Featured product thumbnails",
+      "slideIndicators": "Featured slide indicators",
+      "showProduct": "Show {product}"
+    },
+    "trust": {
+      "whiteGlove": "Complimentary White Glove Delivery",
+      "guarantee": "10 Year Craftsmanship Guarantee",
+      "sustainable": "Sustainably Sourced Materials"
+    },
+    "subcategories": {
+      "heading": "Shop lighting by type"
+    },
+    "materials": {
+      "eyebrow": "Built for beauty, inside & out",
+      "title": "Materials That Endure",
+      "description": "Travertine, ceramic, bronze, and weather-ready finishes — chosen for how they age in light and weather, not how they look in a catalog.",
+      "cta": "Our materials",
+      "indoor": {
+        "label": "Indoor",
+        "description": "Refined materials, considered for everyday living and the glow they cast at night.",
+        "cta": "Explore indoor materials",
+        "imageAlt": "Indoor pendant in travertine and ceramic"
+      },
+      "outdoor": {
+        "label": "Outdoor",
+        "description": "Engineered for the elements — rain, sun, and the long evenings you want to stay outside.",
+        "cta": "Explore outdoor materials",
+        "imageAlt": "Outdoor lantern on stone patio"
+      }
+    },
+    "inspire": {
+      "eyebrow": "Spaces to inspire",
+      "title": "Light for Every Moment",
+      "description": "From courtyard dinners to quiet bedrooms — see how considered fixtures shape the rooms you live in most.",
+      "cta": "Explore inspiration"
+    }
+  },
+  "decor": {
+    "breadcrumb": {
+      "home": "Home",
+      "decor": "Decor"
+    },
+    "featured": {
+      "label": "Featured",
+      "prevProduct": "Previous featured product",
+      "nextProduct": "Next featured product",
+      "thumbnails": "Featured product thumbnails",
+      "slideIndicators": "Featured slide indicators",
+      "showProduct": "Show {product}"
+    },
+    "trust": {
+      "whiteGlove": "Complimentary White Glove Delivery",
+      "guarantee": "10 Year Craftsmanship Guarantee",
+      "sustainable": "Sustainably Sourced Materials"
+    },
+    "categories": {
+      "heading": "Shop by category",
+      "discoverAll": "Discover all"
+    },
+    "reflectiveSpaces": {
+      "title": "Reflective Spaces",
+      "description": "Mirrors do more than reflect light — they open a room, frame a view, and invite you to pause.",
+      "cta": "Explore inspiration"
+    },
+    "materialsFocus": {
+      "title": "The Atelier Edit: Materials in Focus",
+      "description": "From travertine and bronze to hand-thrown ceramic — the textures that define our mirrors, objects, and vessels."
+    },
+    "balanceBanner": {
+      "title": "Objects Create Balance",
+      "description": "A tray, a bowl, a single stem — small gestures that anchor a room and remind you why you chose each piece.",
+      "cta": "Shop objects",
+      "imageAlt": "Tray and objects styled on a stone plinth"
+    }
+  },
+  "mirrors": {
+    "breadcrumb": {
+      "home": "Home",
+      "mirrors": "Mirrors"
+    },
+    "featured": {
+      "label": "Featured",
+      "prevProduct": "Previous featured product",
+      "nextProduct": "Next featured product",
+      "thumbnails": "Featured product thumbnails",
+      "slideIndicators": "Featured slide indicators",
+      "showProduct": "Show {product}"
+    },
+    "trust": {
+      "whiteGlove": "Complimentary White Glove Delivery",
+      "guarantee": "10 Year Craftsmanship Guarantee",
+      "sustainable": "Sustainably Sourced Materials"
+    },
+    "types": {
+      "heading": "Shop by type",
+      "exploreAll": "Explore all"
+    },
+    "reflectiveSpaces": {
+      "eyebrow": "Reflective spaces",
+      "title": "Light, depth & presence",
+      "description": "Mirrors create depth where walls end — in entryways, bedrooms, and the rooms you return to each evening.",
+      "cta": "Explore spaces",
+      "roomsNav": "Rooms for mirrors",
+      "foyerImageAlt": "Arched mirror in an entryway"
+    },
+    "materialLibrary": {
+      "heading": "The material library",
+      "description": "Timeless finishes, chosen for their natural beauty and enduring character.",
+      "cta": "Explore materials",
+      "finishAlt": "{material} finish sample"
+    },
+    "journal": {
+      "heading": "The Atlas Journal",
+      "description": "Stories, perspectives and ideas for a more considered way of living.",
+      "cta": "Explore the journal"
+    }
+  },
+  "about": {
+    "hero": {
+      "breadcrumbHome": "Home",
+      "breadcrumbCurrent": "Our story",
+      "eyebrow": "About us",
+      "title": "Shaped by hand in Marrakech",
+      "description": "Design, craft, and a more considered way of making furniture for homes across the world.",
+      "imageAlt": "Atelier interior with furniture and natural light"
+    },
+    "intro": {
+      "eyebrow": "Who we are",
+      "lead": "Atelier Atlas is a Marrakech design studio and workshop where sculptural furniture is made to order by a team of stone cutters, woodworkers, and metal smiths — sold directly, without middlemen.",
+      "body": "We are not a catalog importer. Each stool, table, and light is drawn in our studio, then built in our workshop in Sidi Ghanem — where stone dust, wood shavings, and hammered brass share the same floor.",
+      "quote": "We started Atelier Atlas because we wanted furniture that felt honest — material you could name, makers you could meet, forms that would still matter in twenty years.",
+      "quoteAttribution": "— Founding studio, Marrakech"
+    },
+    "process": {
+      "eyebrow": "From sketch to finished piece",
+      "title": "How we work",
+      "steps": {
+        "s01": {
+          "title": "Conversation",
+          "description": "We begin with how you live — dimensions, light, the pieces you already love."
+        },
+        "s02": {
+          "title": "Sketch & material",
+          "description": "Drawings and stone or wood samples align form with what your space can carry."
+        },
+        "s03": {
+          "title": "Workshop",
+          "description": "Cutters, joiners, and smiths shape each piece by hand over three to six weeks."
+        },
+        "s04": {
+          "title": "Delivery",
+          "description": "White-glove delivery and honest guidance on care — so the work lasts."
+        }
+      }
+    },
+    "legacy": {
+      "title": "The craft legacy",
+      "description": "A living record of materials, makers, and milestones — charting a deeper kind of progress."
+    },
+    "materials": {
+      "eyebrow": "Why these materials",
+      "title": "Travertine, wood & hammered metal",
+      "cta": "Explore collection",
+      "items": {
+        "stone": {
+          "title": "Travertine & stone",
+          "description": "Quarried and finished in-house; every slab has its own map.",
+          "alt": "Travertine texture"
+        },
+        "wood": {
+          "title": "Solid wood",
+          "description": "Walnut and oak selected for grain, stability, and warmth.",
+          "alt": "Walnut wood grain"
+        },
+        "metal": {
+          "title": "Hammered metal",
+          "description": "Brass and bronze patina that deepens with time and touch.",
+          "alt": "Brass metal finish"
+        }
+      }
+    },
+    "sustainability": {
+      "eyebrow": "Sustainability",
+      "title": "Fewer pieces, made to last",
+      "description": "We source from partners we can visit, build for repair, and ship made-to-order so nothing sits in a warehouse waiting for a trend to pass. Natural variation in stone and wood is a feature — not a flaw we hide.",
+      "cta": "Read our perspective",
+      "imageAlt": "Workshop and studio space"
+    },
+    "visit": {
+      "eyebrow": "Marrakech showroom",
+      "title": "Visit the workshop",
+      "description": "Showroom visits in Marrakech are by appointment. Reach out for orders, trade inquiries, or custom projects.",
+      "contact": "Contact us",
+      "trade": "Trade program"
+    }
+  },
+  "wishlist": {
+    "eyebrow": "Saved pieces",
+    "title": "Wishlist",
+    "descriptionEmpty": "Heart the pieces you want to revisit — they will appear here.",
+    "descriptionCount": "{count, plural, one {# piece saved for later.} other {# pieces saved for later.}}",
+    "emptyTitle": "Your wishlist is empty",
+    "emptyDescription": "Save lighting, seating, and decor you love — then add them to your bag when you are ready.",
+    "exploreLighting": "Explore lighting",
+    "addToWishlistAria": "Add {product} to wishlist",
+    "removeAria": "Remove {product} from wishlist",
+    "wishlistLabel": "Wishlist",
+    "wishlistWithItems": "Wishlist, {count} items",
+    "addToBag": "Add to bag",
+    "viewProduct": "View product"
+  },
+  "blog": {
+    "list": {
+      "featuredEyebrow": "The Atlas Journal",
+      "readStory": "Read the story",
+      "latestHeading": "Latest articles",
+      "readMore": "Read more"
+    },
+    "filters": {
+      "allArticles": "All articles",
+      "searchPlaceholder": "Search articles",
+      "searchAria": "Search articles",
+      "topics": {
+        "craft": "Craft",
+        "materials": "Materials",
+        "spaces": "Spaces",
+        "people": "People",
+        "ideas": "Ideas",
+        "travel": "Travel",
+        "interiors": "Interiors"
+      }
+    },
+    "makers": {
+      "title": "From the Makers",
+      "description": "Short films, interviews, and field notes from the atelier.",
+      "cta": "Explore the series"
+    },
+    "spotlight": {
+      "eyebrow": "Essay spotlight",
+      "cta": "Read the essay"
+    },
+    "newsletter": {
+      "title": "Join our journal",
+      "description": "New stories, maker visits, and design notes — delivered with care, not clutter.",
+      "placeholder": "Your email address",
+      "signUp": "Sign up",
+      "tagline": "A brighter tomorrow"
+    },
+    "article": {
+      "breadcrumbHome": "Home",
+      "breadcrumbJournal": "Inspiration",
+      "minRead": "{minutes} min read",
+      "byAuthor": "By {author}",
+      "backToJournal": "Back to the journal",
+      "moreStories": "More stories",
+      "continueReading": "Continue reading",
+      "viewAll": "View all"
+    }
+  },
+  "contact": {
+    "hero": {
+      "badge": "Marrakech Workshop & Concierge",
+      "title": "A Considered Dialogue",
+      "description": "Whether you are designing a private residence, seeking bespoke dimensions, or planning a showroom visit, our team of artisans and design advisors is here to assist."
+    },
+    "types": {
+      "general": {
+        "label": "General Inquiry",
+        "desc": "Questions regarding pieces & care"
+      },
+      "bespoke": {
+        "label": "Sur-Mesure",
+        "desc": "Custom stone, wood & dimensions"
+      },
+      "trade": {
+        "label": "Trade & Hospitality",
+        "desc": "For architects & interior designers"
+      },
+      "appointment": {
+        "label": "Showroom Visit",
+        "desc": "Private appointment at Marrakech atelier"
+      }
+    },
+    "form": {
+      "eyebrow": "Send a Message",
+      "heading": "Inquire with our Workshop Concierge",
+      "subheading": "Every inquiry is handled directly by our design team in Marrakech. We respond within 24 hours.",
+      "selectType": "Inquiry Purpose",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "e.g. Yasmine Alaoui",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "yasmine@example.com",
+      "phoneLabel": "Phone / WhatsApp (Optional)",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "e.g. Travertine Dining Table custom inquiry",
+      "messageLabel": "Your Message / Project Specifications",
+      "messagePlaceholder": "Tell us about your space, dimensions, or questions...",
+      "submit": "Send Inquiry",
+      "sending": "Sending Inquiry...",
+      "successTitle": "Message Received",
+      "successMessage": "Thank you. Your message has been received by our Marrakech atelier concierge.",
+      "errorTitle": "Error Sending",
+      "errorMessage": "An error occurred while sending your message. Please try again or reach out on WhatsApp."
+    },
+    "concierge": {
+      "badge": "Instant Assistance",
+      "title": "Direct WhatsApp Concierge",
+      "description": "Need immediate answers on dimensions, material swatches, or delivery timelines? Message our master artisans and concierge directly.",
+      "whatsappButton": "Chat with Atelier on WhatsApp"
+    },
+    "studio": {
+      "title": "Atelier & Showroom Details",
+      "addressLabel": "Marrakech Workshop",
+      "viewOnMap": "Open in Google Maps",
+      "phoneLabel": "Telephone & Inquiries",
+      "emailLabel": "Electronic Mail",
+      "hoursLabel": "Visiting Hours"
+    },
+    "pillars": {
+      "eyebrow": "Our Capabilities",
+      "heading": "How We Collaborate",
+      "bespoke": {
+        "title": "Bespoke & Sur-Mesure",
+        "desc": "Custom dimensions in travertine, walnut, oak, and hand-forged metals crafted specifically for your space.",
+        "action": "Request Custom Quote"
+      },
+      "trade": {
+        "title": "Architects & Interior Designers",
+        "desc": "Exclusive trade pricing, 3D CAD files, material finish samples, and dedicated project management for villas and hospitality.",
+        "action": "Join Trade Program"
+      },
+      "appointment": {
+        "title": "Private Workshop Visits",
+        "desc": "Immerse yourself in the scent of cedar and the sound of chisel on stone with a private appointment in Sidi Ghanem.",
+        "action": "Book a Showroom Visit"
+      }
+    },
+    "faq": {
+      "eyebrow": "Clarifications",
+      "heading": "Frequently Addressed Details",
+      "q1": {
+        "question": "How long does a bespoke handcrafted piece take?",
+        "answer": "Standard handcrafted pieces are ready in 2 to 4 weeks. Custom bespoke architectural orders typically take 4 to 6 weeks depending on the stone selection."
+      },
+      "q2": {
+        "question": "Do you offer white-glove delivery across Morocco and worldwide?",
+        "answer": "Yes. We provide complimentary white-glove delivery and assembly across Casablanca, Marrakech, Rabat, Tangier, and export wooden crated pieces worldwide."
+      },
+      "q3": {
+        "question": "Can I visit the workshop to view stones and materials in person?",
+        "answer": "Absolutely. Our Marrakech atelier in Sidi Ghanem welcomes architects, collectors, and clients by appointment from Monday through Saturday."
+      },
+      "q4": {
+        "question": "How do trade discounts work for hospitality projects?",
+        "answer": "Registered architects and interior design professionals receive tiered trade pricing, personalized project lead-times, and custom material sourcing."
+      }
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "ATELIER ATLAS — Handmade Moroccan Furniture",
+      "description": "Sculptural handmade Moroccan furniture in travertine, solid wood, and hammered metal — made to order in a Marrakech workshop."
+    },
+    "seating": {
+      "title": "Handmade Moroccan Seating",
+      "description": "Sculptural stools, benches, and chairs hand-shaped in travertine and solid wood in a Marrakech workshop. Made to order, ships worldwide."
+    },
+    "tablesConsoles": {
+      "title": "Handmade Moroccan Tables & Consoles — Travertine & Wood",
+      "description": "Dining tables, side tables, and console tables combining travertine, solid wood, and hammered metal — hand-made in Marrakech. Custom sizing available."
+    },
+    "lighting": {
+      "title": "Lighting After Sunset",
+      "description": "Indoor pendants, table lamps, sconces, floor lamps, and outdoor lanterns — thoughtful lighting for every space, inside and out."
+    },
+    "decor": {
+      "title": "Mirrors & Objects",
+      "description": "Mirrors, vases, trays, and sculptural objects — reflective surfaces and meaningful details for a more considered home."
+    },
+    "mirrors": {
+      "title": "Reflective Calm",
+      "description": "Arched, floor, wall, and vanity mirrors in brass, bronze, stone, and wood — crafted to open space and invite light."
+    },
+    "about": {
+      "title": "Our Story",
+      "description": "Marrakech furniture workshop and design studio — handmade travertine, wood, and metal pieces made to order by Atelier Atlas."
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "description": "Your saved ATELIER ATLAS pieces."
+    },
+    "blog": {
+      "title": "The Atlas Journal",
+      "description": "Stories on craft, materials, places, and people — inspiration for a more considered home."
+    },
+    "contact": {
+      "title": "Contact the Workshop | ATELIER ATLAS",
+      "description": "Get in touch with Atelier Atlas Marrakech for bespoke commissions, showroom visits, and trade partnerships."
+    }
+  }
+}

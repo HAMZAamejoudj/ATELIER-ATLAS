@@ -54,11 +54,40 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --animate-header-marquee: header-marquee 28s linear infinite;
+  --animate-product-action-pop: product-action-pop 0.45s ease-out;
+  --animate-heart-toggle: heart-toggle 0.38s ease-out;
 }
 
 @keyframes header-marquee {
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes product-action-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.22);
+  }
+  65% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heart-toggle {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.32);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
