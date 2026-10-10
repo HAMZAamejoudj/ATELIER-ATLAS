@@ -89,6 +89,7 @@ function transformProduct(product: any, lang: LanguageCode = "en"): ShopProductD
     badge: (product.badge as ProductBadge | null) ?? null,
     filterFacets: parseFilterFacets(product.filterFacets),
     inStock: product.isAvailable && (product.stock ?? 0) > 0,
+    isAvailable: Boolean(product.isAvailable),
     featured: product.isFeatured,
     collection: colT?.name || "Collection",
     collectionSlug: product.collection?.systemSlug || colT?.slug || "",
@@ -108,6 +109,16 @@ function transformProduct(product: any, lang: LanguageCode = "en"): ShopProductD
     metaDescAr: tAr?.metaDesc || undefined,
     keywordsAr: tAr?.keywords || undefined,
   };
+}
+
+function revalidateStorefrontCatalog() {
+  revalidatePath("/atlasadmin/products");
+  revalidatePath("/");
+  revalidatePath("/seating");
+  revalidatePath("/lighting");
+  revalidatePath("/decor");
+  revalidatePath("/mirrors");
+  revalidatePath("/tables-consoles");
 }
 
 function resolveProductImages(input: CreateProductInput | UpdateProductInput) {
@@ -188,9 +199,12 @@ export async function getProducts(options?: {
         let products = (data || []).map((p) => transformProduct(p, lang));
 
         if (collectionSlug && collectionSlug !== "all") {
-          products = products.filter(
-            (p) => p.collectionSlug === collectionSlug,
-          );
+          const wanted = collectionSlug.trim().toLowerCase().replace(/[\s_]+/g, "-");
+          products = products.filter((p) => {
+            const slug = p.collectionSlug.trim().toLowerCase().replace(/[\s_]+/g, "-");
+            const name = p.collection.trim().toLowerCase().replace(/[\s_]+/g, "-");
+            return slug === wanted || name === wanted;
+          });
         }
 
         return { products, total: count || products.length };
@@ -286,7 +300,7 @@ export async function createProduct(input: CreateProductInput) {
     await saveProductImages(product.id, input);
 
     revalidateTag(CACHE_TAGS.PRODUCTS, "default");
-    revalidatePath("/atlasadmin/products");
+    revalidateStorefrontCatalog();
 
     const created = await getProductById(product.id);
     return { success: true as const, product: created };
@@ -356,7 +370,7 @@ export async function updateProduct(id: string, input: UpdateProductInput) {
 
     revalidateTag(CACHE_TAGS.PRODUCTS, "default");
     revalidateTag(CACHE_TAGS.PRODUCT(id), "default");
-    revalidatePath("/atlasadmin/products");
+    revalidateStorefrontCatalog();
 
     const updated = await getProductById(id);
     return { success: true as const, product: updated };
@@ -372,6 +386,7 @@ export async function deleteProduct(id: string) {
     const { error } = await supabaseAdmin.from("Product").delete().eq("id", id);
     if (error) throw error;
     revalidateTag(CACHE_TAGS.PRODUCTS, "default");
+    revalidateStorefrontCatalog();
     return { success: true as const };
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : "Failed to delete product";
@@ -393,5 +408,6 @@ export async function toggleProductStatus(
     .eq("id", id);
   if (error) return { success: false as const, error: error.message };
   revalidateTag(CACHE_TAGS.PRODUCTS, "default");
+  revalidateStorefrontCatalog();
   return { success: true as const };
 }

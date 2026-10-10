@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { submitContactInquiry } from "@/actions/contact.actions";
+import { SITE_CONTACT_EMAIL } from "@/lib/constants";
 import type { ContactSettings, InquiryType } from "@/lib/contact-types";
 
 interface ContactClientProps {
@@ -346,10 +347,10 @@ export function ContactClient({ settings, locale }: ContactClientProps) {
                 {t("studio.emailLabel")}
               </p>
               <a
-                href={`mailto:${settings.conciergeEmail || "moroccantravertine@gmail.com"}`}
+                href={`mailto:${settings.conciergeEmail || SITE_CONTACT_EMAIL}`}
                 className="text-xs sm:text-sm font-semibold text-atlas-charcoal hover:text-amber-800 hover:underline block mt-1.5 break-all"
               >
-                {settings.conciergeEmail || "moroccantravertine@gmail.com"}
+                {settings.conciergeEmail || SITE_CONTACT_EMAIL}
               </a>
               {settings.tradeEmail && settings.tradeEmail !== settings.conciergeEmail && (
                 <a

@@ -1,3 +1,5 @@
+import { SITE_CONTACT_EMAIL } from "@/lib/constants";
+
 export type InquiryType = "general" | "bespoke" | "trade" | "appointment";
 
 export type InquiryStatus = "new" | "in_progress" | "replied" | "archived";
@@ -30,8 +32,8 @@ export interface ContactSettings {
 export const DEFAULT_CONTACT_SETTINGS: ContactSettings = {
   phone: "+212 5 24 00 00 00",
   whatsapp: "+212 6 61 00 00 00",
-  conciergeEmail: "moroccantravertine@gmail.com",
-  tradeEmail: "moroccantravertine@gmail.com",
+  conciergeEmail: SITE_CONTACT_EMAIL,
+  tradeEmail: SITE_CONTACT_EMAIL,
   addressEn: "Quartier Industriel Sidi Ghanem, Rue Principale N° 45, Marrakech 40000, Morocco",
   addressAr: "الحي الصناعي سيدي غانم، الشارع الرئيسي رقم 45، مراكش 40000، المغرب",
   hoursEn: "Monday – Saturday: 9:00 AM – 6:30 PM (Sunday by appointment)",

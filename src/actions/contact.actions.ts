@@ -17,6 +17,27 @@ import {
 const CONTACT_SETTINGS_PAGE_ID = "sp_contact_settings";
 const CONTACT_INQUIRIES_PAGE_ID = "sp_contact_inquiries";
 
+const LEGACY_CONTACT_EMAIL_PATTERN = /@atelier-atlas\.(com|order)$/i;
+
+function normalizeContactSettings(
+  settings: ContactSettings,
+): ContactSettings {
+  const conciergeEmail = settings.conciergeEmail?.trim();
+  const tradeEmail = settings.tradeEmail?.trim();
+
+  return {
+    ...settings,
+    conciergeEmail:
+      !conciergeEmail || LEGACY_CONTACT_EMAIL_PATTERN.test(conciergeEmail)
+        ? DEFAULT_CONTACT_SETTINGS.conciergeEmail
+        : conciergeEmail,
+    tradeEmail:
+      !tradeEmail || LEGACY_CONTACT_EMAIL_PATTERN.test(tradeEmail)
+        ? DEFAULT_CONTACT_SETTINGS.tradeEmail
+        : tradeEmail,
+  };
+}
+
 // ==========================================
 // CONTACT SETTINGS
 // ==========================================
@@ -35,8 +56,11 @@ export async function getContactSettings(): Promise<ContactSettings> {
     const en = row.translations?.find((t: any) => t.language === "en");
     if (!en || !en.description) return DEFAULT_CONTACT_SETTINGS;
 
-    const parsed = JSON.parse(en.description);
-    return { ...DEFAULT_CONTACT_SETTINGS, ...parsed };
+    const parsed = JSON.parse(en.description) as Partial<ContactSettings>;
+    return normalizeContactSettings({
+      ...DEFAULT_CONTACT_SETTINGS,
+      ...parsed,
+    });
   } catch (e) {
     console.error("Failed to fetch contact settings:", e);
     return DEFAULT_CONTACT_SETTINGS;

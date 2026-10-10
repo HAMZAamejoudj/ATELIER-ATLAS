@@ -44,25 +44,16 @@ export async function TradeAndJournal() {
         className="w-full bg-[#3e232e] px-6 py-12 text-white sm:px-8 sm:py-14 lg:w-1/2 lg:px-10 lg:py-16"
         aria-labelledby="atlas-journal-heading"
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2
-              id="atlas-journal-heading"
-              className="font-serif text-2xl font-semibold uppercase tracking-[0.06em] sm:text-3xl"
-            >
-              {t("journal.title")}
-            </h2>
-            <p className="mt-2 font-serif text-sm font-medium text-white/85 sm:text-base">
-              {t("journal.description")}
-            </p>
-          </div>
-          <Link
-            href="/blog"
-            className="inline-flex shrink-0 items-center gap-2 self-start text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition-opacity hover:opacity-70 sm:self-auto sm:text-xs"
+        <div className="text-center">
+          <h2
+            id="atlas-journal-heading"
+            className="font-serif text-2xl font-semibold uppercase tracking-[0.06em] sm:text-3xl"
           >
-            {t("journal.viewAll")}
-            <ArrowRight className="size-3.5" aria-hidden />
-          </Link>
+            {t("journal.title")}
+          </h2>
+          <p className="mt-2 font-serif text-sm font-medium text-white/85 sm:text-base">
+            {t("journal.description")}
+          </p>
         </div>
 
         <ul className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-4 lg:mt-10 lg:gap-5">
@@ -88,6 +79,16 @@ export async function TradeAndJournal() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition-opacity hover:opacity-70 sm:text-xs"
+          >
+            {t("journal.viewAll")}
+            <ArrowRight className="size-3.5" aria-hidden />
+          </Link>
+        </div>
       </div>
     </section>
   );

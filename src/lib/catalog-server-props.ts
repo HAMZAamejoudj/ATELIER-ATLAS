@@ -13,12 +13,22 @@ import {
   type CatalogFilterDefinition,
   type CatalogSortOption,
 } from "@/lib/catalog-filters";
+import {
+  getStorefrontCatalogProducts,
+  type CatalogCardProduct,
+} from "@/lib/catalog-products";
+import { DECOR_PRODUCTS } from "@/lib/decor-data";
+import { LIGHTING_PRODUCTS } from "@/lib/lighting-data";
 import type { Locale } from "@/lib/locale";
+import { MIRRORS_PRODUCTS } from "@/lib/mirrors-data";
+import { SEATING_PRODUCTS } from "@/lib/seating-data";
+import { TABLES_PRODUCTS } from "@/lib/tables-data";
 
 export type CatalogPageProps = {
   locale: Locale;
   filterDefinitions: CatalogFilterDefinition[];
   sortOptions: CatalogSortOption[];
+  products: CatalogCardProduct[];
 };
 
 async function catalogTranslator(): Promise<CatalogTranslator> {
@@ -36,57 +46,81 @@ async function localizedSortOptions(): Promise<CatalogSortOption[]> {
   });
 }
 
+async function buildCatalogPageProps(
+  locale: Locale,
+  collectionSlug: string,
+  fallback: CatalogCardProduct[],
+  filterDefinitions: CatalogFilterDefinition[],
+): Promise<CatalogPageProps> {
+  const [sortOptions, products] = await Promise.all([
+    localizedSortOptions(),
+    getStorefrontCatalogProducts(collectionSlug, fallback, locale),
+  ]);
+
+  return {
+    locale,
+    filterDefinitions,
+    sortOptions,
+    products,
+  };
+}
+
 export async function getSeatingCatalogPageProps(
   locale: Locale,
 ): Promise<CatalogPageProps> {
   const tr = await catalogTranslator();
-  return {
+  return buildCatalogPageProps(
     locale,
-    filterDefinitions: getSeatingFilterDefinitions(tr, locale),
-    sortOptions: await localizedSortOptions(),
-  };
+    "seating",
+    SEATING_PRODUCTS,
+    getSeatingFilterDefinitions(tr, locale),
+  );
 }
 
 export async function getLightingCatalogPageProps(
   locale: Locale,
 ): Promise<CatalogPageProps> {
   const tr = await catalogTranslator();
-  return {
+  return buildCatalogPageProps(
     locale,
-    filterDefinitions: getLightingFilterDefinitions(tr, locale),
-    sortOptions: await localizedSortOptions(),
-  };
+    "lighting",
+    LIGHTING_PRODUCTS,
+    getLightingFilterDefinitions(tr, locale),
+  );
 }
 
 export async function getDecorCatalogPageProps(
   locale: Locale,
 ): Promise<CatalogPageProps> {
   const tr = await catalogTranslator();
-  return {
+  return buildCatalogPageProps(
     locale,
-    filterDefinitions: getDecorFilterDefinitions(tr, locale),
-    sortOptions: await localizedSortOptions(),
-  };
+    "decor",
+    DECOR_PRODUCTS,
+    getDecorFilterDefinitions(tr, locale),
+  );
 }
 
 export async function getMirrorsCatalogPageProps(
   locale: Locale,
 ): Promise<CatalogPageProps> {
   const tr = await catalogTranslator();
-  return {
+  return buildCatalogPageProps(
     locale,
-    filterDefinitions: getMirrorsFilterDefinitions(tr, locale),
-    sortOptions: await localizedSortOptions(),
-  };
+    "mirrors",
+    MIRRORS_PRODUCTS,
+    getMirrorsFilterDefinitions(tr, locale),
+  );
 }
 
 export async function getTablesCatalogPageProps(
   locale: Locale,
 ): Promise<CatalogPageProps> {
   const tr = await catalogTranslator();
-  return {
+  return buildCatalogPageProps(
     locale,
-    filterDefinitions: getTablesFilterDefinitions(tr, locale),
-    sortOptions: await localizedSortOptions(),
-  };
+    "tables-consoles",
+    TABLES_PRODUCTS,
+    getTablesFilterDefinitions(tr, locale),
+  );
 }

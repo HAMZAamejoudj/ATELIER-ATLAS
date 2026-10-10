@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
-import { BRAND_NAME } from "@/lib/constants";
+import { LOGO_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import {
@@ -42,8 +42,8 @@ export function MobileNav({
         className="w-[min(100%,22rem)] border-atlas-cream-dark bg-atlas-cream p-0 text-atlas-charcoal"
       >
         <SheetHeader className="border-b border-atlas-cream-dark px-6 py-6">
-          <SheetTitle className="font-serif text-lg tracking-[0.12em] text-atlas-charcoal uppercase">
-            {BRAND_NAME}
+          <SheetTitle className="font-serif text-lg uppercase tracking-[0.04em] text-atlas-charcoal">
+            {LOGO_NAME}
           </SheetTitle>
         </SheetHeader>
         <nav aria-label="Mobile" className="flex flex-col px-6 py-6">
@@ -53,7 +53,7 @@ export function MobileNav({
               render={
                 <Link
                   href={item.href}
-                  className="border-b border-atlas-cream-dark/80 py-3.5 text-[12px] font-medium uppercase tracking-[0.18em] text-atlas-charcoal transition-opacity last:border-b-0 hover:opacity-60"
+                  className="border-b border-atlas-cream-dark/80 py-3.5 text-[14px] font-bold uppercase tracking-[0.04em] text-atlas-charcoal transition-opacity last:border-b-0 hover:opacity-60"
                 />
               }
             >

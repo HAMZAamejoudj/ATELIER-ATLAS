@@ -67,6 +67,12 @@
       "description": "جرّب تعديل الفلاتر أو مسحها لعرض المزيد من المجموعة.",
       "clearAll": "مسح كل الفلاتر"
     },
+    "pagination": {
+      "label": "صفحات المنتجات",
+      "previous": "السابق",
+      "next": "التالي",
+      "summary": "{from}–{to} من {total}"
+    },
     "seating": {
       "category": "الفئة",
       "style": "الطراز",

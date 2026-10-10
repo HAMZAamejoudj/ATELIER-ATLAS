@@ -35,6 +35,7 @@ export interface ShopProductDB {
   badge: ProductBadge | null;
   filterFacets: Record<string, string>;
   inStock: boolean;
+  isAvailable: boolean;
   featured: boolean;
   collection: string;
   collectionSlug: string;

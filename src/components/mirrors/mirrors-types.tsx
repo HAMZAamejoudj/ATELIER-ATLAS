@@ -29,13 +29,13 @@ export async function MirrorsTypes({ items }: { items?: SubcategoryItem[] }) {
       <div className="mx-auto flex max-w-[1600px] items-end justify-between gap-4 px-4 pt-8 sm:px-6 sm:pt-10 lg:px-10">
         <h2
           id="mirrors-types-heading"
-          className="text-[10px] font-semibold uppercase tracking-[0.22em] text-atlas-charcoal"
+          className="text-[11px] font-bold uppercase tracking-[0.18em] text-atlas-charcoal"
         >
           {t("heading")}
         </h2>
         <Link
           href="/mirrors"
-          className="inline-flex shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60"
+          className="inline-flex shrink-0 items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60"
         >
           {t("exploreAll")}
           <ArrowRight className="size-3.5 rtl:rotate-180" aria-hidden />
@@ -54,7 +54,7 @@ export async function MirrorsTypes({ items }: { items?: SubcategoryItem[] }) {
                   sizes="(max-width: 1024px) 38vw, 14vw"
                 />
               </div>
-              <p className="mt-3 text-center font-serif text-xs font-semibold uppercase tracking-[0.12em] text-atlas-charcoal sm:mt-3.5 sm:text-[13px]">
+              <p className="mt-3 text-center font-serif text-[13px] font-bold uppercase tracking-[0.1em] text-atlas-charcoal sm:mt-3.5 sm:text-sm">
                 {item.label}
               </p>
             </Link>

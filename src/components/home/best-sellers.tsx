@@ -78,7 +78,7 @@ function BestSellerCard({
         >
           {displayName}
         </Link>
-        <p className="mt-1.5 font-sans text-[15px] font-semibold not-italic tabular-nums tracking-normal text-atlas-charcoal sm:text-base">
+        <p className="mt-1.5 font-sans text-[15px] font-bold not-italic tabular-nums tracking-normal text-atlas-charcoal sm:text-base">
           {displayPrice}
         </p>
       </div>
@@ -95,25 +95,16 @@ export function BestSellers() {
       aria-labelledby="best-sellers-heading"
     >
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2
-              id="best-sellers-heading"
-              className="font-serif text-3xl font-semibold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
-            >
-              {t("title")}
-            </h2>
-            <p className="mt-2 font-serif text-base font-medium text-atlas-charcoal/85 sm:text-lg">
-              {t("subtitle")}
-            </p>
-          </div>
-          <Link
-            href="/seating"
-            className="inline-flex shrink-0 items-center gap-2 self-start text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:self-auto sm:text-xs"
+        <div className="text-center">
+          <h2
+            id="best-sellers-heading"
+            className="font-serif text-3xl font-bold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
           >
-            {t("shopAll")}
-            <ArrowRight className="size-3.5" aria-hidden />
-          </Link>
+            {t("title")}
+          </h2>
+          <p className="mt-2 font-serif text-base font-medium text-atlas-charcoal/85 sm:text-lg">
+            {t("subtitle")}
+          </p>
         </div>
 
         <ul
@@ -128,6 +119,16 @@ export function BestSellers() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-8 flex justify-center sm:mt-10">
+          <Link
+            href="/seating"
+            className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:text-xs"
+          >
+            {t("shopAll")}
+            <ArrowRight className="size-3.5" aria-hidden />
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -1,4 +1,6 @@
 export const BRAND_NAME = "ATELIER ATLAS";
+export const LOGO_NAME = "moroccantravertine";
+export const SITE_CONTACT_EMAIL = "moroccantravertine@gmail.com";
 
 export const SITE_DESCRIPTION =
   "Sculptural handmade Moroccan furniture in travertine, solid wood, and hammered metal — made to order in a Marrakech workshop.";

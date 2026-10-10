@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Pencil,
@@ -14,6 +14,7 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
+  ExternalLink,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { AdminHeader } from '@/components/admin/AdminHeader';
@@ -69,6 +70,9 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
     }
   };
 
+  const storefrontPath = (p: ShopProductDB) =>
+    p.collectionSlug ? `/${p.collectionSlug}` : '/';
+
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this product?')) return;
     await deleteProduct(id);
@@ -86,11 +90,16 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
   });
 
   // Pagination Calculations
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
+  const safePage = Math.min(currentPage, totalPages);
   const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (safePage - 1) * itemsPerPage,
+    safePage * itemsPerPage
   );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCategory]);
 
   return (
     <>
@@ -309,6 +318,17 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-slate-200 hover:bg-slate-50"
+                          onClick={() =>
+                            window.open(storefrontPath(p), "_blank", "noopener,noreferrer")
+                          }
+                          aria-label={`View ${p.title} on storefront`}
+                        >
+                          <ExternalLink size={14} />
+                        </Button>
                         <Button variant="outline" size="sm" className="border-slate-200 hover:bg-slate-50" disabled={loadingEdit} onClick={() => openEdit(p.id)}>
                           <Pencil size={14} />
                         </Button>
@@ -403,11 +423,21 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
                     </div>
 
                     {/* Action buttons footer */}
-                    <div className="mt-auto pt-5 flex gap-2 border-t border-slate-100">
+                    <div className="mt-auto pt-5 flex flex-wrap gap-2 border-t border-slate-100">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex-1 border-slate-200 hover:border-amber-800 hover:text-amber-800"
+                        className="flex-1 min-w-[5.5rem] border-slate-200 hover:border-amber-800 hover:text-amber-800"
+                        onClick={() =>
+                          window.open(storefrontPath(p), "_blank", "noopener,noreferrer")
+                        }
+                      >
+                        <ExternalLink size={14} /> View
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 min-w-[5.5rem] border-slate-200 hover:border-amber-800 hover:text-amber-800"
                         disabled={loadingEdit}
                         onClick={() => openEdit(p.id)}
                       >
@@ -416,7 +446,7 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
                       <Button
                         variant="destructive"
                         size="sm"
-                        className="bg-red-50 hover:bg-red-100 text-red-600 border border-red-100 hover:border-red-200"
+                        className="flex-1 min-w-[5.5rem] bg-red-50 hover:bg-red-100 text-red-600 border border-red-100 hover:border-red-200"
                         onClick={() => handleDelete(p.id)}
                       >
                         <Trash2 size={14} /> Delete
@@ -433,30 +463,27 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
         {totalPages > 1 && (
           <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row border-t border-slate-200 pt-6">
             <p className="text-sm text-slate-500">
-              Showing <span className="font-medium text-slate-700">{Math.min((currentPage - 1) * itemsPerPage + 1, filteredProducts.length)}</span> to{' '}
-              <span className="font-medium text-slate-700">{Math.min(currentPage * itemsPerPage, filteredProducts.length)}</span> of{' '}
+              Showing <span className="font-medium text-slate-700">{Math.min((safePage - 1) * itemsPerPage + 1, filteredProducts.length)}</span> to{' '}
+              <span className="font-medium text-slate-700">{Math.min(safePage * itemsPerPage, filteredProducts.length)}</span> of{' '}
               <span className="font-medium text-slate-700">{filteredProducts.length}</span> products
             </p>
             
             <div className="flex items-center gap-2">
               {/* Page Numbers 1, 2, 3 */}
               <div className="flex items-center gap-1">
-                {[1, 2, 3].map((page) => {
-                  if (page > totalPages) return null;
-                  return (
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`h-9 w-9 rounded-lg text-sm font-medium transition-colors ${
-                        currentPage === page
+                        safePage === page
                           ? 'bg-amber-800 text-white shadow-sm'
                           : 'border border-slate-200 hover:bg-slate-50 text-slate-600'
                       }`}
                     >
                       {page}
                     </button>
-                  );
-                })}
+                ))}
               </div>
 
               <Button
@@ -488,6 +515,7 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
       </div>
 
       <ProductFormModal
+        key={editing?.id ?? "create"}
         isOpen={open}
         onClose={() => { setOpen(false); setEditing(null); }}
         product={editing}

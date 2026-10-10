@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { CatalogEmptyState } from "@/components/catalog/catalog-empty-state";
+import { CatalogPagination } from "@/components/catalog/catalog-pagination";
 import { useCatalog } from "@/components/catalog/catalog-provider";
+import { isRemoteCatalogImage } from "@/lib/catalog-products";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { AddToWishlistButton } from "@/components/wishlist/add-to-wishlist-button";
 import { useLocalizedProduct } from "@/hooks/use-localized-product";
@@ -27,6 +29,7 @@ function MirrorProductCard({ product }: { product: MirrorProduct }) {
             src={product.image}
             alt={product.alt}
             fill
+            unoptimized={isRemoteCatalogImage(product.image)}
             className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
@@ -35,11 +38,11 @@ function MirrorProductCard({ product }: { product: MirrorProduct }) {
       <div className="mt-3 sm:mt-4">
         <Link
           href={product.href}
-          className="block font-serif text-sm font-bold leading-snug text-atlas-charcoal transition-opacity hover:opacity-75 sm:text-[15px]"
+          className="block font-serif text-[15px] font-bold leading-snug text-atlas-charcoal transition-opacity hover:opacity-75 sm:text-base"
         >
           {displayName}
         </Link>
-        <p className="mt-1 font-sans text-sm font-semibold tabular-nums text-atlas-charcoal sm:text-[15px]">
+        <p className="mt-1 font-sans text-sm font-bold tabular-nums text-atlas-charcoal sm:text-[15px]">
           {displayPrice}
         </p>
         <div className="mt-2.5 flex items-center gap-2">
@@ -53,7 +56,7 @@ function MirrorProductCard({ product }: { product: MirrorProduct }) {
               </li>
             ))}
           </ul>
-          <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-atlas-charcoal/65">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-atlas-charcoal/80">
             {product.material}
           </span>
         </div>
@@ -63,7 +66,7 @@ function MirrorProductCard({ product }: { product: MirrorProduct }) {
 }
 
 export function MirrorsProductGrid() {
-  const { filteredProducts } = useCatalog<MirrorProduct>();
+  const { filteredProducts, paginatedProducts } = useCatalog<MirrorProduct>();
 
   return (
     <section
@@ -77,13 +80,16 @@ export function MirrorsProductGrid() {
       {filteredProducts.length === 0 ? (
         <CatalogEmptyState />
       ) : (
-      <ul className="mx-auto grid max-w-[1600px] grid-cols-2 gap-x-4 gap-y-10 px-4 sm:gap-x-5 sm:gap-y-12 sm:px-6 lg:grid-cols-4 lg:gap-x-5 lg:px-10">
-        {filteredProducts.map((product) => (
-          <li key={product.name}>
-            <MirrorProductCard product={product} />
-          </li>
-        ))}
-      </ul>
+        <>
+          <ul className="mx-auto grid max-w-[1600px] grid-cols-2 gap-x-4 gap-y-10 px-4 sm:gap-x-5 sm:gap-y-12 sm:px-6 lg:grid-cols-4 lg:gap-x-5 lg:px-10">
+            {paginatedProducts.map((product) => (
+              <li key={`${product.name}-${product.image}`}>
+                <MirrorProductCard product={product} />
+              </li>
+            ))}
+          </ul>
+          <CatalogPagination />
+        </>
       )}
     </section>
   );

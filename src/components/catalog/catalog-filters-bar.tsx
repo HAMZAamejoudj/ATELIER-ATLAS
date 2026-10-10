@@ -74,7 +74,7 @@ export function CatalogFiltersBar() {
 
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-2 px-4 py-4 sm:gap-2.5 sm:px-6 lg:px-10">
 
-        <span className="mr-1 flex shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-atlas-charcoal">
+        <span className="mr-1 flex shrink-0 items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-atlas-charcoal">
 
             <SlidersHorizontal className="size-3.5" aria-hidden />
 
@@ -114,7 +114,7 @@ export function CatalogFiltersBar() {
 
                   className={cn(
 
-                    "inline-flex items-center gap-1.5 border bg-white px-3 py-2 text-[10px] font-medium uppercase tracking-[0.1em] text-atlas-charcoal transition-colors",
+                    "inline-flex items-center gap-1.5 border bg-white px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-atlas-charcoal transition-colors",
 
                     selectedValue || isOpen
 

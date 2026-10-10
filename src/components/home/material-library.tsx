@@ -48,25 +48,16 @@ export async function MaterialLibrary() {
       aria-labelledby="material-library-heading"
     >
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <h2
-              id="material-library-heading"
-              className="font-serif text-3xl font-semibold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
-            >
-              {t("title")}
-            </h2>
-            <p className="mt-2 font-serif text-base font-medium text-atlas-charcoal/85 sm:text-lg">
-              {t("subtitle")}
-            </p>
-          </div>
-          <Link
-            href="/about"
-            className="inline-flex shrink-0 items-center gap-2 self-start text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:self-auto sm:text-xs"
+        <div className="text-center">
+          <h2
+            id="material-library-heading"
+            className="font-serif text-3xl font-bold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
           >
-            {t("cta")}
-            <ArrowRight className="size-3.5" aria-hidden />
-          </Link>
+            {t("title")}
+          </h2>
+          <p className="mt-2 font-serif text-base font-medium text-atlas-charcoal/85 sm:text-lg">
+            {t("subtitle")}
+          </p>
         </div>
 
         <ul
@@ -86,12 +77,22 @@ export async function MaterialLibrary() {
                   sizes="(max-width: 1024px) 34vw, 10vw"
                 />
               </div>
-              <p className="mt-3 text-center font-serif text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal sm:text-xs">
+              <p className="mt-3 text-center font-serif text-xs font-bold uppercase tracking-[0.12em] text-atlas-charcoal sm:text-[13px]">
                 {material.label}
               </p>
             </li>
           ))}
         </ul>
+
+        <div className="mt-8 flex justify-center sm:mt-10">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:text-xs"
+          >
+            {t("cta")}
+            <ArrowRight className="size-3.5" aria-hidden />
+          </Link>
+        </div>
       </div>
     </section>
   );

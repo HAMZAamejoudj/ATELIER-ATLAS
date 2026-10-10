@@ -52,7 +52,7 @@ export async function LightingSubcategories({ items }: Props) {
                   sizes="(max-width: 1024px) 38vw, 14vw"
                 />
               </div>
-              <p className="mt-3 text-center font-serif text-xs font-semibold uppercase tracking-[0.12em] text-atlas-charcoal sm:mt-3.5 sm:text-[13px]">
+              <p className="mt-3 text-center font-serif text-[13px] font-bold uppercase tracking-[0.1em] text-atlas-charcoal sm:mt-3.5 sm:text-sm">
                 {item.label}
               </p>
               {item.tagline && (

@@ -10,7 +10,7 @@ import {
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { WishlistHeaderButton } from "@/components/wishlist/wishlist-header-button";
-import { BRAND_NAME } from "@/lib/constants";
+import { LOGO_NAME } from "@/lib/constants";
 import { getLocale } from "@/lib/get-locale";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
@@ -70,26 +70,26 @@ export async function SiteHeader({ className }: { className?: string }) {
       </div>
 
       <div className="border-b border-atlas-cream-dark/80 bg-atlas-cream">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-5 sm:px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-6 lg:px-10">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3.5 sm:px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-5 lg:px-10">
           <div className="flex min-w-0 items-center gap-3">
             <MobileNav items={mainNav} />
             <Link
               href="/"
-              className="font-serif text-xl tracking-[0.12em] text-atlas-charcoal uppercase whitespace-nowrap sm:text-2xl lg:text-[1.65rem]"
+              className="font-serif text-[1.05rem] uppercase tracking-[0.04em] text-atlas-charcoal whitespace-nowrap sm:text-[1.2rem] lg:text-[1.35rem]"
             >
-              {BRAND_NAME}
+              {LOGO_NAME}
             </Link>
           </div>
 
           <nav
-            className="hidden items-center justify-center gap-4.5 lg:flex xl:gap-6 2xl:gap-7"
+            className="hidden items-center justify-center gap-6 lg:flex xl:gap-8 2xl:gap-9"
             aria-label="Main"
           >
             {mainNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-[11px] font-medium uppercase tracking-[0.16em] text-atlas-charcoal transition-opacity hover:opacity-60 whitespace-nowrap"
+                className="text-[13px] font-bold uppercase tracking-[0.04em] text-atlas-charcoal transition-opacity hover:opacity-60 whitespace-nowrap"
               >
                 {item.label}
               </Link>

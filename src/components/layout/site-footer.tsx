@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-import { BRAND_NAME } from "@/lib/constants";
+import { BRAND_NAME, LOGO_NAME } from "@/lib/constants";
 import { Input } from "@/components/ui/input";
 
 function FooterLinkColumn({
@@ -107,9 +107,9 @@ export async function SiteFooter() {
           <div className="flex flex-col sm:col-span-2 lg:col-span-1">
             <Link
               href="/"
-              className="font-serif text-2xl font-semibold uppercase tracking-[0.12em] text-white sm:text-[1.65rem]"
+              className="font-serif text-xl font-medium uppercase tracking-[0.04em] text-white sm:text-[1.35rem]"
             >
-              {BRAND_NAME}
+              {LOGO_NAME}
             </Link>
             <div className="mt-4 h-px w-full max-w-[12rem] bg-white/25" />
             <p className="mt-4 font-serif text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">

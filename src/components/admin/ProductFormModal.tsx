@@ -64,7 +64,7 @@ export function ProductFormModal({
   );
   const [isFeatured, setIsFeatured] = useState(product?.featured ?? false);
   const [isAvailable, setIsAvailable] = useState<boolean>(
-    product ? product.inStock || true : true,
+    product?.isAvailable ?? true,
   );
   const [mainImage, setMainImage] = useState(product?.image ?? "");
   const [detailImage1, setDetailImage1] = useState(product?.detailImage1 ?? "");

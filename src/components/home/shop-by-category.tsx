@@ -75,21 +75,12 @@ export async function ShopByCategory() {
       aria-labelledby="shop-by-category-heading"
     >
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10">
-        <div className="flex items-center justify-between gap-6">
-          <h2
-            id="shop-by-category-heading"
-            className="font-serif text-3xl font-semibold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
-          >
-            {t("title")}
-          </h2>
-          <Link
-            href="/seating"
-            className="inline-flex shrink-0 items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:text-xs"
-          >
-            {t("viewAll")}
-            <ArrowRight className="size-3.5" aria-hidden />
-          </Link>
-        </div>
+        <h2
+          id="shop-by-category-heading"
+          className="text-center font-serif text-3xl font-bold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.35rem]"
+        >
+          {t("title")}
+        </h2>
 
         <ul className="mt-10 flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-5 lg:mt-12 lg:grid lg:grid-cols-5 lg:gap-4 lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden">
           {categories.map((category) => (
@@ -107,13 +98,23 @@ export async function ShopByCategory() {
                     sizes="(max-width: 1024px) 42vw, 16vw"
                   />
                 </div>
-                <p className="mt-4 text-center font-serif text-xs font-semibold uppercase tracking-[0.12em] text-atlas-charcoal sm:text-sm">
+                <p className="mt-4 text-center font-serif text-[13px] font-bold uppercase tracking-[0.1em] text-atlas-charcoal sm:text-sm">
                   {category.label}
                 </p>
               </Link>
             </li>
           ))}
         </ul>
+
+        <div className="mt-8 flex justify-center sm:mt-10">
+          <Link
+            href="/seating"
+            className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal transition-opacity hover:opacity-60 sm:text-xs"
+          >
+            {t("viewAll")}
+            <ArrowRight className="size-3.5" aria-hidden />
+          </Link>
+        </div>
       </div>
     </section>
   );

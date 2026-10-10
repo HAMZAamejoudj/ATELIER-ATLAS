@@ -67,6 +67,12 @@
       "description": "Try adjusting or clearing your filters to see more of the collection.",
       "clearAll": "Clear all filters"
     },
+    "pagination": {
+      "label": "Product pages",
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "{from}–{to} of {total}"
+    },
     "seating": {
       "category": "Category",
       "style": "Style",

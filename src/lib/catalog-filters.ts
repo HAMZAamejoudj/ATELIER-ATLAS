@@ -18,6 +18,7 @@ export type CatalogProductLike = {
   priceUsd: number;
   swatches: string[];
   material: string;
+  filterFacets?: Record<string, string>;
 };
 
 export const PRICE_BUCKET_IDS = [

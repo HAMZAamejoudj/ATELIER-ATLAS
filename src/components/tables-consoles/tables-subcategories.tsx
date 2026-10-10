@@ -60,7 +60,7 @@ export async function TablesSubcategories({ items }: Props) {
                   sizes="(max-width: 1024px) 38vw, 18vw"
                 />
               </div>
-              <p className="mt-3 text-center font-serif text-xs font-semibold uppercase tracking-[0.14em] text-atlas-charcoal sm:mt-4 sm:text-sm">
+              <p className="mt-3 text-center font-serif text-[13px] font-bold uppercase tracking-[0.1em] text-atlas-charcoal sm:mt-4 sm:text-sm">
                 {item.label}
               </p>
             </Link>

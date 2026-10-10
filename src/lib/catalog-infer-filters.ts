@@ -1,14 +1,19 @@
 import {
-
   priceBucketFromUsd,
-
   primaryMaterial,
-
   swatchColorFamily,
-
   type CatalogProductLike,
-
 } from "@/lib/catalog-filters";
+
+function withFacets(
+  inferred: Record<string, string>,
+  product: CatalogProductLike,
+): Record<string, string> {
+  if (!product.filterFacets || Object.keys(product.filterFacets).length === 0) {
+    return inferred;
+  }
+  return { ...inferred, ...product.filterFacets };
+}
 
 
 
@@ -54,22 +59,17 @@ export function getLightingFilterValues(product: CatalogProductLike) {
 
 
 
-  return {
-
-    category,
-
-    style,
-
-    material: primaryMaterial(material),
-
-    color: swatchColorFamily(product.swatches),
-
-    location,
-
-    price: priceBucketFromUsd(product.priceUsd),
-
-  };
-
+  return withFacets(
+    {
+      category,
+      style,
+      material: primaryMaterial(material),
+      color: swatchColorFamily(product.swatches),
+      location,
+      price: priceBucketFromUsd(product.priceUsd),
+    },
+    product,
+  );
 }
 
 
@@ -110,22 +110,17 @@ export function getSeatingFilterValues(
 
 
 
-  return {
-
-    category,
-
-    style,
-
-    material: primaryMaterial(material),
-
-    color: swatchColorFamily(product.swatches),
-
-    availability: badge === "NEW" ? "New arrivals" : "In stock",
-
-    price: priceBucketFromUsd(product.priceUsd),
-
-  };
-
+  return withFacets(
+    {
+      category,
+      style,
+      material: primaryMaterial(material),
+      color: swatchColorFamily(product.swatches),
+      availability: badge === "NEW" ? "New arrivals" : "In stock",
+      price: priceBucketFromUsd(product.priceUsd),
+    },
+    product,
+  );
 }
 
 
@@ -156,24 +151,18 @@ export function getDecorFilterValues(product: CatalogProductLike) {
 
 
 
-  return {
-
-    category,
-
-    material: primaryMaterial(material),
-
-    color: swatchColorFamily(product.swatches),
-
-    style: nameIncludes(name, /sienna|elio|arden/i) ? "Heritage" : "Modern",
-
-    size,
-
-    availability: "In stock",
-
-    price: priceBucketFromUsd(priceUsd),
-
-  };
-
+  return withFacets(
+    {
+      category,
+      material: primaryMaterial(material),
+      color: swatchColorFamily(product.swatches),
+      style: nameIncludes(name, /sienna|elio|arden/i) ? "Heritage" : "Modern",
+      size,
+      availability: "In stock",
+      price: priceBucketFromUsd(priceUsd),
+    },
+    product,
+  );
 }
 
 
@@ -199,14 +188,17 @@ export function getTablesFilterValues(
       ? "Classic"
       : "Contemporary";
 
-  return {
-    category,
-    style,
-    material: primaryMaterial(material),
-    color: swatchColorFamily(product.swatches),
-    availability: badge === "NEW" ? "New arrivals" : "In stock",
-    price: priceBucketFromUsd(product.priceUsd),
-  };
+  return withFacets(
+    {
+      category,
+      style,
+      material: primaryMaterial(material),
+      color: swatchColorFamily(product.swatches),
+      availability: badge === "NEW" ? "New arrivals" : "In stock",
+      price: priceBucketFromUsd(product.priceUsd),
+    },
+    product,
+  );
 }
 
 export function getMirrorsFilterValues(product: CatalogProductLike) {
@@ -255,22 +247,17 @@ export function getMirrorsFilterValues(product: CatalogProductLike) {
 
 
 
-  return {
-
-    style,
-
-    shape,
-
-    size,
-
-    "frame material": primaryMaterial(material),
-
-    color: swatchColorFamily(product.swatches),
-
-    price: priceBucketFromUsd(priceUsd),
-
-  };
-
+  return withFacets(
+    {
+      style,
+      shape,
+      size,
+      "frame material": primaryMaterial(material),
+      color: swatchColorFamily(product.swatches),
+      price: priceBucketFromUsd(priceUsd),
+    },
+    product,
+  );
 }
 
 
