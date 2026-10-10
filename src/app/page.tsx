@@ -8,10 +8,13 @@ import { HomeHero } from "@/components/home/home-hero";
 import { MaterialLibrary } from "@/components/home/material-library";
 import { RoomsWithPurpose } from "@/components/home/rooms-with-purpose";
 import { ShopByCategory } from "@/components/home/shop-by-category";
+import { HomeSeoIntro } from "@/components/home/home-seo-intro";
 import { TradeAndJournal } from "@/components/home/trade-and-journal";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getLocale } from "@/lib/get-locale";
 import type { LanguageCode } from "@/types/product";
+
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getLocale()) as LanguageCode;
@@ -38,6 +41,7 @@ export default function Home() {
         <MaterialLibrary />
         <BrandTestimonial />
         <TradeAndJournal />
+        <HomeSeoIntro />
       </main>
     </>
   );

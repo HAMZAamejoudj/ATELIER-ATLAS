@@ -259,8 +259,17 @@
   "home": {
     "hero": {
       "imageAlt": "Sculptural living room with curved velvet seating and travertine coffee table",
-      "title": "Furniture with a longer horizon",
+      "title": "Handmade Moroccan furniture with a longer horizon",
       "cta": "Explore the collection"
+    },
+    "seoIntro": {
+      "title": "Moroccan travertine furniture, made to order in Marrakech",
+      "p1": "Moroccan Travertine is a Marrakech workshop devoted to sculptural furniture shaped by hand from travertine, solid wood, hammered metal, and natural stone. Each piece is designed for rooms that feel calm, luminous, and deeply lived-in — dining tables that anchor conversation, mirrors that widen light, seating that invites unhurried evenings, and objects that reward daily touch.",
+      "p2": "Travertine gives our collection its quiet strength: warm ivory tones, subtle pitting, and a matte finish that ages gracefully beside linen, oak, and brushed brass. Artisans cut, hone, and finish every slab in-house, pairing stone with responsibly sourced hardwoods and metalwork forged in traditional Moroccan ateliers. The result is furniture that reads as both contemporary and timeless, equally at home in a city apartment, a coastal villa, or a boutique hotel lobby.",
+      "p3": "Our seating range includes travertine stools, carved wood benches, and upholstered pieces tailored to your dimensions. Tables and consoles combine stone tops with sculpted bases; lighting spans pendants, sconces, floor lamps, and outdoor lanterns engineered for warm, layered glow. Mirrors — arched, floor-standing, wall, and vanity — open space without noise, while decor objects, vases, trays, and candleholders finish a room with intention rather than clutter.",
+      "p4": "Every order begins with material clarity. We share finish samples, edge profiles, and proportion drawings so architects, interior designers, and private clients can specify with confidence. Trade partners receive dedicated lead-time planning, white-glove packing guidance, and support for international freight. Bespoke commissions welcome custom lengths, inset materials, and coordinated suites for hospitality and residential projects worldwide.",
+      "p5": "Sustainability is practical, not performative: we prioritize durable construction, repairable joinery, and stone selections that minimize waste through thoughtful cutting plans. Workshop practices emphasize skilled labor, fair compensation, and the preservation of Moroccan craft knowledge passed between generations. When you invest in a piece from our studio, you support artisans whose names and hands remain connected to the work long after it leaves Sidi Ghanem.",
+      "p6": "Explore the collections online, visit our Marrakech showroom by appointment, or write to our concierge at moroccantravertine@gmail.com for sizing, shipping, and trade inquiries. Whether you are furnishing a single alcove or an entire residence, we build furniture meant to stay — beautiful, useful, and lasting for years of meals, gatherings, and quiet mornings in light-filled rooms."
     },
     "categories": {
       "title": "Shop by Category",
@@ -334,6 +343,7 @@
     },
     "testimonial": {
       "ariaLabel": "Customer testimonial",
+      "imageAlt": "Hand-sculpted ceramic vase beside travertine furniture details",
       "quote": "Atelier Atlas pieces bring a rare sense of permanence to our home. You can feel the thought, the craft, the care in every detail.",
       "attribution": "— Danielle R., Austin TX",
       "keywords": {

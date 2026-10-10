@@ -8,6 +8,7 @@ export async function BrandTestimonial() {
     t("keywords.useful"),
     t("keywords.lasting"),
   ];
+  const imageAlt = t("imageAlt");
 
   return (
     <section
@@ -26,13 +27,10 @@ export async function BrandTestimonial() {
           </footer>
         </blockquote>
 
-        <div
-          className="relative hidden min-h-[10rem] overflow-hidden lg:block"
-          aria-hidden
-        >
+        <div className="relative hidden min-h-[10rem] overflow-hidden lg:block">
           <Image
             src="/images/testimonial/testimonial-vase.png"
-            alt=""
+            alt={imageAlt}
             fill
             className="object-cover object-center"
             sizes="12.5rem"

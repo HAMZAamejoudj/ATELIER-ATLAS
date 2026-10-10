@@ -209,7 +209,7 @@ export function CollectionFeaturedHero({
                   >
                     <Image
                       src={item.image}
-                      alt=""
+                      alt={translateProductName(item.name, locale)}
                       fill
                       className="object-cover object-center"
                       sizes="(max-width: 640px) 100px, 144px"
