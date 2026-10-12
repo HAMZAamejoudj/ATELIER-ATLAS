@@ -28,6 +28,19 @@
     "contact": "اتصل بنا",
     "announcement": "توصيل فاخر مجاني للطلبات فوق {threshold} | منزل أكثر روعية"
   },
+  "productDetail": {
+    "home": "الرئيسية",
+    "breadcrumbAria": "مسار التنقل",
+    "addToCart": "أضف إلى السلة",
+    "sku": "رمز المنتج",
+    "aboutTitle": "عن هذه القطعة",
+    "relatedTitle": "قد يعجبك أيضاً",
+    "trust": {
+      "delivery": "توصيل White Glove مجاني للطلبات المؤهلة",
+      "guarantee": "ضمان حرفية 10 سنوات",
+      "materials": "خامات مُختارة بعناية، تُصنع حسب الطلب في مراكش"
+    }
+  },
   "cart": {
     "title": "حقيبتك",
     "itemCount": "{count, plural, =0 {لا توجد قطع بعد} one {قطعة واحدة} other {# قطع}}",

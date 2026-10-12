@@ -10,7 +10,7 @@ import {
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { WishlistHeaderButton } from "@/components/wishlist/wishlist-header-button";
-import { LOGO_NAME } from "@/lib/constants";
+import { SiteLogo } from "@/components/layout/site-logo";
 import { getLocale } from "@/lib/get-locale";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
@@ -70,19 +70,19 @@ export async function SiteHeader({ className }: { className?: string }) {
       </div>
 
       <div className="border-b border-atlas-cream-dark/80 bg-atlas-cream">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3.5 sm:px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-5 lg:px-10">
-          <div className="flex min-w-0 items-center gap-3">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-2 px-4 py-3 sm:gap-3 sm:px-6 sm:py-3.5 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-x-8 lg:px-10">
+          <div className="flex min-w-0 items-center gap-2 lg:gap-0 sm:gap-3">
             <MobileNav items={mainNav} />
             <Link
               href="/"
-              className="font-serif text-[1.05rem] uppercase tracking-[0.04em] text-atlas-charcoal whitespace-nowrap sm:text-[1.2rem] lg:text-[1.35rem]"
+              className="inline-flex h-11 shrink-0 items-end pb-px sm:h-12 lg:h-14 lg:pe-1 lg:pb-0"
             >
-              {LOGO_NAME}
+              <SiteLogo variant="header" priority />
             </Link>
           </div>
 
           <nav
-            className="hidden items-center justify-center gap-6 lg:flex xl:gap-8 2xl:gap-9"
+            className="hidden h-12 items-center justify-center gap-6 lg:flex lg:h-14 xl:gap-8 2xl:gap-9"
             aria-label="Main"
           >
             {mainNav.map((item) => (
@@ -96,7 +96,7 @@ export async function SiteHeader({ className }: { className?: string }) {
             ))}
           </nav>
 
-          <div className="flex items-center justify-end gap-2 sm:gap-2.5">
+          <div className="flex h-11 shrink-0 items-center justify-end gap-1.5 sm:gap-2.5 lg:h-14">
             <LanguageSwitcher initialLocale={locale} />
             <Link
               href="/account"

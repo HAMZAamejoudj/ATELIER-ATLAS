@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
-import { LOGO_NAME } from "@/lib/constants";
+import { SiteLogo } from "@/components/layout/site-logo";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import {
@@ -42,8 +42,8 @@ export function MobileNav({
         className="w-[min(100%,22rem)] border-atlas-cream-dark bg-atlas-cream p-0 text-atlas-charcoal"
       >
         <SheetHeader className="border-b border-atlas-cream-dark px-6 py-6">
-          <SheetTitle className="font-serif text-lg uppercase tracking-[0.04em] text-atlas-charcoal">
-            {LOGO_NAME}
+          <SheetTitle className="text-left">
+            <SiteLogo variant="mobile" />
           </SheetTitle>
         </SheetHeader>
         <nav aria-label="Mobile" className="flex flex-col px-6 py-6">

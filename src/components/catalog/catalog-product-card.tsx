@@ -1,0 +1,90 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
+
+import { ProductColorSwatches } from "@/components/catalog/product-color-swatches";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { AddToWishlistButton } from "@/components/wishlist/add-to-wishlist-button";
+import { useLocalizedProduct } from "@/hooks/use-localized-product";
+import {
+  isRemoteCatalogImage,
+  type CatalogCardProduct,
+} from "@/lib/catalog-products";
+import { swatchesToColorVariants } from "@/lib/product-color-variants";
+
+export function CatalogProductCard({ product }: { product: CatalogCardProduct }) {
+  const t = useTranslations("common");
+  const variants = useMemo(
+    () =>
+      product.colorVariants?.length
+        ? product.colorVariants
+        : swatchesToColorVariants(product.swatches, product.image),
+    [product.colorVariants, product.swatches, product.image],
+  );
+
+  const [selectedVariant, setSelectedVariant] = useState(0);
+  const displayImage =
+    variants[selectedVariant]?.image || product.image;
+
+  const { displayName, displayPrice, cartProduct } = useLocalizedProduct({
+    ...product,
+    image: displayImage,
+  });
+
+  const badgeLabel =
+    product.badge === "BEST SELLER"
+      ? t("badges.bestSeller")
+      : product.badge === "NEW"
+        ? t("badges.new")
+        : null;
+
+  return (
+    <article className="group">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#f0ebe3]">
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
+          <AddToCartButton product={cartProduct} />
+          {badgeLabel ? (
+            <span className="bg-white px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-atlas-charcoal">
+              {badgeLabel}
+            </span>
+          ) : null}
+        </div>
+        <AddToWishlistButton product={cartProduct} />
+        <Link href={product.href} className="block size-full">
+          <Image
+            src={displayImage}
+            alt={product.alt}
+            fill
+            unoptimized={isRemoteCatalogImage(displayImage)}
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          />
+        </Link>
+      </div>
+      <div className="mt-3 sm:mt-4">
+        <Link
+          href={product.href}
+          className="block font-serif text-[15px] font-bold leading-snug text-atlas-charcoal transition-opacity hover:opacity-75 sm:text-base"
+        >
+          {displayName}
+        </Link>
+        <p className="mt-1 font-sans text-sm font-bold tabular-nums text-atlas-charcoal sm:text-[15px]">
+          {displayPrice}
+        </p>
+        <div className="mt-2.5 flex flex-wrap items-center gap-2">
+          <ProductColorSwatches
+            variants={variants}
+            selectedIndex={selectedVariant}
+            onSelect={setSelectedVariant}
+          />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-atlas-charcoal/80">
+            {product.material}
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+}

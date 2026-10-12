@@ -7,6 +7,7 @@ import { CACHE_TAGS } from "@/lib/cache-tags";
 import { supabase } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import type { Json } from "@/types/database";
+import { parseColorVariantsFromAttributes } from "@/lib/product-color-variants";
 import type {
   CreateProductInput,
   LanguageCode,
@@ -55,17 +56,25 @@ function transformProduct(product: any, lang: LanguageCode = "en"): ShopProductD
   );
   const primary =
     images.find((i: { isPrimary: boolean }) => i.isPrimary) || images[0];
-  const mainImage = primary?.url || "/images/seating/hero-marlow-featured.png";
+  const urlsFromRows = images
+    .map((i: { url: string }) => i.url)
+    .filter(Boolean) as string[];
   const detailImages = [
     product.detailImage1,
     product.detailImage2,
     product.detailImage3,
   ].filter(Boolean) as string[];
-  const gallery = detailImages.length
-    ? detailImages
-    : images
-        .filter((i: { url: string }) => i.url !== mainImage)
-        .map((i: { url: string }) => i.url);
+
+  let mainImage =
+    primary?.url || urlsFromRows[0] || "/images/seating/hero-marlow-featured.png";
+  let gallery: string[] = [];
+
+  if (urlsFromRows.length > 0) {
+    mainImage = urlsFromRows[0];
+    gallery = urlsFromRows.slice(1);
+  } else if (detailImages.length > 0) {
+    gallery = detailImages.filter((url) => url !== mainImage);
+  }
 
   return {
     id: product.id,
@@ -86,6 +95,11 @@ function transformProduct(product: any, lang: LanguageCode = "en"): ShopProductD
     stock: product.stock ?? 0,
     material: product.material || "",
     swatches: parseSwatches(product.swatches),
+    colorVariants: parseColorVariantsFromAttributes(
+      product.attributes,
+      mainImage,
+      parseSwatches(product.swatches),
+    ),
     badge: (product.badge as ProductBadge | null) ?? null,
     filterFacets: parseFilterFacets(product.filterFacets),
     inStock: product.isAvailable && (product.stock ?? 0) > 0,
@@ -119,44 +133,60 @@ function revalidateStorefrontCatalog() {
   revalidatePath("/decor");
   revalidatePath("/mirrors");
   revalidatePath("/tables-consoles");
+  revalidatePath("/products", "layout");
 }
 
-function resolveProductImages(input: CreateProductInput | UpdateProductInput) {
-  const mainImage =
-    input.mainImage ||
-    undefined;
-  const detailImage1 = input.detailImage1 ?? null;
-  const detailImage2 = input.detailImage2 ?? null;
-  const detailImage3 = input.detailImage3 ?? null;
-  return { mainImage, detailImage1, detailImage2, detailImage3 };
+const MAX_PRODUCT_IMAGES = 10;
+
+function resolveProductImageUrls(
+  input: CreateProductInput | UpdateProductInput,
+): string[] {
+  if (input.productImages?.length) {
+    return input.productImages
+      .map((url) => (url ?? "").trim())
+      .filter(Boolean)
+      .slice(0, MAX_PRODUCT_IMAGES);
+  }
+
+  return [
+    input.mainImage,
+    input.detailImage1,
+    input.detailImage2,
+    input.detailImage3,
+  ]
+    .map((url) => (url ?? "").trim())
+    .filter(Boolean)
+    .slice(0, MAX_PRODUCT_IMAGES);
 }
 
 async function saveProductImages(
   productId: string,
   input: CreateProductInput | UpdateProductInput,
 ) {
-  const { mainImage, detailImage1, detailImage2, detailImage3 } =
-    resolveProductImages(input);
+  const urls = resolveProductImageUrls(input);
 
   await supabaseAdmin
     .from("Product")
     .update({
-      detailImage1,
-      detailImage2,
-      detailImage3,
+      detailImage1: urls[1] ?? null,
+      detailImage2: urls[2] ?? null,
+      detailImage3: urls[3] ?? null,
     })
     .eq("id", productId);
 
   await supabaseAdmin.from("ProductImage").delete().eq("productId", productId);
-  if (mainImage) {
-    await supabaseAdmin.from("ProductImage").insert({
+
+  if (urls.length === 0) return;
+
+  await supabaseAdmin.from("ProductImage").insert(
+    urls.map((url, index) => ({
       productId,
-      url: mainImage,
-      isPrimary: true,
-      sortOrder: 0,
+      url,
+      isPrimary: index === 0,
+      sortOrder: index,
       altText: null,
-    });
-  }
+    })),
+  );
 }
 
 export async function getProducts(options?: {
@@ -214,6 +244,50 @@ export async function getProducts(options?: {
       }
     },
     ["atlas-products", JSON.stringify(options || {})],
+    { tags: [CACHE_TAGS.PRODUCTS], revalidate: 60 },
+  )();
+}
+
+export async function getProductBySlug(
+  slug: string,
+  lang: LanguageCode = "en",
+): Promise<ShopProductDB | null> {
+  const normalized = slug.trim().toLowerCase();
+  if (!normalized) return null;
+
+  return unstable_cache(
+    async () => {
+      try {
+        const pickTranslation = async (language: LanguageCode) => {
+          const { data } = await supabase
+            .from("ProductTranslation")
+            .select("productId")
+            .eq("slug", normalized)
+            .eq("language", language)
+            .maybeSingle();
+          return data?.productId as string | undefined;
+        };
+
+        let productId = await pickTranslation(lang);
+        if (!productId && lang !== "en") {
+          productId = await pickTranslation("en");
+        }
+        if (!productId) return null;
+
+        const { data: product, error } = await supabase
+          .from("Product")
+          .select(productSelect)
+          .eq("id", productId)
+          .maybeSingle();
+
+        if (error || !product) return null;
+        return transformProduct(product, lang);
+      } catch (e) {
+        console.error("getProductBySlug:", e);
+        return null;
+      }
+    },
+    ["atlas-product-slug", normalized, lang],
     { tags: [CACHE_TAGS.PRODUCTS], revalidate: 60 },
   )();
 }
@@ -360,6 +434,7 @@ export async function updateProduct(id: string, input: UpdateProductInput) {
     }
 
     if (
+      input.productImages !== undefined ||
       input.mainImage !== undefined ||
       input.detailImage1 !== undefined ||
       input.detailImage2 !== undefined ||

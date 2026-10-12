@@ -71,7 +71,7 @@ export function ProductsPageClient({ initialProducts, collections }: Props) {
   };
 
   const storefrontPath = (p: ShopProductDB) =>
-    p.collectionSlug ? `/${p.collectionSlug}` : '/';
+    p.slug ? `/products/${p.slug}` : p.collectionSlug ? `/${p.collectionSlug}` : '/';
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this product?')) return;

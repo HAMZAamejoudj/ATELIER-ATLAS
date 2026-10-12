@@ -49,6 +49,7 @@ type AddToCartButtonProps = {
   variant?: "icon" | "dark";
 
   className?: string;
+  iconClassName?: string;
 
 };
 
@@ -61,6 +62,7 @@ export function AddToCartButton({
   variant = "icon",
 
   className,
+  iconClassName,
 
 }: AddToCartButtonProps) {
 
@@ -142,7 +144,7 @@ export function AddToCartButton({
 
         className={cn(
 
-          productCardIconClass,
+          iconClassName ?? productCardIconClass,
 
           "shrink-0 transition-transform duration-200 ease-out group-hover/cart:rotate-[-6deg]",
 

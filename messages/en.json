@@ -28,6 +28,19 @@
     "contact": "Contact",
     "announcement": "Complimentary white glove delivery on orders over {threshold} | A more considered home"
   },
+  "productDetail": {
+    "home": "Home",
+    "breadcrumbAria": "Breadcrumb",
+    "addToCart": "Add to cart",
+    "sku": "SKU",
+    "aboutTitle": "About this piece",
+    "relatedTitle": "You may also like",
+    "trust": {
+      "delivery": "Complimentary white glove delivery on qualifying orders",
+      "guarantee": "10 year craftsmanship guarantee",
+      "materials": "Sustainably sourced materials, made to order in Marrakech"
+    }
+  },
   "cart": {
     "title": "Your bag",
     "itemCount": "{count, plural, =0 {No items yet} one {# item} other {# items}}",

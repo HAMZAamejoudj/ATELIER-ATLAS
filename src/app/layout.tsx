@@ -14,7 +14,7 @@ import { AppProviders } from "@/components/cart/app-providers";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { StorefrontPopupWrapper } from "@/components/layout/storefront-popup-wrapper";
-import { BRAND_NAME } from "@/lib/constants";
+import { BRAND_NAME, SITE_LOGO_PATH } from "@/lib/constants";
 import { getLocale } from "@/lib/get-locale";
 import { localeDirection } from "@/lib/locale";
 
@@ -71,6 +71,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: t("home.description"),
     metadataBase: getSiteUrl(),
+    icons: {
+      icon: SITE_LOGO_PATH,
+      shortcut: SITE_LOGO_PATH,
+      apple: SITE_LOGO_PATH,
+    },
   };
 }
 

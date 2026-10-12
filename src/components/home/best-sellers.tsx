@@ -8,38 +8,40 @@ import { useTranslations } from "next-intl";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { AddToWishlistButton } from "@/components/wishlist/add-to-wishlist-button";
 import { useLocalizedProduct } from "@/hooks/use-localized-product";
+import { compactProductCardIconClass } from "@/lib/product-card-actions";
+import { productDetailPath, productSlugFromName } from "@/lib/product-slug";
 
 const PRODUCTS = [
   {
-    href: "/seating",
+    href: productDetailPath(productSlugFromName("The Lenoir Sofa")),
     name: "The Lenoir Sofa",
     priceUsd: 4800,
     image: "/images/products/product-lenoir-sofa.png",
     alt: "The Lenoir Sofa in beige upholstery",
   },
   {
-    href: "/tables-consoles",
+    href: productDetailPath(productSlugFromName("The Arden Dining Table")),
     name: "The Arden Dining Table",
     priceUsd: 3250,
     image: "/images/products/product-arden-table.png",
     alt: "The Arden round dining table",
   },
   {
-    href: "/seating",
+    href: productDetailPath(productSlugFromName("The Vale Lounge Chair")),
     name: "The Vale Lounge Chair",
     priceUsd: 2950,
     image: "/images/products/product-vale-chair.png",
     alt: "The Vale leather lounge chair",
   },
   {
-    href: "/decor",
+    href: productDetailPath(productSlugFromName("The Marais Sideboard")),
     name: "The Marais Sideboard",
     priceUsd: 4200,
     image: "/images/products/product-marais-sideboard.png",
     alt: "The Marais wood sideboard",
   },
   {
-    href: "/lighting",
+    href: productDetailPath(productSlugFromName("The Odette Table Lamp")),
     name: "The Odette Table Lamp",
     priceUsd: 1450,
     image: "/images/products/product-odette-lamp.png",
@@ -57,10 +59,18 @@ function BestSellerCard({
   return (
     <article className="group">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f0ebe3]">
-        <div className="absolute top-3 left-3 z-10">
-          <AddToCartButton product={cartProduct} />
+        <div className="absolute top-2 left-2 z-10 sm:top-2.5 sm:left-2.5">
+          <AddToCartButton
+            product={cartProduct}
+            iconClassName={compactProductCardIconClass}
+            className="p-0.5"
+          />
         </div>
-        <AddToWishlistButton product={cartProduct} />
+        <AddToWishlistButton
+          product={cartProduct}
+          iconClassName={compactProductCardIconClass}
+          className="top-2 right-2 p-0.5 sm:top-2.5 sm:right-2.5"
+        />
         <Link href={product.href} className="block size-full">
           <Image
             src={product.image}

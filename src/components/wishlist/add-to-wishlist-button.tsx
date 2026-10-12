@@ -45,6 +45,7 @@ type AddToWishlistButtonProps = {
   };
 
   className?: string;
+  iconClassName?: string;
 
 };
 
@@ -55,6 +56,7 @@ export function AddToWishlistButton({
   product,
 
   className,
+  iconClassName,
 
 }: AddToWishlistButtonProps) {
 
@@ -130,7 +132,7 @@ export function AddToWishlistButton({
 
         className={cn(
 
-          productCardIconClass,
+          iconClassName ?? productCardIconClass,
 
           "transition-[fill,transform] duration-300 ease-out",
 

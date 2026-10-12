@@ -17,6 +17,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { getFilterFacetsForCollection } from "@/lib/admin-filter-facets";
 import { uploadPendingImageIfNeeded } from "@/lib/client-library-upload";
 import { formatMadPreview, formatUsd } from "@/lib/format-admin";
+import {
+  MAX_PRODUCT_IMAGES,
+  productToImageSlots,
+} from "@/lib/admin-product-images";
+import {
+  colorVariantsToSwatches,
+  swatchesToColorVariants,
+  type ProductColorVariant,
+} from "@/lib/product-color-variants";
 import { slugify } from "@/lib/slugify";
 import type {
   CollectionDB,
@@ -44,9 +53,8 @@ export function ProductFormModal({
 }: Props) {
   const [tab, setTab] = useState<LangTab>("en");
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [pickerTarget, setPickerTarget] = useState<
-    "main" | "detail1" | "detail2" | "detail3"
-  >("main");
+  const [pickerKind, setPickerKind] = useState<"gallery" | "variant">("gallery");
+  const [pickerIndex, setPickerIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -57,7 +65,14 @@ export function ProductFormModal({
   const [sku, setSku] = useState(product?.sku ?? "");
   const [stock, setStock] = useState(product?.stock ?? 0);
   const [material, setMaterial] = useState(product?.material ?? "");
-  const [swatches, setSwatches] = useState<string[]>(product?.swatches ?? []);
+  const [colorVariants, setColorVariants] = useState<ProductColorVariant[]>(
+    () =>
+      product?.colorVariants?.length
+        ? product.colorVariants
+        : product?.swatches?.length
+          ? swatchesToColorVariants(product.swatches, product.image)
+          : [],
+  );
   const [badge, setBadge] = useState<ProductBadge | "">(product?.badge ?? "");
   const [filterFacets, setFilterFacets] = useState<Record<string, string>>(
     product?.filterFacets ?? {},
@@ -66,10 +81,9 @@ export function ProductFormModal({
   const [isAvailable, setIsAvailable] = useState<boolean>(
     product?.isAvailable ?? true,
   );
-  const [mainImage, setMainImage] = useState(product?.image ?? "");
-  const [detailImage1, setDetailImage1] = useState(product?.detailImage1 ?? "");
-  const [detailImage2, setDetailImage2] = useState(product?.detailImage2 ?? "");
-  const [detailImage3, setDetailImage3] = useState(product?.detailImage3 ?? "");
+  const [productImages, setProductImages] = useState<string[]>(() =>
+    productToImageSlots(product),
+  );
 
   const [nameEn, setNameEn] = useState(product?.title ?? "");
   const [slugEn, setSlugEn] = useState(product?.slug ?? "");
@@ -102,32 +116,75 @@ export function ProductFormModal({
     }
   }, [isOpen, nameEn, product, slugEn]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    setProductImages(productToImageSlots(product));
+    setColorVariants(
+      product?.colorVariants?.length
+        ? product.colorVariants
+        : product?.swatches?.length
+          ? swatchesToColorVariants(product.swatches, product.image)
+          : [],
+    );
+  }, [isOpen, product]);
+
   if (!isOpen) return null;
 
-  const openPicker = (target: typeof pickerTarget) => {
-    setPickerTarget(target);
+  const openGalleryPicker = (index: number) => {
+    setPickerKind("gallery");
+    setPickerIndex(index);
+    setPickerOpen(true);
+  };
+
+  const openVariantPicker = (index: number) => {
+    setPickerKind("variant");
+    setPickerIndex(index);
     setPickerOpen(true);
   };
 
   const applyImage = (url: string) => {
-    if (pickerTarget === "main") setMainImage(url);
-    if (pickerTarget === "detail1") setDetailImage1(url);
-    if (pickerTarget === "detail2") setDetailImage2(url);
-    if (pickerTarget === "detail3") setDetailImage3(url);
+    if (pickerKind === "gallery") {
+      setProductImages((prev) => {
+        const next = [...prev];
+        next[pickerIndex] = url;
+        return next;
+      });
+      return;
+    }
+    setColorVariants((prev) => {
+      const next = [...prev];
+      next[pickerIndex] = { ...next[pickerIndex], image: url };
+      return next;
+    });
   };
 
-  const addSwatch = () => {
-    setSwatches((s) => [...s, "#E8E4DF"]);
+  const addColorVariant = () => {
+    const fallback =
+      productImages.find(Boolean) || product?.image || "";
+    setColorVariants((prev) => [
+      ...prev,
+      { name: "", hex: "#E8E4DF", image: fallback },
+    ]);
   };
 
   const handleSave = () => {
     setError(null);
     startTransition(async () => {
       try {
-        const main = await uploadPendingImageIfNeeded(mainImage);
-        const d1 = await uploadPendingImageIfNeeded(detailImage1 || undefined);
-        const d2 = await uploadPendingImageIfNeeded(detailImage2 || undefined);
-        const d3 = await uploadPendingImageIfNeeded(detailImage3 || undefined);
+        const uploadedImages = await Promise.all(
+          productImages.map((url) =>
+            url ? uploadPendingImageIfNeeded(url) : Promise.resolve(""),
+          ),
+        );
+        const uploadedColorVariants = await Promise.all(
+          colorVariants.map(async (variant) => ({
+            ...variant,
+            image: variant.image
+              ? await uploadPendingImageIfNeeded(variant.image)
+              : uploadedImages[0] || "",
+          })),
+        );
+        const swatches = colorVariantsToSwatches(uploadedColorVariants);
 
         const finalSlugEn = slugEn || slugify(nameEn);
         const finalSlugAr = slugAr || slugify(nameAr || nameEn);
@@ -148,14 +205,16 @@ export function ProductFormModal({
           stock: Number(stock),
           material,
           swatches,
+          attributes: { colorVariants: uploadedColorVariants },
           badge: badge || null,
           filterFacets,
           isFeatured,
           isAvailable,
-          mainImage: main,
-          detailImage1: d1 || null,
-          detailImage2: d2 || null,
-          detailImage3: d3 || null,
+          productImages: uploadedImages.map((url) => url || null),
+          mainImage: uploadedImages[0] || undefined,
+          detailImage1: uploadedImages[1] || null,
+          detailImage2: uploadedImages[2] || null,
+          detailImage3: uploadedImages[3] || null,
           translations: [
             {
               language: "en",
@@ -284,33 +343,79 @@ export function ProductFormModal({
               )}
 
               <div>
-                <div className="flex items-center justify-between">
-                  <Label>Color swatches (hex)</Label>
-                  <Button type="button" size="sm" variant="outline" onClick={addSwatch}>
-                    <Plus className="mr-1 h-3 w-3" /> Add
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <Label>Color options (swatch → image)</Label>
+                    <p className="mt-0.5 text-xs text-stone-500">
+                      Like Darzen: each color shows its own photo on the
+                      storefront when clicked.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={addColorVariant}
+                  >
+                    <Plus className="mr-1 h-3 w-3" /> Add color
                   </Button>
                 </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {swatches.map((hex, i) => (
-                    <div key={i} className="flex items-center gap-1">
+                <div className="mt-3 space-y-2">
+                  {colorVariants.map((variant, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-wrap items-center gap-2 rounded-lg border p-2"
+                    >
                       <input
                         type="color"
-                        value={hex}
+                        value={variant.hex}
                         onChange={(e) => {
-                          const next = [...swatches];
-                          next[i] = e.target.value;
-                          setSwatches(next);
+                          const next = [...colorVariants];
+                          next[i] = { ...next[i], hex: e.target.value };
+                          setColorVariants(next);
                         }}
-                        className="h-8 w-10 cursor-pointer rounded border"
+                        className="h-9 w-10 shrink-0 cursor-pointer rounded border"
+                        aria-label={`Color ${i + 1}`}
                       />
+                      <Input
+                        placeholder="Name (e.g. Beige)"
+                        value={variant.name}
+                        onChange={(e) => {
+                          const next = [...colorVariants];
+                          next[i] = { ...next[i], name: e.target.value };
+                          setColorVariants(next);
+                        }}
+                        className="min-w-[7rem] flex-1"
+                      />
+                      {variant.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={variant.image}
+                          alt=""
+                          className="h-10 w-10 rounded object-cover bg-stone-100"
+                        />
+                      ) : (
+                        <div className="flex h-10 w-10 items-center justify-center rounded bg-stone-100 text-stone-400">
+                          <ImagePlus size={16} />
+                        </div>
+                      )}
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => openVariantPicker(i)}
+                      >
+                        Photo
+                      </Button>
                       <button
                         type="button"
                         onClick={() =>
-                          setSwatches(swatches.filter((_, j) => j !== i))
+                          setColorVariants(colorVariants.filter((_, j) => j !== i))
                         }
                         className="text-stone-400 hover:text-red-600"
+                        aria-label="Remove color"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   ))}
@@ -486,17 +591,14 @@ export function ProductFormModal({
               )}
 
               <div className="space-y-2 border-t pt-4">
-                <Label>Images</Label>
-                {(
-                  [
-                    ["main", mainImage, "Main"],
-                    ["detail1", detailImage1, "Detail 1"],
-                    ["detail2", detailImage2, "Detail 2"],
-                    ["detail3", detailImage3, "Detail 3"],
-                  ] as const
-                ).map(([key, url, label]) => (
+                <Label>Images ({MAX_PRODUCT_IMAGES} max)</Label>
+                <p className="text-xs text-stone-500">
+                  Image 1 is the main catalog photo. Additional images appear on
+                  the product page gallery.
+                </p>
+                {productImages.map((url, index) => (
                   <div
-                    key={key}
+                    key={index}
                     className="flex items-center gap-2 rounded-lg border p-2"
                   >
                     {url ? (
@@ -521,15 +623,34 @@ export function ProductFormModal({
                         <ImagePlus size={18} />
                       </div>
                     )}
-                    <span className="flex-1 text-sm text-stone-600">{label}</span>
+                    <span className="flex-1 text-sm text-stone-600">
+                      {index === 0 ? "Main" : `Image ${index + 1}`}
+                    </span>
                     <Button
                       type="button"
                       size="sm"
                       variant="outline"
-                      onClick={() => openPicker(key === "main" ? "main" : key)}
+                      onClick={() => openGalleryPicker(index)}
                     >
                       Choose
                     </Button>
+                    {url ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="text-stone-500"
+                        onClick={() =>
+                          setProductImages((prev) => {
+                            const next = [...prev];
+                            next[index] = "";
+                            return next;
+                          })
+                        }
+                      >
+                        Clear
+                      </Button>
+                    ) : null}
                   </div>
                 ))}
               </div>

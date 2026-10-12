@@ -1,16 +1,47 @@
 import { getProducts } from "@/actions/product.actions";
 import type { CatalogProductLike } from "@/lib/catalog-filters";
+import {
+  productDetailPath,
+  productSlugFromName,
+} from "@/lib/product-slug";
+import {
+  parseColorVariantsFromAttributes,
+  swatchesToColorVariants,
+  type ProductColorVariant,
+} from "@/lib/product-color-variants";
 import type { LanguageCode, ProductBadge, ShopProductDB } from "@/types/product";
 
 export const CATALOG_PAGE_SIZE = 12;
 
 export type CatalogCardProduct = CatalogProductLike & {
+  slug?: string;
   href: string;
   image: string;
   alt: string;
   badge?: "BEST SELLER" | "NEW";
   filterFacets?: Record<string, string>;
+  colorVariants?: ProductColorVariant[];
 };
+
+export function catalogProductHref(name: string, slug?: string): string {
+  return productDetailPath(slug ?? productSlugFromName(name));
+}
+
+export function enrichCatalogProductLinks(
+  products: CatalogCardProduct[],
+): CatalogCardProduct[] {
+  return products.map((product) => {
+    const slug = product.slug ?? productSlugFromName(product.name);
+    return {
+      ...product,
+      slug,
+      href: catalogProductHref(product.name, slug),
+      colorVariants: product.colorVariants?.length
+        ? product.colorVariants
+        : swatchesToColorVariants(product.swatches, product.image),
+    };
+  });
+}
 
 function mapBadge(badge: ProductBadge | null): CatalogCardProduct["badge"] {
   if (badge === "BEST_SELLER") return "BEST SELLER";
@@ -19,9 +50,10 @@ function mapBadge(badge: ProductBadge | null): CatalogCardProduct["badge"] {
 }
 
 export function shopProductToCatalog(product: ShopProductDB): CatalogCardProduct {
-  const href = product.collectionSlug ? `/${product.collectionSlug}` : "/";
+  const slug = product.slug || productSlugFromName(product.title || product.sku);
   return {
-    href,
+    slug,
+    href: catalogProductHref(product.title, slug),
     name: product.title || product.sku || product.id,
     priceUsd: product.priceUsd,
     image: product.image,
@@ -30,6 +62,9 @@ export function shopProductToCatalog(product: ShopProductDB): CatalogCardProduct
     swatches: product.swatches,
     material: product.material,
     filterFacets: product.filterFacets,
+    colorVariants: product.colorVariants?.length
+      ? product.colorVariants
+      : swatchesToColorVariants(product.swatches, product.image),
   };
 }
 
@@ -85,8 +120,11 @@ export async function getStorefrontCatalogProducts(
     limit: 500,
   });
   const fromDb = products.map(shopProductToCatalog);
-  if (fromDb.length === 0) return fallback;
-  return mergeCatalogProducts(fallback, fromDb);
+  const merged =
+    fromDb.length === 0
+      ? fallback
+      : mergeCatalogProducts(fallback, fromDb);
+  return enrichCatalogProductLinks(merged);
 }
 
 export function isRemoteCatalogImage(src: string) {
