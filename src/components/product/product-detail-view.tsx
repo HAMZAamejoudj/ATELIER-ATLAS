@@ -32,6 +32,8 @@ export function ProductDetailView({
   const [activeImage, setActiveImage] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [previewVariant, setPreviewVariant] = useState<number | null>(null);
+  /** When "gallery", thumbnail clicks control the hero; swatches switch to "variant". */
+  const [heroSource, setHeroSource] = useState<"gallery" | "variant">("gallery");
 
   const variants = useMemo(
     () =>
@@ -49,10 +51,14 @@ export function ProductDetailView({
   }, [product.gallery, product.image]);
 
   const activeColorIndex = previewVariant ?? selectedVariant;
+  const variantHeroImage = variants[activeColorIndex]?.image;
+  const galleryHeroImage = galleryImages[activeImage] ?? product.image;
   const heroImage =
-    variants[activeColorIndex]?.image ||
-    galleryImages[activeImage] ||
-    product.image;
+    previewVariant !== null && variantHeroImage
+      ? variantHeroImage
+      : heroSource === "variant" && variantHeroImage
+        ? variantHeroImage
+        : galleryHeroImage;
 
   const cardProduct = {
     name: product.name,
@@ -120,7 +126,9 @@ export function ProductDetailView({
                   <button
                     type="button"
                     onClick={() => {
+                      setPreviewVariant(null);
                       setActiveImage(index);
+                      setHeroSource("gallery");
                       const variantIndex = variants.findIndex(
                         (v) => v.image === src,
                       );
@@ -128,9 +136,11 @@ export function ProductDetailView({
                     }}
                     className={cn(
                       "relative h-20 w-16 shrink-0 overflow-hidden border bg-[#f0ebe3] sm:h-24 sm:w-20",
-                      heroImage === src
+                      heroSource === "gallery" && activeImage === index
                         ? "border-atlas-charcoal"
-                        : "border-transparent opacity-80 hover:opacity-100",
+                        : heroSource === "variant" && heroImage === src
+                          ? "border-atlas-charcoal"
+                          : "border-transparent opacity-80 hover:opacity-100",
                     )}
                   >
                     <Image
@@ -166,7 +176,11 @@ export function ProductDetailView({
             <ProductColorSwatches
               variants={variants}
               selectedIndex={selectedVariant}
-              onSelect={setSelectedVariant}
+              onSelect={(index) => {
+                setSelectedVariant(index);
+                setPreviewVariant(null);
+                setHeroSource("variant");
+              }}
               onPreview={setPreviewVariant}
               maxVisible={8}
               size="md"
