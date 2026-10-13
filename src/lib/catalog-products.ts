@@ -17,11 +17,24 @@ export type CatalogCardProduct = CatalogProductLike & {
   slug?: string;
   href: string;
   image: string;
+  gallery?: string[];
   alt: string;
   badge?: "BEST SELLER" | "NEW";
   filterFacets?: Record<string, string>;
   colorVariants?: ProductColorVariant[];
 };
+
+export function catalogCardImageSequence(
+  product: Pick<CatalogCardProduct, "image" | "gallery">,
+  variants: ProductColorVariant[],
+): string[] {
+  const list = [
+    product.image,
+    ...(product.gallery ?? []),
+    ...variants.map((v) => v.image),
+  ];
+  return list.filter((url, index, arr) => url && arr.indexOf(url) === index);
+}
 
 export function catalogProductHref(name: string, slug?: string): string {
   return productDetailPath(slug ?? productSlugFromName(name));
@@ -57,6 +70,7 @@ export function shopProductToCatalog(product: ShopProductDB): CatalogCardProduct
     name: product.title || product.sku || product.id,
     priceUsd: product.priceUsd,
     image: product.image,
+    gallery: product.gallery?.length ? product.gallery : undefined,
     alt: product.title || product.sku || "Product",
     badge: mapBadge(product.badge),
     swatches: product.swatches,

@@ -30,8 +30,8 @@ export interface ContactSettings {
 }
 
 export const DEFAULT_CONTACT_SETTINGS: ContactSettings = {
-  phone: "+212 5 24 00 00 00",
-  whatsapp: "+212 6 61 00 00 00",
+  phone: "+212 621 922 283",
+  whatsapp: "+212 621 922 283",
   conciergeEmail: SITE_CONTACT_EMAIL,
   tradeEmail: SITE_CONTACT_EMAIL,
   addressEn: "Quartier Industriel Sidi Ghanem, Rue Principale N° 45, Marrakech 40000, Morocco",

@@ -316,7 +316,7 @@ export function ContactClient({ settings, locale }: ContactClientProps) {
                   label: t("studio.phoneLabel"),
                   body: (
                     <a
-                      href={`tel:${settings.phone}`}
+                      href={`tel:${settings.phone.replace(/\s/g, "")}`}
                       className="text-[15px] font-medium tracking-wide text-atlas-charcoal underline-offset-4 hover:underline sm:text-base"
                     >
                       {settings.phone}

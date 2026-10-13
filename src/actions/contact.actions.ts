@@ -19,14 +19,36 @@ const CONTACT_INQUIRIES_PAGE_ID = "sp_contact_inquiries";
 
 const LEGACY_CONTACT_EMAIL_PATTERN = /@atelier-atlas\.(com|order)$/i;
 
+const LEGACY_PLACEHOLDER_PHONE_DIGITS = new Set([
+  "212524000000",
+  "212661000000",
+]);
+
+function phoneDigits(phone: string) {
+  return phone.replace(/\D/g, "");
+}
+
+function isLegacyPlaceholderPhone(phone?: string) {
+  if (!phone?.trim()) return true;
+  return LEGACY_PLACEHOLDER_PHONE_DIGITS.has(phoneDigits(phone));
+}
+
 function normalizeContactSettings(
   settings: ContactSettings,
 ): ContactSettings {
   const conciergeEmail = settings.conciergeEmail?.trim();
   const tradeEmail = settings.tradeEmail?.trim();
+  const phone = settings.phone?.trim();
+  const whatsapp = settings.whatsapp?.trim();
 
   return {
     ...settings,
+    phone: isLegacyPlaceholderPhone(phone)
+      ? DEFAULT_CONTACT_SETTINGS.phone
+      : phone!,
+    whatsapp: isLegacyPlaceholderPhone(whatsapp)
+      ? DEFAULT_CONTACT_SETTINGS.whatsapp
+      : whatsapp!,
     conciergeEmail:
       !conciergeEmail || LEGACY_CONTACT_EMAIL_PATTERN.test(conciergeEmail)
         ? DEFAULT_CONTACT_SETTINGS.conciergeEmail
