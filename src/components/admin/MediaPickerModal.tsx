@@ -130,6 +130,10 @@ export function MediaPickerModal({ open, onClose, onSelect, title = 'Choose Imag
                         key={img.id}
                         type="button"
                         onClick={() => setSelectedUrl(img.url)}
+                        onDoubleClick={() => {
+                          onSelect(img.url);
+                          onClose();
+                        }}
                         className={cn(
                           'group relative overflow-hidden rounded-lg border-2 text-left transition-all hover:border-amber-400',
                           isSelected ? 'border-amber-800 ring-2 ring-amber-800/20' : 'border-slate-200'

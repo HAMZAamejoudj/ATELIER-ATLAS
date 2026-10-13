@@ -26,7 +26,7 @@ export function SiteLogo({
         variant === "header" &&
           "max-h-12 max-w-[9rem] sm:max-h-[3.25rem] sm:max-w-[10.5rem] lg:max-h-14 lg:max-w-[12.5rem] xl:max-h-[3.75rem] xl:max-w-[13.5rem] lg:-translate-y-1",
         variant === "footer" &&
-          "max-h-10 max-w-[10rem] brightness-0 invert sm:max-h-11 sm:max-w-[11rem]",
+          "block h-14 w-[13.5rem] max-w-[min(13.5rem,80vw)] brightness-0 invert sm:h-16 sm:w-[15.5rem] lg:h-[4.25rem] lg:w-[17rem]",
         variant === "mobile" && "max-h-11 max-w-[8rem]",
         className,
       )}

@@ -390,7 +390,11 @@ export function ProductFormModal({
                       {variant.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={variant.image}
+                          src={
+                            variant.image.startsWith("pending-upload:")
+                              ? `data:${variant.image.split(":")[2] || "image/jpeg"};base64,${variant.image.split(":").slice(3).join(":")}`
+                              : variant.image
+                          }
                           alt=""
                           className="h-10 w-10 rounded object-cover bg-stone-100"
                         />
@@ -606,17 +610,11 @@ export function ProductFormModal({
                       <img
                         src={
                           url.startsWith("pending-upload:")
-                            ? `data:image/jpeg;base64,`
+                            ? `data:${url.split(":")[2] || "image/jpeg"};base64,${url.split(":").slice(3).join(":")}`
                             : url
                         }
                         alt=""
                         className="h-12 w-12 rounded object-cover bg-stone-100"
-                        onError={(e) => {
-                          if (url.startsWith("pending-upload:")) {
-                            const file = url.split(":").slice(3).join(":");
-                            (e.target as HTMLImageElement).src = `data:image/jpeg;base64,${file}`;
-                          }
-                        }}
                       />
                     ) : (
                       <div className="flex h-12 w-12 items-center justify-center rounded bg-stone-100 text-stone-400">

@@ -5,7 +5,9 @@ import { FolderTree, ImagePlus, Loader2, Save, Sparkles } from "lucide-react";
 
 import { updateCollection } from "@/actions/collection.actions";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { AdminImagePicker } from "@/components/admin/AdminImagePicker";
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
+import { uploadPendingImageIfNeeded } from "@/lib/client-library-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,8 +24,14 @@ export function CategoriesAdminClient({ collections }: Props) {
   );
   const [lang, setLang] = useState<LanguageCode>("en");
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerTarget, setPickerTarget] = useState<"en" | "ar">("en");
   const [message, setMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const openImagePicker = (target: "en" | "ar") => {
+    setPickerTarget(target);
+    setPickerOpen(true);
+  };
 
   const selectedCol = collections.find((c) => c.id === selectedId);
 
@@ -89,39 +97,53 @@ export function CategoriesAdminClient({ collections }: Props) {
     if (!selectedId) return;
     setMessage(null);
     startTransition(async () => {
-      const res = await updateCollection(selectedId, {
-        systemSlug,
-        sortOrder: Number(sortOrder),
-        translations: [
-          {
-            language: "en",
-            name: nameEn,
-            slug: slugEn || systemSlug,
-            h1: h1En || null,
-            description: descEn || null,
-            metaTitle: metaTitleEn || null,
-            metaDesc: metaDescEn || null,
-            keywords: keywordsEn || null,
-            ogImage: ogImageEn || null,
-          },
-          {
-            language: "ar",
-            name: nameAr || nameEn,
-            slug: slugAr || systemSlug,
-            h1: h1Ar || null,
-            description: descAr || null,
-            metaTitle: metaTitleAr || null,
-            metaDesc: metaDescAr || null,
-            keywords: keywordsAr || null,
-            ogImage: ogImageAr || null,
-          },
-        ],
-      });
+      try {
+        const resolvedOgEn = ogImageEn
+          ? await uploadPendingImageIfNeeded(ogImageEn)
+          : null;
+        const resolvedOgAr = ogImageAr
+          ? await uploadPendingImageIfNeeded(ogImageAr)
+          : null;
 
-      if (res.success) {
-        setMessage("Category and SEO settings saved successfully!");
-      } else {
-        setMessage(res.error || "Failed to save category");
+        if (resolvedOgEn !== ogImageEn) setOgImageEn(resolvedOgEn || "");
+        if (resolvedOgAr !== ogImageAr) setOgImageAr(resolvedOgAr || "");
+
+        const res = await updateCollection(selectedId, {
+          systemSlug,
+          sortOrder: Number(sortOrder),
+          translations: [
+            {
+              language: "en",
+              name: nameEn,
+              slug: slugEn || systemSlug,
+              h1: h1En || null,
+              description: descEn || null,
+              metaTitle: metaTitleEn || null,
+              metaDesc: metaDescEn || null,
+              keywords: keywordsEn || null,
+              ogImage: resolvedOgEn,
+            },
+            {
+              language: "ar",
+              name: nameAr || nameEn,
+              slug: slugAr || systemSlug,
+              h1: h1Ar || null,
+              description: descAr || null,
+              metaTitle: metaTitleAr || null,
+              metaDesc: metaDescAr || null,
+              keywords: keywordsAr || null,
+              ogImage: resolvedOgAr,
+            },
+          ],
+        });
+
+        if (res.success) {
+          setMessage("Category and SEO settings saved successfully!");
+        } else {
+          setMessage(res.error || "Failed to save category");
+        }
+      } catch (err: any) {
+        setMessage(err?.message || "Failed to save category");
       }
     });
   };
@@ -308,23 +330,15 @@ export function CategoriesAdminClient({ collections }: Props) {
                       className="mt-1"
                     />
                   </div>
-                  <div>
-                    <Label>OG Share Image URL</Label>
-                    <div className="mt-1 flex gap-2">
-                      <Input
-                        value={ogImageEn}
-                        onChange={(e) => setOgImageEn(e.target.value)}
-                        placeholder="/images/categories/category-seating.png"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setPickerOpen(true)}
-                      >
-                        <ImagePlus size={16} className="mr-1" /> Choose
-                      </Button>
-                    </div>
-                  </div>
+                  <AdminImagePicker
+                    label="OG Social Share Image"
+                    description="Preview image when this category link is shared on social platforms"
+                    value={ogImageEn}
+                    onChange={setOgImageEn}
+                    onOpenPicker={() => openImagePicker("en")}
+                    aspect="video"
+                    placeholder="Select OG share image (EN)"
+                  />
                 </div>
               </div>
             ) : (
@@ -399,23 +413,16 @@ export function CategoriesAdminClient({ collections }: Props) {
                       className="mt-1"
                     />
                   </div>
-                  <div>
-                    <Label>رابط صورة المشاركة (OG Image)</Label>
-                    <div className="mt-1 flex gap-2">
-                      <Input
-                        value={ogImageAr}
-                        onChange={(e) => setOgImageAr(e.target.value)}
-                        dir="ltr"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setPickerOpen(true)}
-                      >
-                        <ImagePlus size={16} className="ml-1" /> اختيار
-                      </Button>
-                    </div>
-                  </div>
+                  <AdminImagePicker
+                    label="صورة المشاركة لمواقع التواصل (OG Image)"
+                    description="الصورة التي تظهر عند مشاركة رابط هذا القسم على منصات التواصل"
+                    value={ogImageAr}
+                    onChange={setOgImageAr}
+                    onOpenPicker={() => openImagePicker("ar")}
+                    aspect="video"
+                    placeholder="اختيار صورة المشاركة (بالعربية)"
+                    dir="rtl"
+                  />
                 </div>
               </div>
             )}
@@ -460,9 +467,10 @@ export function CategoriesAdminClient({ collections }: Props) {
         open={pickerOpen}
         onClose={() => setPickerOpen(false)}
         onSelect={(url) => {
-          if (lang === "en") setOgImageEn(url);
+          if (pickerTarget === "en") setOgImageEn(url);
           else setOgImageAr(url);
         }}
+        title={pickerTarget === "en" ? "Select Category OG Image (EN)" : "اختيار صورة المشاركة (بالعربية)"}
       />
     </>
   );

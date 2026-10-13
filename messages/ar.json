@@ -503,6 +503,9 @@
     "subcategories": {
       "heading": "تسوّق الإضاءة حسب النوع"
     },
+    "collection": {
+      "heading": "مجموعة الإضاءة"
+    },
     "materials": {
       "eyebrow": "صُنع للجمال، داخل وخارج",
       "title": "خامات تدوم",
@@ -550,6 +553,9 @@
       "heading": "تسوّق حسب الفئة",
       "discoverAll": "اكتشف الكل"
     },
+    "collection": {
+      "heading": "مجموعة الديكور"
+    },
     "reflectiveSpaces": {
       "title": "مساحات عاكسة",
       "description": "المرايا لا تعكس الضوء فحسب — بل تفتح الغرفة، تؤطر المشهد، وتدعوك للتوقف.",
@@ -587,6 +593,9 @@
     "types": {
       "heading": "تسوّق حسب النوع",
       "exploreAll": "استكشف الكل"
+    },
+    "collection": {
+      "heading": "مجموعة المرايا"
     },
     "reflectiveSpaces": {
       "eyebrow": "مساحات عاكسة",

@@ -4,6 +4,9 @@ import { useState, useTransition } from "react";
 
 import { updateSEOSettings } from "@/actions/seo.actions";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { AdminImagePicker } from "@/components/admin/AdminImagePicker";
+import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
+import { uploadPendingImageIfNeeded } from "@/lib/client-library-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,6 +33,8 @@ export function SEOAdminClient({ initial }: { initial: SeoPayload | null }) {
   const [twitter, setTwitter] = useState(initial?.setting.twitterHandle ?? "");
   const [facebook, setFacebook] = useState(initial?.setting.facebookPage ?? "");
 
+  const [pickerOpen, setPickerOpen] = useState(false);
+
   const en = initial?.translations.find((t) => t.language === "en");
   const ar = initial?.translations.find((t) => t.language === "ar");
 
@@ -49,28 +54,37 @@ export function SEOAdminClient({ initial }: { initial: SeoPayload | null }) {
   const save = () => {
     setMessage(null);
     startTransition(async () => {
-      const result = await updateSEOSettings({
-        ogImage,
-        twitterHandle: twitter,
-        facebookPage: facebook,
-        translations: [
-          {
-            language: "en",
-            siteName: siteNameEn,
-            titleSuffix: suffixEn,
-            defaultMetaDesc: descEn,
-            defaultKeywords: keywordsEn,
-          },
-          {
-            language: "ar",
-            siteName: siteNameAr,
-            titleSuffix: suffixAr,
-            defaultMetaDesc: descAr,
-            defaultKeywords: keywordsAr,
-          },
-        ],
-      });
-      setMessage(result.success ? "Saved" : result.error || "Error");
+      try {
+        const resolvedOgImage = ogImage
+          ? await uploadPendingImageIfNeeded(ogImage)
+          : null;
+        if (resolvedOgImage !== ogImage) setOgImage(resolvedOgImage || "");
+
+        const result = await updateSEOSettings({
+          ogImage: resolvedOgImage ?? undefined,
+          twitterHandle: twitter,
+          facebookPage: facebook,
+          translations: [
+            {
+              language: "en",
+              siteName: siteNameEn,
+              titleSuffix: suffixEn,
+              defaultMetaDesc: descEn,
+              defaultKeywords: keywordsEn,
+            },
+            {
+              language: "ar",
+              siteName: siteNameAr,
+              titleSuffix: suffixAr,
+              defaultMetaDesc: descAr,
+              defaultKeywords: keywordsAr,
+            },
+          ],
+        });
+        setMessage(result.success ? "Saved" : result.error || "Error");
+      } catch (err: any) {
+        setMessage(err?.message || "Failed to save SEO settings");
+      }
     });
   };
 
@@ -78,13 +92,27 @@ export function SEOAdminClient({ initial }: { initial: SeoPayload | null }) {
     <>
       <AdminHeader title="SEO settings" description="Global defaults EN / AR" />
       <div className="max-w-3xl space-y-6 p-8">
-        <div className="rounded-xl border bg-white p-6 space-y-3">
-          <Label>Default OG image URL</Label>
-          <Input value={ogImage} onChange={(e) => setOgImage(e.target.value)} />
-          <Label>Twitter handle</Label>
-          <Input value={twitter} onChange={(e) => setTwitter(e.target.value)} />
-          <Label>Facebook page</Label>
-          <Input value={facebook} onChange={(e) => setFacebook(e.target.value)} />
+        <div className="rounded-xl border bg-white p-6 space-y-4">
+          <AdminImagePicker
+            label="Default OG Share Image"
+            description="Default preview card image when sharing website links on social networks"
+            value={ogImage}
+            onChange={setOgImage}
+            onOpenPicker={() => setPickerOpen(true)}
+            aspect="video"
+            placeholder="Select Default OG Image"
+          />
+
+          <div className="pt-2 border-t border-slate-100 space-y-3">
+            <div>
+              <Label>Twitter handle</Label>
+              <Input className="mt-1" value={twitter} onChange={(e) => setTwitter(e.target.value)} />
+            </div>
+            <div>
+              <Label>Facebook page</Label>
+              <Input className="mt-1" value={facebook} onChange={(e) => setFacebook(e.target.value)} />
+            </div>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -109,6 +137,13 @@ export function SEOAdminClient({ initial }: { initial: SeoPayload | null }) {
           {isPending ? "Saving…" : "Save SEO"}
         </Button>
       </div>
+
+      <MediaPickerModal
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={setOgImage}
+        title="Select Default OG Share Image"
+      />
     </>
   );
 }

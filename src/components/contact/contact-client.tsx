@@ -5,10 +5,6 @@ import {
   Send,
   CheckCircle2,
   AlertCircle,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
   ExternalLink,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -105,7 +101,8 @@ export function ContactClient({ settings, locale }: ContactClientProps) {
   const hours = isAr && settings.hoursAr ? settings.hoursAr : settings.hoursEn;
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 space-y-16">
+    <section className="py-14 sm:py-20 space-y-16">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
       {/* Expanded Wide Contact Form Card */}
       <div className="bg-[#faf8f5] p-6 sm:p-10 md:p-14 rounded-3xl border border-atlas-charcoal/15 shadow-sm space-y-10">
         {/* Header inside Form */}
@@ -283,99 +280,91 @@ export function ContactClient({ settings, locale }: ContactClientProps) {
           </button>
         </form>
       </div>
+      </div>
 
-      {/* Atelier Details Grid Below Form */}
-      <div className="pt-4">
-        <div className="text-center mb-8">
-          <h3 className="font-serif text-2xl font-normal text-atlas-charcoal">
+      <div className="border-t border-atlas-charcoal/8 bg-[#f9f8f3]/60 py-16 sm:py-20">
+        <div className="mx-auto max-w-[1600px] px-5 sm:px-10 lg:px-14">
+          <h3 className="text-center font-serif text-[1.65rem] font-normal text-atlas-charcoal sm:text-[1.85rem]">
             {t("studio.title")}
           </h3>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* Address */}
-          <div className="bg-[#faf8f5] p-6 rounded-2xl border border-atlas-charcoal/10 flex flex-col justify-between space-y-3">
-            <div>
-              <div className="size-10 rounded-xl bg-amber-100/70 flex items-center justify-center text-amber-900 mb-3.5">
-                <MapPin className="size-5" />
-              </div>
-              <p className="font-bold text-xs uppercase tracking-wider text-atlas-charcoal">
-                {t("studio.addressLabel")}
-              </p>
-              <p className="text-xs sm:text-sm text-atlas-charcoal/80 leading-relaxed mt-1">
-                {address}
-              </p>
-            </div>
-            {settings.googleMapsUrl && (
-              <a
-                href={settings.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-900 hover:underline pt-2"
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4 xl:gap-7">
+            {(
+              [
+                {
+                  label: t("studio.addressLabel"),
+                  body: (
+                    <>
+                      <p className="max-w-[22rem] text-[15px] leading-[1.7] text-atlas-charcoal/82 sm:text-base">
+                        {address}
+                      </p>
+                      {settings.googleMapsUrl && (
+                        <a
+                          href={settings.googleMapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-atlas-charcoal/90 underline-offset-4 hover:underline"
+                        >
+                          <span>{t("studio.viewOnMap")}</span>
+                          <ExternalLink className="size-3.5 shrink-0 opacity-60" />
+                        </a>
+                      )}
+                    </>
+                  ),
+                },
+                {
+                  label: t("studio.phoneLabel"),
+                  body: (
+                    <a
+                      href={`tel:${settings.phone}`}
+                      className="text-[15px] font-medium tracking-wide text-atlas-charcoal underline-offset-4 hover:underline sm:text-base"
+                    >
+                      {settings.phone}
+                    </a>
+                  ),
+                },
+                {
+                  label: t("studio.emailLabel"),
+                  body: (
+                    <>
+                      <a
+                        href={`mailto:${settings.conciergeEmail || SITE_CONTACT_EMAIL}`}
+                        className="block text-[15px] font-medium leading-snug text-atlas-charcoal underline-offset-4 hover:underline sm:text-[1.05rem] [overflow-wrap:anywhere]"
+                      >
+                        {settings.conciergeEmail || SITE_CONTACT_EMAIL}
+                      </a>
+                      {settings.tradeEmail &&
+                        settings.tradeEmail !== settings.conciergeEmail && (
+                          <a
+                            href={`mailto:${settings.tradeEmail}`}
+                            className="mt-2 block text-sm text-atlas-charcoal/65 [overflow-wrap:anywhere] hover:underline"
+                          >
+                            Trade: {settings.tradeEmail}
+                          </a>
+                        )}
+                    </>
+                  ),
+                },
+                {
+                  label: t("studio.hoursLabel"),
+                  body: (
+                    <p className="max-w-[16rem] text-[15px] leading-[1.7] text-atlas-charcoal/82 sm:text-base">
+                      {hours}
+                    </p>
+                  ),
+                },
+              ] as const
+            ).map((item) => (
+              <article
+                key={item.label}
+                className="flex min-h-[9.5rem] min-w-0 flex-col rounded-lg border border-atlas-charcoal/10 bg-white/70 px-6 py-7 sm:px-7 sm:py-8"
               >
-                <span>{t("studio.viewOnMap")}</span>
-                <ExternalLink className="size-3" />
-              </a>
-            )}
-          </div>
-
-          {/* Phone */}
-          <div className="bg-[#faf8f5] p-6 rounded-2xl border border-atlas-charcoal/10 flex flex-col justify-between space-y-3">
-            <div>
-              <div className="size-10 rounded-xl bg-amber-100/70 flex items-center justify-center text-amber-900 mb-3.5">
-                <Phone className="size-5" />
-              </div>
-              <p className="font-bold text-xs uppercase tracking-wider text-atlas-charcoal">
-                {t("studio.phoneLabel")}
-              </p>
-              <a
-                href={`tel:${settings.phone}`}
-                className="text-xs sm:text-sm font-semibold text-atlas-charcoal hover:underline block mt-1"
-              >
-                {settings.phone}
-              </a>
-            </div>
-          </div>
-
-          {/* Email */}
-          <div className="bg-[#faf8f5] p-6 rounded-2xl border border-atlas-charcoal/10 flex flex-col justify-between space-y-3">
-            <div>
-              <div className="size-10 rounded-xl bg-amber-100/70 flex items-center justify-center text-amber-900 mb-3.5">
-                <Mail className="size-5" />
-              </div>
-              <p className="font-bold text-xs uppercase tracking-wider text-atlas-charcoal">
-                {t("studio.emailLabel")}
-              </p>
-              <a
-                href={`mailto:${settings.conciergeEmail || SITE_CONTACT_EMAIL}`}
-                className="text-xs sm:text-sm font-semibold text-atlas-charcoal hover:text-amber-800 hover:underline block mt-1.5 break-all"
-              >
-                {settings.conciergeEmail || SITE_CONTACT_EMAIL}
-              </a>
-              {settings.tradeEmail && settings.tradeEmail !== settings.conciergeEmail && (
-                <a
-                  href={`mailto:${settings.tradeEmail}`}
-                  className="text-xs text-atlas-charcoal/70 hover:underline block mt-1 break-all"
-                >
-                  Trade: {settings.tradeEmail}
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Hours */}
-          <div className="bg-[#faf8f5] p-6 rounded-2xl border border-atlas-charcoal/10 flex flex-col justify-between space-y-3">
-            <div>
-              <div className="size-10 rounded-xl bg-amber-100/70 flex items-center justify-center text-amber-900 mb-3.5">
-                <Clock className="size-5" />
-              </div>
-              <p className="font-bold text-xs uppercase tracking-wider text-atlas-charcoal">
-                {t("studio.hoursLabel")}
-              </p>
-              <p className="text-xs sm:text-sm text-atlas-charcoal/80 leading-relaxed mt-1">
-                {hours}
-              </p>
-            </div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-atlas-charcoal/40">
+                  {item.label}
+                </p>
+                <div className="mt-4 flex flex-1 flex-col justify-start">{item.body}</div>
+              </article>
+            ))}
           </div>
         </div>
       </div>

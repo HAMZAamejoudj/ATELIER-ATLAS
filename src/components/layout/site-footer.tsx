@@ -106,14 +106,13 @@ export async function SiteFooter() {
           className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_repeat(3,minmax(0,0.75fr))_1.4fr] lg:gap-10 xl:gap-14"
         >
           <div className="flex flex-col sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-flex items-center">
-              <SiteLogo variant="footer" />
+            <Link href="/" className="block w-fit">
+              <SiteLogo variant="footer" priority />
             </Link>
-            <div className="mt-4 h-px w-full max-w-[12rem] bg-white/25" />
-            <p className="mt-4 font-serif text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
+            <p className="mt-7 font-serif text-xs font-semibold uppercase tracking-[0.18em] text-white/85 sm:text-[13px]">
               {t("tagline")}
             </p>
-            <p className="mt-4 max-w-sm font-serif text-sm leading-relaxed text-white/55">
+            <p className="mt-4 max-w-md font-serif text-[15px] leading-relaxed text-white/60 sm:text-base sm:leading-7">
               {t("description")}
             </p>
           </div>

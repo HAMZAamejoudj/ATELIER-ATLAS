@@ -503,6 +503,9 @@
     "subcategories": {
       "heading": "Shop lighting by type"
     },
+    "collection": {
+      "heading": "Lighting collection"
+    },
     "materials": {
       "eyebrow": "Built for beauty, inside & out",
       "title": "Materials That Endure",
@@ -550,6 +553,9 @@
       "heading": "Shop by category",
       "discoverAll": "Discover all"
     },
+    "collection": {
+      "heading": "Decor collection"
+    },
     "reflectiveSpaces": {
       "title": "Reflective Spaces",
       "description": "Mirrors do more than reflect light — they open a room, frame a view, and invite you to pause.",
@@ -587,6 +593,9 @@
     "types": {
       "heading": "Shop by type",
       "exploreAll": "Explore all"
+    },
+    "collection": {
+      "heading": "Mirrors collection"
     },
     "reflectiveSpaces": {
       "eyebrow": "Reflective spaces",

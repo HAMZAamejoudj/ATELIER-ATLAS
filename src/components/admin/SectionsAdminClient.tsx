@@ -19,7 +19,9 @@ import type {
   SubcategoryItem,
 } from "@/lib/sections-helpers";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { AdminImagePicker } from "@/components/admin/AdminImagePicker";
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
+import { uploadPendingImageIfNeeded } from "@/lib/client-library-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -58,11 +60,48 @@ export function SectionsAdminClient({ initialConfig }: Props) {
   const handleSave = () => {
     setMessage(null);
     startTransition(async () => {
-      const res = await saveSectionsConfig(config);
-      if (res.success) {
-        setMessage("Sections and hero sliders saved successfully!");
-      } else {
-        setMessage(res.error || "Failed to save sections");
+      try {
+        const resolved = structuredClone(config);
+        if (resolved.homeHero.image) {
+          resolved.homeHero.image = await uploadPendingImageIfNeeded(
+            resolved.homeHero.image,
+          );
+        }
+        const categories = [
+          "seating",
+          "tables",
+          "lighting",
+          "mirrors",
+          "decor",
+        ] as const;
+        for (const cat of categories) {
+          for (let i = 0; i < resolved[cat].heroSlides.length; i++) {
+            const slide = resolved[cat].heroSlides[i];
+            if (slide.heroImage) {
+              slide.heroImage = await uploadPendingImageIfNeeded(
+                slide.heroImage,
+              );
+            }
+            if (slide.image) {
+              slide.image = await uploadPendingImageIfNeeded(slide.image);
+            }
+          }
+          for (let i = 0; i < resolved[cat].subcategories.length; i++) {
+            const sub = resolved[cat].subcategories[i];
+            if (sub.image) {
+              sub.image = await uploadPendingImageIfNeeded(sub.image);
+            }
+          }
+        }
+        setConfig(resolved);
+        const res = await saveSectionsConfig(resolved);
+        if (res.success) {
+          setMessage("Sections and hero sliders saved successfully!");
+        } else {
+          setMessage(res.error || "Failed to save sections");
+        }
+      } catch (err: any) {
+        setMessage(err?.message || "Failed to save sections");
       }
     });
   };
@@ -354,45 +393,28 @@ export function SectionsAdminClient({ initialConfig }: Props) {
               </div>
 
               {/* Background Image */}
-              <div className="space-y-3">
-                <Label>Hero Background Image</Label>
-                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={config.homeHero.image}
-                    alt="Hero background preview"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Input
-                    value={config.homeHero.image}
-                    onChange={(e) =>
+              <div className="space-y-2">
+                <AdminImagePicker
+                  label="Hero Background Image"
+                  description="High-resolution photography displayed on the storefront homepage"
+                  value={config.homeHero.image}
+                  onChange={(url) =>
+                    setConfig((prev) => ({
+                      ...prev,
+                      homeHero: { ...prev.homeHero, image: url },
+                    }))
+                  }
+                  onOpenPicker={() =>
+                    openPicker((url) =>
                       setConfig((prev) => ({
                         ...prev,
-                        homeHero: {
-                          ...prev.homeHero,
-                          image: e.target.value,
-                        },
-                      }))
-                    }
-                    className="text-xs"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() =>
-                      openPicker((url) =>
-                        setConfig((prev) => ({
-                          ...prev,
-                          homeHero: { ...prev.homeHero, image: url },
-                        })),
-                      )
-                    }
-                  >
-                    <ImagePlus size={16} className="mr-1" /> Choose
-                  </Button>
-                </div>
+                        homeHero: { ...prev.homeHero, image: url },
+                      })),
+                    )
+                  }
+                  aspect="banner"
+                  placeholder="Select homepage hero background"
+                />
               </div>
             </div>
           </div>
@@ -551,66 +573,38 @@ export function SectionsAdminClient({ initialConfig }: Props) {
                     {/* Images */}
                     <div className="grid gap-4 sm:grid-cols-2 pt-2 border-t border-slate-200/60">
                       <div>
-                        <Label className="text-xs">
-                          Hero Large Background Image
-                        </Label>
-                        <div className="mt-1 flex gap-2 items-center">
-                          <Input
-                            value={slide.heroImage}
-                            onChange={(e) =>
-                              updateSlide(
-                                activeTab,
-                                idx,
-                                "heroImage",
-                                e.target.value,
-                              )
-                            }
-                            className="bg-white text-xs"
-                          />
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            onClick={() =>
-                              openPicker((url) =>
-                                updateSlide(activeTab, idx, "heroImage", url),
-                              )
-                            }
-                          >
-                            Choose
-                          </Button>
-                        </div>
+                        <AdminImagePicker
+                          label="Hero Large Background Image"
+                          description="Wide background photograph for this slide"
+                          value={slide.heroImage}
+                          onChange={(url) =>
+                            updateSlide(activeTab, idx, "heroImage", url)
+                          }
+                          onOpenPicker={() =>
+                            openPicker((url) =>
+                              updateSlide(activeTab, idx, "heroImage", url),
+                            )
+                          }
+                          aspect="video"
+                          placeholder="Select Hero Large Background"
+                        />
                       </div>
                       <div>
-                        <Label className="text-xs">
-                          Bottom Thumbnail Image
-                        </Label>
-                        <div className="mt-1 flex gap-2 items-center">
-                          <Input
-                            value={slide.image}
-                            onChange={(e) =>
-                              updateSlide(
-                                activeTab,
-                                idx,
-                                "image",
-                                e.target.value,
-                              )
-                            }
-                            className="bg-white text-xs"
-                          />
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            onClick={() =>
-                              openPicker((url) =>
-                                updateSlide(activeTab, idx, "image", url),
-                              )
-                            }
-                          >
-                            Choose
-                          </Button>
-                        </div>
+                        <AdminImagePicker
+                          label="Bottom Thumbnail Image"
+                          description="Product piece thumbnail badge"
+                          value={slide.image}
+                          onChange={(url) =>
+                            updateSlide(activeTab, idx, "image", url)
+                          }
+                          onOpenPicker={() =>
+                            openPicker((url) =>
+                              updateSlide(activeTab, idx, "image", url),
+                            )
+                          }
+                          aspect="square"
+                          placeholder="Select Bottom Thumbnail"
+                        />
                       </div>
                     </div>
                   </div>
@@ -709,38 +703,20 @@ export function SectionsAdminClient({ initialConfig }: Props) {
                     </div>
 
                     <div>
-                      <Label className="text-[11px]">Image URL</Label>
-                      <div className="flex gap-1.5 mt-1 items-center">
-                        <Input
-                          value={item.image}
-                          onChange={(e) =>
-                            updateSubcategory(
-                              activeTab,
-                              idx,
-                              "image",
-                              e.target.value,
-                            )
-                          }
-                          className="bg-white text-xs"
-                        />
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          onClick={() =>
-                            openPicker((url) =>
-                              updateSubcategory(
-                                activeTab,
-                                idx,
-                                "image",
-                                url,
-                              ),
-                            )
-                          }
-                        >
-                          Choose
-                        </Button>
-                      </div>
+                      <AdminImagePicker
+                        label="Subcategory Card Image"
+                        value={item.image}
+                        onChange={(url) =>
+                          updateSubcategory(activeTab, idx, "image", url)
+                        }
+                        onOpenPicker={() =>
+                          openPicker((url) =>
+                            updateSubcategory(activeTab, idx, "image", url),
+                          )
+                        }
+                        variant="compact"
+                        placeholder="Select Card Image"
+                      />
                     </div>
                   </div>
                 ))}
