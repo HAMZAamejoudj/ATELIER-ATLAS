@@ -31,6 +31,7 @@ export function ProductDetailView({
   const tCommon = useTranslations("common");
   const [activeImage, setActiveImage] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(0);
+  const [previewVariant, setPreviewVariant] = useState<number | null>(null);
 
   const variants = useMemo(
     () =>
@@ -47,8 +48,9 @@ export function ProductDetailView({
     return list.length ? list : [product.image];
   }, [product.gallery, product.image]);
 
+  const activeColorIndex = previewVariant ?? selectedVariant;
   const heroImage =
-    variants[selectedVariant]?.image ||
+    variants[activeColorIndex]?.image ||
     galleryImages[activeImage] ||
     product.image;
 
@@ -165,12 +167,13 @@ export function ProductDetailView({
               variants={variants}
               selectedIndex={selectedVariant}
               onSelect={setSelectedVariant}
+              onPreview={setPreviewVariant}
               maxVisible={8}
               size="md"
             />
-            {variants[selectedVariant]?.name ? (
+            {variants[activeColorIndex]?.name ? (
               <span className="text-xs font-semibold text-atlas-charcoal/75">
-                {variants[selectedVariant].name}
+                {variants[activeColorIndex].name}
               </span>
             ) : null}
             <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-atlas-charcoal/80">

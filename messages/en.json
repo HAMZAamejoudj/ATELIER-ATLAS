@@ -267,6 +267,14 @@
       "pinterest": "Pinterest",
       "x": "X"
     },
+    "paymentMethods": {
+      "title": "Payment Method",
+      "imageAlt": "Accepted payment methods including cards, bank transfer, Wise, and Stripe"
+    },
+    "shippingPartners": {
+      "title": "Our Partners",
+      "imageAlt": "International shipping partners including FedEx, UPS, DHL, and Aramex"
+    },
     "copyright": "© {year} {brand}. All rights reserved."
   },
   "home": {

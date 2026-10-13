@@ -26,8 +26,10 @@ export function CatalogProductCard({ product }: { product: CatalogCardProduct })
   );
 
   const [selectedVariant, setSelectedVariant] = useState(0);
+  const [previewVariant, setPreviewVariant] = useState<number | null>(null);
+  const activeVariant = previewVariant ?? selectedVariant;
   const displayImage =
-    variants[selectedVariant]?.image || product.image;
+    variants[activeVariant]?.image || product.image;
 
   const { displayName, displayPrice, cartProduct } = useLocalizedProduct({
     ...product,
@@ -59,7 +61,7 @@ export function CatalogProductCard({ product }: { product: CatalogCardProduct })
             alt={product.alt}
             fill
             unoptimized={isRemoteCatalogImage(displayImage)}
-            className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+            className="object-cover object-center transition-[transform,opacity] duration-300 group-hover:scale-[1.02]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         </Link>
@@ -79,6 +81,7 @@ export function CatalogProductCard({ product }: { product: CatalogCardProduct })
             variants={variants}
             selectedIndex={selectedVariant}
             onSelect={setSelectedVariant}
+            onPreview={setPreviewVariant}
           />
           <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-atlas-charcoal/80">
             {product.material}

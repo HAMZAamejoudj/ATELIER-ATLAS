@@ -267,6 +267,14 @@
       "pinterest": "بينتريست",
       "x": "X"
     },
+    "paymentMethods": {
+      "title": "طرق الدفع",
+      "imageAlt": "طرق الدفع المقبولة: بطاقات، تحويل بنكي، Wise وStripe"
+    },
+    "shippingPartners": {
+      "title": "شركاؤنا",
+      "imageAlt": "شركاء الشحن الدولي: FedEx، UPS، DHL وAramex"
+    },
     "copyright": "© {year} {brand}. جميع الحقوق محفوظة."
   },
   "home": {

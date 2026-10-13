@@ -7,6 +7,8 @@ type ProductColorSwatchesProps = {
   variants: ProductColorVariant[];
   selectedIndex: number;
   onSelect: (index: number) => void;
+  /** Preview variant image while hovering (e.g. catalog card); cleared on mouse leave */
+  onPreview?: (index: number | null) => void;
   maxVisible?: number;
   size?: "sm" | "md";
 };
@@ -15,6 +17,7 @@ export function ProductColorSwatches({
   variants,
   selectedIndex,
   onSelect,
+  onPreview,
   maxVisible = 5,
   size = "sm",
 }: ProductColorSwatchesProps) {
@@ -28,7 +31,10 @@ export function ProductColorSwatches({
       : "size-3 sm:size-3.5";
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div
+      className="flex items-center gap-1.5"
+      onMouseLeave={() => onPreview?.(null)}
+    >
       <ul className="flex items-center gap-1" role="list">
         {visible.map((variant, index) => (
           <li key={`${variant.hex}-${index}`}>
@@ -36,13 +42,14 @@ export function ProductColorSwatches({
               type="button"
               aria-label={variant.name || variant.hex}
               aria-pressed={selectedIndex === index}
+              onMouseEnter={() => onPreview?.(index)}
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 onSelect(index);
               }}
               className={cn(
-                "rounded-full border-2 transition-shadow hover:shadow-sm",
+                "rounded-full border-2 transition-all duration-200 ease-out hover:scale-[1.2] hover:shadow-sm",
                 dot,
                 selectedIndex === index
                   ? "border-atlas-charcoal"
