@@ -1,4 +1,4 @@
-export const BRAND_NAME = "ATELIER ATLAS";
+export const BRAND_NAME = "MOROCCAN TRAVERTINE";
 export const LOGO_NAME = "moroccantravertine";
 export const SITE_LOGO_PATH = "/Moroccan_Travertine_Logo.svg";
 export const SITE_LOGO_ALT = "Moroccan Travertine";

@@ -49,7 +49,7 @@ export const INITIAL_INQUIRIES: ContactInquiry[] = [
     phone: "+212 6 61 22 33 44",
     type: "trade",
     subject: "Villa Palmeraie Project - Travertine Dining & Seating",
-    message: "Bonjour Atelier Atlas, we are working on a luxury private villa in Palmeraie Marrakech and would like to request the trade catalog and quote for 2 custom travertine dining tables and 8 bespoke benches.",
+    message: "Bonjour Moroccan Travertine, we are working on a luxury private villa in Palmeraie Marrakech and would like to request the trade catalog and quote for 2 custom travertine dining tables and 8 bespoke benches.",
     status: "new",
     createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
   },

@@ -38,7 +38,7 @@ export function SEOAdminClient({ initial }: { initial: SeoPayload | null }) {
   const en = initial?.translations.find((t) => t.language === "en");
   const ar = initial?.translations.find((t) => t.language === "ar");
 
-  const [siteNameEn, setSiteNameEn] = useState(en?.siteName ?? "ATELIER ATLAS");
+  const [siteNameEn, setSiteNameEn] = useState(en?.siteName ?? "MOROCCAN TRAVERTINE");
   const [suffixEn, setSuffixEn] = useState(en?.titleSuffix ?? "");
   const [descEn, setDescEn] = useState(en?.defaultMetaDesc ?? "");
   const [keywordsEn, setKeywordsEn] = useState(en?.defaultKeywords ?? "");

@@ -10,8 +10,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: isAr
-      ? "إتمام الطلب — الدفع عند الاستلام | أتيليه أطلس"
-      : "Checkout — Cash on Delivery | ATELIER ATLAS",
+      ? "إتمام الطلب — الدفع عند الاستلام | موروكان ترافرتين"
+      : "Checkout — Cash on Delivery | MOROCCAN TRAVERTINE",
     description: isAr
       ? "أتمم طلبك بأمان مع خيار الدفع نقداً عند الاستلام والتوصيل المجاني لكافة مدن المغرب."
       : "Complete your order with Cash on Delivery and free white-glove shipping across Morocco.",

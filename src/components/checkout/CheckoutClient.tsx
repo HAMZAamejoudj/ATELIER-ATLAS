@@ -175,7 +175,7 @@ export function CheckoutClient({ locale }: CheckoutClientProps) {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-atlas-charcoal/60 hover:text-atlas-charcoal transition-colors mb-3"
         >
           <ArrowLeft className="size-3.5 rtl:rotate-180" />
-          <span>{isAr ? "العودة إلى المتجر" : "Back to Atelier Store"}</span>
+          <span>{isAr ? "العودة إلى المتجر" : "Back to Store"}</span>
         </Link>
         <div className="flex flex-col gap-2">
           <h1 className="font-serif text-3xl font-semibold tracking-tight text-atlas-charcoal sm:text-4xl">

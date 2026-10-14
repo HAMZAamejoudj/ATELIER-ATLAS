@@ -89,7 +89,7 @@ export function BlogPostForm({
   const [topic, setTopic] = useState<string>(TOPICS[0]);
   const [format, setFormat] = useState<string>(FORMATS[0]);
   const [featuredImageUrl, setFeaturedImageUrl] = useState("");
-  const [authorName, setAuthorName] = useState("ATELIER ATLAS");
+  const [authorName, setAuthorName] = useState("MOROCCAN TRAVERTINE");
   const [readTimeMinutes, setReadTimeMinutes] = useState(5);
 
   const [titleEn, setTitleEn] = useState("");
@@ -125,7 +125,7 @@ export function BlogPostForm({
       setTopic(post.topic);
       setFormat(post.format);
       setFeaturedImageUrl(post.featuredImageUrl || "");
-      setAuthorName(post.authorName || "ATELIER ATLAS");
+      setAuthorName(post.authorName || "MOROCCAN TRAVERTINE");
       setReadTimeMinutes(post.readTimeMinutes);
       const en = post.translations.find((t) => t.language === "en");
       const ar = post.translations.find((t) => t.language === "ar");

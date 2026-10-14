@@ -1,4 +1,4 @@
-# ATELIER ATLAS — Admin dashboard
+# MOROCCAN TRAVERTINE — Admin dashboard
 
 ## Local preview (no Supabase yet)
 

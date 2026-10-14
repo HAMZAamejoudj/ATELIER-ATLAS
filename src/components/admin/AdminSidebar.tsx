@@ -52,7 +52,11 @@ export function AdminSidebar({ collapsed = false, onToggle }: AdminSidebarProps)
       )}
     >
       <div className="flex h-16 items-center justify-between border-b border-slate-700 px-4">
-        {!collapsed && <span className="font-serif text-lg font-semibold text-amber-400">Atlas Admin</span>}
+        {!collapsed && (
+          <span className="font-serif text-lg font-semibold text-amber-400">
+            Moroccan Travertine Admin
+          </span>
+        )}
         <button type="button" onClick={onToggle} className="rounded p-1 hover:bg-slate-800">
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>

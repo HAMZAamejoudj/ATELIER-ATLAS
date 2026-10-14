@@ -1,4 +1,4 @@
-# ATELIER ATLAS
+# MOROCCAN TRAVERTINE
 
 Next.js site for a design-forward handmade Moroccan furniture brand (SEO + content plan per client brief).
 

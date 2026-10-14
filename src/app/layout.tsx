@@ -13,6 +13,7 @@ import { AuthProvider } from "@/app/providers";
 import { AppProviders } from "@/components/cart/app-providers";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { WhatsAppFloatButton } from "@/components/layout/whatsapp-float-button";
 import { StorefrontPopupWrapper } from "@/components/layout/storefront-popup-wrapper";
 import { BRAND_NAME, SITE_LOGO_PATH } from "@/lib/constants";
 import { getLocale } from "@/lib/get-locale";
@@ -96,6 +97,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               <SiteChrome
                 footer={<SiteFooter />}
                 popup={<StorefrontPopupWrapper />}
+                floatingWhatsApp={<WhatsAppFloatButton />}
               >
                 {children}
               </SiteChrome>

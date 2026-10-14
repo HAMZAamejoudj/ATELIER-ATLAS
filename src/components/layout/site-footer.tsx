@@ -3,9 +3,12 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import { getContactSettings } from "@/actions/contact.actions";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { SiteLogo } from "@/components/layout/site-logo";
 import { Input } from "@/components/ui/input";
 import { BRAND_NAME } from "@/lib/constants";
+import { whatsappWaMeUrl } from "@/lib/whatsapp";
 
 function FooterLinkColumn({
   title,
@@ -111,6 +114,8 @@ function XIcon({ className }: { className?: string }) {
 export async function SiteFooter() {
   const year = new Date().getFullYear();
   const t = await getTranslations("footer");
+  const contact = await getContactSettings();
+  const whatsappHref = whatsappWaMeUrl(contact.whatsapp);
 
   const shopLinks = [
     { href: "/seating", label: t("links.seating") },
@@ -193,6 +198,15 @@ export async function SiteFooter() {
                   aria-label={t("social.x")}
                 >
                   <XIcon className="size-[18px]" />
+                </a>
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#25D366] transition-colors hover:text-[#2ee06a]"
+                  aria-label={t("social.whatsapp")}
+                >
+                  <WhatsAppIcon className="size-[19px]" />
                 </a>
               </div>
             </div>

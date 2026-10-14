@@ -25,9 +25,9 @@ export const DEFAULT_POPUP_CONFIG: PopupConfig = {
   titleEn: "Enjoy 10% Off Your First Handcrafted Piece",
   titleAr: "استمتع بخصم 10% على أول قطعة مصنوعة يدويًا",
   descriptionEn:
-    "Join the Atelier Atlas circle for early access to limited editions, private workshop releases, and architectural stories from Marrakech.",
+    "Join the Moroccan Travertine circle for early access to limited editions, private workshop releases, and architectural stories from Marrakech.",
   descriptionAr:
-    "انضم إلى مجتمع أتيليه أطلس للحصول على أسبقية الوصول للقطع الحصرية والإصدارات المحدودة لورشة مراكش.",
+    "انضم إلى مجتمع موروكان ترافرتين للحصول على أسبقية الوصول للقطع الحصرية والإصدارات المحدودة لورشة مراكش.",
   discountCode: "",
   discountPercent: "",
   buttonTextEn: "Explore Collection",

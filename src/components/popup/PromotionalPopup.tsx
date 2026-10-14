@@ -93,7 +93,7 @@ export function PromotionalPopup({ config, locale }: PromotionalPopupProps) {
         <div className="relative aspect-[16/9] w-full bg-[#eee7dd] sm:aspect-auto sm:h-full sm:col-span-5">
           <Image
             src={config.image || "/images/hero-home.png"}
-            alt="Atelier Atlas Handcrafted Furniture"
+            alt="Moroccan Travertine handcrafted furniture"
             fill
             className="object-cover object-center"
             sizes="(max-width: 640px) 100vw, 320px"

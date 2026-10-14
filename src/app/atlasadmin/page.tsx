@@ -84,7 +84,7 @@ export default async function AdminDashboardPage() {
     <>
       <AdminHeader
         title="Dashboard"
-        description="Overview of your ATELIER ATLAS store"
+        description="Overview of your MOROCCAN TRAVERTINE store"
       />
 
       <div className="space-y-8 p-8">

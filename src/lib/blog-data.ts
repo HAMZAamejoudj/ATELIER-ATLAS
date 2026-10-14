@@ -90,7 +90,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/blog/featured-slower-world.png",
     alt: "Stone terrace overlooking a sunlit landscape",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 8,
     body: [
       "Slow is not lazy — it is attentive. On a terrace overlooking dry hills, breakfast lasts longer than necessary, and that is the point.",
@@ -108,7 +108,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Interview",
     image: "/images/blog/featured-heirloom-hands.png",
     alt: "Artisan working material in a workshop",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 7,
     body: [
       "Heirloom begins in the hands — calloused, careful, knowing where pressure should land and where it should not.",
@@ -126,7 +126,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Essay",
     image: "/images/blog/featured-natural-stone.png",
     alt: "Ancient stone arch in warm light",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 6,
     body: [
       "Stone does not apologize for its pits or its weight. It asks you to accept imperfection as character.",
@@ -144,7 +144,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Essay",
     image: "/images/rooms/room-living.png",
     alt: "Living room with enduring materials",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 9,
     body: [
       "Homes that last share a trait: they tolerate change. Neutral palettes, solid joinery, rooms that can be read differently as life shifts.",
@@ -162,7 +162,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/journal/journal-harmony.png",
     alt: "Sunlit interior with mirror",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 5,
     body: [
       "A mirror is the fastest way to change a room without moving walls. It doubles daylight, extends a view, and gives the eye a place to rest.",
@@ -180,7 +180,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Essay",
     image: "/images/journal/journal-patina.png",
     alt: "Ceramic vessels with natural patina",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 5,
     body: [
       "Patina is not damage — it is memory written in surface.",
@@ -198,7 +198,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/journal/journal-harmony.png",
     alt: "Green hills and soft daylight",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 6,
     body: [
       "Harmony is not matching everything — it is rhythm.",
@@ -216,7 +216,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/journal/journal-collected.png",
     alt: "Books and objects on a shelf",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 4,
     body: [
       "A curated room can feel like a magazine. A collected room feels like a life.",
@@ -234,7 +234,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/journal/journal-collected.png",
     alt: "Collected objects on a console",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 4,
     body: [
       "Entryways set the tone in seconds.",
@@ -252,7 +252,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/lighting/hero-lighting-outdoor.png",
     alt: "Outdoor patio with pendant lights at dusk",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 6,
     body: [
       "Good lighting extends the day without shouting.",
@@ -270,7 +270,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Story",
     image: "/images/materials/material-travertine.png",
     alt: "Travertine texture close-up",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 7,
     body: [
       "Travertine arrives with its own map — pits, veins, shifts in tone.",
@@ -288,7 +288,7 @@ export const BLOG_POSTS: BlogPost[] = [
     format: "Essay",
     image: "/images/rooms/room-living.png",
     alt: "Living room with natural materials",
-    author: "Atelier Atlas",
+    author: "Moroccan Travertine",
     readTimeMinutes: 5,
     body: [
       "Sustainability here is not a badge — it is duration.",

@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const dbSeo = await getPageSeo("home", locale);
 
   return {
-    title: dbSeo?.title || "ATELIER ATLAS — Handmade Moroccan Furniture",
+    title: dbSeo?.title || "MOROCCAN TRAVERTINE — Handmade Moroccan Furniture",
     description:
       dbSeo?.description ||
       "Sculptural handmade Moroccan furniture in travertine, solid wood, and hammered metal — made to order in a Marrakech workshop.",

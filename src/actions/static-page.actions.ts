@@ -23,8 +23,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "home",
     nameEn: "Home",
     nameAr: "الرئيسية",
-    metaTitleEn: "ATELIER ATLAS — Handmade Moroccan Furniture",
-    metaTitleAr: "أتيليه أطلس — أثاث مغربي فاخر مصنوع يدوياً",
+    metaTitleEn: "MOROCCAN TRAVERTINE — Handmade Moroccan Furniture",
+    metaTitleAr: "موروكان ترافرتين — أثاث مغربي فاخر مصنوع يدوياً",
     metaDescEn:
       "Sculptural handmade Moroccan furniture in travertine, solid wood, and hammered metal — made to order in a Marrakech workshop.",
     metaDescAr:
@@ -35,8 +35,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "seating",
     nameEn: "Seating",
     nameAr: "المقاعد",
-    metaTitleEn: "Handmade Moroccan Seating | ATELIER ATLAS",
-    metaTitleAr: "مقاعد مغربية مصنوعة يدويًا | أتيليه أطلس",
+    metaTitleEn: "Handmade Moroccan Seating | MOROCCAN TRAVERTINE",
+    metaTitleAr: "مقاعد مغربية مصنوعة يدويًا | موروكان ترافرتين",
     metaDescEn:
       "Sculptural stools, benches, and chairs hand-shaped in travertine and solid timber.",
     metaDescAr:
@@ -47,8 +47,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "tables-consoles",
     nameEn: "Tables & Consoles",
     nameAr: "طاولات وكونسولات",
-    metaTitleEn: "Handmade Moroccan Tables & Consoles | ATELIER ATLAS",
-    metaTitleAr: "طاولات وكونسولات مغربية يدوية الصنع | أتيليه أطلس",
+    metaTitleEn: "Handmade Moroccan Tables & Consoles | MOROCCAN TRAVERTINE",
+    metaTitleAr: "طاولات وكونسولات مغربية يدوية الصنع | موروكان ترافرتين",
     metaDescEn:
       "Dining tables, side tables, and console tables combining travertine, solid oak, and walnut.",
     metaDescAr:
@@ -59,8 +59,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "lighting",
     nameEn: "Lighting",
     nameAr: "الإضاءة",
-    metaTitleEn: "Lighting After Sunset | ATELIER ATLAS",
-    metaTitleAr: "إضاءة راقية للمساحات الهادئة | أتيليه أطلس",
+    metaTitleEn: "Lighting After Sunset | MOROCCAN TRAVERTINE",
+    metaTitleAr: "إضاءة راقية للمساحات الهادئة | موروكان ترافرتين",
     metaDescEn:
       "Indoor pendants, table lamps, sconces, floor lamps, and outdoor lanterns.",
     metaDescAr:
@@ -71,8 +71,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "mirrors",
     nameEn: "Mirrors",
     nameAr: "المرايا",
-    metaTitleEn: "Reflective Calm Mirrors | ATELIER ATLAS",
-    metaTitleAr: "مرايا عاكسة بتصاميم هادئة | أتيليه أطلس",
+    metaTitleEn: "Reflective Calm Mirrors | MOROCCAN TRAVERTINE",
+    metaTitleAr: "مرايا عاكسة بتصاميم هادئة | موروكان ترافرتين",
     metaDescEn:
       "Arched, floor, wall, and vanity mirrors in brass, bronze, stone, and walnut.",
     metaDescAr:
@@ -83,8 +83,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "decor",
     nameEn: "Decor & Objects",
     nameAr: "الديكور والتحف",
-    metaTitleEn: "Mirrors & Objects Decor | ATELIER ATLAS",
-    metaTitleAr: "قطع ديكورية وتحف فنية | أتيليه أطلس",
+    metaTitleEn: "Mirrors & Objects Decor | MOROCCAN TRAVERTINE",
+    metaTitleAr: "قطع ديكورية وتحف فنية | موروكان ترافرتين",
     metaDescEn:
       "Mirrors, vases, trays, and sculptural objects for considered living spaces.",
     metaDescAr: "مزهريات، صوانٍ رخامية، وقطع منحوتة تضفي توازناً وهدوءاً على منزلك.",
@@ -94,8 +94,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "about",
     nameEn: "About Us",
     nameAr: "من نحن",
-    metaTitleEn: "Our Story | ATELIER ATLAS",
-    metaTitleAr: "قصتنا وحرفتنا | أتيليه أطلس",
+    metaTitleEn: "Our Story | MOROCCAN TRAVERTINE",
+    metaTitleAr: "قصتنا وحرفتنا | موروكان ترافرتين",
     metaDescEn:
       "Marrakech furniture workshop and design studio — handmade travertine, solid wood, and metal pieces.",
     metaDescAr:
@@ -106,8 +106,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "blog",
     nameEn: "The Journal / Blog",
     nameAr: "المجلة / المقالات",
-    metaTitleEn: "The Atlas Journal | ATELIER ATLAS",
-    metaTitleAr: "مجلة أطلس — حكايات الحرفة والتصميم | أتيليه أطلس",
+    metaTitleEn: "The Atlas Journal | MOROCCAN TRAVERTINE",
+    metaTitleAr: "مجلة أطلس — حكايات الحرفة والتصميم | موروكان ترافرتين",
     metaDescEn:
       "Stories on craft, materials, places, and people — inspiration for a more considered way of living.",
     metaDescAr:
@@ -118,8 +118,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "contact",
     nameEn: "Contact",
     nameAr: "اتصل بنا",
-    metaTitleEn: "Contact the Workshop | ATELIER ATLAS",
-    metaTitleAr: "تواصل مع الورشة | أتيليه أطلس",
+    metaTitleEn: "Contact the Workshop | MOROCCAN TRAVERTINE",
+    metaTitleAr: "تواصل مع الورشة | موروكان ترافرتين",
     metaDescEn:
       "Get in touch for bespoke inquiries, workshop visits, and trade partnerships.",
     metaDescAr:
@@ -130,8 +130,8 @@ const DEFAULT_SITE_PAGES: {
     slug: "sur-mesure",
     nameEn: "Sur-Mesure",
     nameAr: "حسب الطلب",
-    metaTitleEn: "Sur-Mesure Bespoke Furniture | ATELIER ATLAS",
-    metaTitleAr: "أثاث حسب الطلب والتخصيص | أتيليه أطلس",
+    metaTitleEn: "Sur-Mesure Bespoke Furniture | MOROCCAN TRAVERTINE",
+    metaTitleAr: "أثاث حسب الطلب والتخصيص | موروكان ترافرتين",
     metaDescEn:
       "Custom dimensions, finishes, and stone selections shaped for your project.",
     metaDescAr:
@@ -196,6 +196,14 @@ export async function getStaticPages() {
   return ((data as any[]) || []).filter((p: any) => p.systemName !== "sections_config");
 }
 
+function normalizeBrandInSeoText(text: string | null | undefined): string | null {
+  if (!text) return text ?? null;
+  return text
+    .replaceAll("ATELIER ATLAS", "MOROCCAN TRAVERTINE")
+    .replaceAll("Atelier Atlas", "Moroccan Travertine")
+    .replaceAll("أتيليه أطلس", "موروكان ترافرتين");
+}
+
 export async function getPageSeo(
   systemName: string,
   lang: LanguageCode = "en",
@@ -228,9 +236,11 @@ export async function getPageSeo(
       translations[0];
 
     return {
-      title: t?.metaTitle || t?.h1 || null,
-      description: t?.metaDesc || t?.description || null,
-      h1: t?.h1 || null,
+      title: normalizeBrandInSeoText(t?.metaTitle || t?.h1 || null),
+      description: normalizeBrandInSeoText(
+        t?.metaDesc || t?.description || null,
+      ),
+      h1: normalizeBrandInSeoText(t?.h1 || null),
       keywords: t?.keywords || null,
       ogImage: t?.ogImage || null,
     };

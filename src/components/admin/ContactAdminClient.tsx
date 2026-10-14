@@ -508,7 +508,7 @@ export function ContactAdminClient({
                         /[^0-9]/g,
                         ""
                       )}?text=${encodeURIComponent(
-                        `Bonjour ${selectedInquiry.name}, Atelier Atlas Marrakech vous remercie pour votre message concernant "${selectedInquiry.subject}".`
+                        `Bonjour ${selectedInquiry.name}, Moroccan Travertine Marrakech vous remercie pour votre message concernant "${selectedInquiry.subject}".`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

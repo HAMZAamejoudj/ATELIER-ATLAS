@@ -265,7 +265,8 @@
     "social": {
       "instagram": "Instagram",
       "pinterest": "Pinterest",
-      "x": "X"
+      "x": "X",
+      "whatsapp": "WhatsApp"
     },
     "paymentMethods": {
       "title": "Payment Method",
@@ -365,7 +366,7 @@
     "testimonial": {
       "ariaLabel": "Customer testimonial",
       "imageAlt": "Hand-sculpted ceramic vase beside travertine furniture details",
-      "quote": "Atelier Atlas pieces bring a rare sense of permanence to our home. You can feel the thought, the craft, the care in every detail.",
+      "quote": "Moroccan Travertine pieces bring a rare sense of permanence to our home. You can feel the thought, the craft, the care in every detail.",
       "attribution": "— Danielle R., Austin TX",
       "keywords": {
         "beautiful": "Beautiful",
@@ -407,7 +408,7 @@
         "y1984": {
           "line1": "A global",
           "line2": "perspective",
-          "alt": "Atelier Atlas maker mark, 1984"
+          "alt": "Moroccan Travertine maker mark, 1984"
         },
         "y2012": {
           "line1": "Materials",
@@ -636,9 +637,9 @@
     },
     "intro": {
       "eyebrow": "Who we are",
-      "lead": "Atelier Atlas is a Marrakech design studio and workshop where sculptural furniture is made to order by a team of stone cutters, woodworkers, and metal smiths — sold directly, without middlemen.",
+      "lead": "Moroccan Travertine is a Marrakech design studio and workshop where sculptural furniture is made to order by a team of stone cutters, woodworkers, and metal smiths — sold directly, without middlemen.",
       "body": "We are not a catalog importer. Each stool, table, and light is drawn in our studio, then built in our workshop in Sidi Ghanem — where stone dust, wood shavings, and hammered brass share the same floor.",
-      "quote": "We started Atelier Atlas because we wanted furniture that felt honest — material you could name, makers you could meet, forms that would still matter in twenty years.",
+      "quote": "We started Moroccan Travertine because we wanted furniture that felt honest — material you could name, makers you could meet, forms that would still matter in twenty years.",
       "quoteAttribution": "— Founding studio, Marrakech"
     },
     "process": {
@@ -816,7 +817,7 @@
       "badge": "Instant Assistance",
       "title": "Direct WhatsApp Concierge",
       "description": "Need immediate answers on dimensions, material swatches, or delivery timelines? Message our master artisans and concierge directly.",
-      "whatsappButton": "Chat with Atelier on WhatsApp"
+      "whatsappButton": "Chat with Moroccan Travertine on WhatsApp"
     },
     "studio": {
       "title": "Atelier & Showroom Details",
@@ -868,7 +869,7 @@
   },
   "seo": {
     "home": {
-      "title": "ATELIER ATLAS — Handmade Moroccan Furniture",
+      "title": "MOROCCAN TRAVERTINE — Handmade Moroccan Furniture",
       "description": "Sculptural handmade Moroccan furniture in travertine, solid wood, and hammered metal — made to order in a Marrakech workshop."
     },
     "seating": {
@@ -893,19 +894,19 @@
     },
     "about": {
       "title": "Our Story",
-      "description": "Marrakech furniture workshop and design studio — handmade travertine, wood, and metal pieces made to order by Atelier Atlas."
+      "description": "Marrakech furniture workshop and design studio — handmade travertine, wood, and metal pieces made to order by Moroccan Travertine."
     },
     "wishlist": {
       "title": "Wishlist",
-      "description": "Your saved ATELIER ATLAS pieces."
+      "description": "Your saved MOROCCAN TRAVERTINE pieces."
     },
     "blog": {
       "title": "The Atlas Journal",
       "description": "Stories on craft, materials, places, and people — inspiration for a more considered home."
     },
     "contact": {
-      "title": "Contact the Workshop | ATELIER ATLAS",
-      "description": "Get in touch with Atelier Atlas Marrakech for bespoke commissions, showroom visits, and trade partnerships."
+      "title": "Contact the Workshop | MOROCCAN TRAVERTINE",
+      "description": "Get in touch with Moroccan Travertine Marrakech for bespoke commissions, showroom visits, and trade partnerships."
     }
   }
 }

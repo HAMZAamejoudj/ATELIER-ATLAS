@@ -9,10 +9,12 @@ export function SiteChrome({
   children,
   footer,
   popup,
+  floatingWhatsApp,
 }: {
   children: ReactNode;
   footer: ReactNode;
   popup?: ReactNode;
+  floatingWhatsApp?: ReactNode;
 }) {
   const pathname = usePathname();
   const isAdmin =
@@ -26,6 +28,7 @@ export function SiteChrome({
           {footer}
           <CartDrawer />
           {popup}
+          {floatingWhatsApp}
         </>
       )}
     </>

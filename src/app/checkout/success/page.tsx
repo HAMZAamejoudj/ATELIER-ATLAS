@@ -19,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: isAr
-      ? "تم تأكيد طلبك بنجاح | أتيليه أطلس"
-      : "Order Confirmed | ATELIER ATLAS",
+      ? "تم تأكيد طلبك بنجاح | موروكان ترافرتين"
+      : "Order Confirmed | MOROCCAN TRAVERTINE",
   };
 }
 
@@ -62,7 +62,7 @@ export default async function CheckoutSuccessPage({
 
           <p className="mt-3 text-sm sm:text-base text-atlas-charcoal/75 max-w-xl mx-auto leading-relaxed">
             {isAr
-              ? "تم تسجيل طلبك بنجاح في ورشة أتيليه أطلس. ستدفع ثمن طلبك نقداً عند استلام وفحص القطعة عند باب منزلك."
+              ? "تم تسجيل طلبك بنجاح في ورشة موروكان ترافرتين. ستدفع ثمن طلبك نقداً عند استلام وفحص القطعة عند باب منزلك."
               : "Your handcrafted order has been received. You will pay in cash upon receiving and inspecting your piece at your address."}
           </p>
 

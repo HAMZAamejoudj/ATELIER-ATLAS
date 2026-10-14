@@ -1,5 +1,5 @@
 /**
- * Arabic (MSA) blog copy for Atelier Atlas — keyed by slug.
+ * Arabic (MSA) blog copy for Moroccan Travertine — keyed by slug.
  */
 
 export const BLOG_POSTS_AR: Record<

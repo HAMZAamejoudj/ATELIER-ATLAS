@@ -1,5 +1,5 @@
 export const ABOUT_GEO_LEAD =
-  "Atelier Atlas is a Marrakech design studio and workshop where sculptural furniture is made to order by a team of stone cutters, woodworkers, and metal smiths — sold directly, without middlemen.";
+  "Moroccan Travertine is a Marrakech design studio and workshop where sculptural furniture is made to order by a team of stone cutters, woodworkers, and metal smiths — sold directly, without middlemen.";
 
 export const ABOUT_MILESTONES = [
   {
