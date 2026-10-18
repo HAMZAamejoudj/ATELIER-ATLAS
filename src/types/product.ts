@@ -3,8 +3,18 @@ export type LanguageCode = "en" | "ar";
 export type ProductBadge = "BEST_SELLER" | "NEW";
 
 import type { ProductColorVariant } from "@/lib/product-color-variants";
+import type {
+  ProductOptionsConfig,
+  ProductPriceRow,
+  ProductOptionGroup,
+} from "@/lib/product-options";
 
-export type { ProductColorVariant };
+export type {
+  ProductColorVariant,
+  ProductOptionsConfig,
+  ProductPriceRow,
+  ProductOptionGroup,
+};
 
 export interface ProductTranslationInput {
   language: LanguageCode;
@@ -37,6 +47,8 @@ export interface ShopProductDB {
   material: string;
   swatches: string[];
   colorVariants: ProductColorVariant[];
+  productOptions?: ProductOptionsConfig | null;
+  attributes?: Record<string, unknown> | null;
   badge: ProductBadge | null;
   filterFacets: Record<string, string>;
   inStock: boolean;
@@ -71,6 +83,7 @@ export interface CreateProductInput {
   stock?: number;
   material: string;
   swatches: string[];
+  productOptions?: ProductOptionsConfig | null;
   badge?: ProductBadge | null;
   filterFacets?: Record<string, string>;
   isAvailable?: boolean;

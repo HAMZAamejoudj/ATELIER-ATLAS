@@ -9,7 +9,7 @@ import {
   swatchesToColorVariants,
   type ProductColorVariant,
 } from "@/lib/product-color-variants";
-import type { ProductBadge } from "@/types/product";
+import type { ProductBadge, ProductOptionsConfig } from "@/types/product";
 
 export type StorefrontProductDetail = {
   id: string;
@@ -25,6 +25,7 @@ export type StorefrontProductDetail = {
   material: string;
   swatches: string[];
   colorVariants: ProductColorVariant[];
+  productOptions?: ProductOptionsConfig | null;
   badge: ProductBadge | null;
   collectionSlug: string;
   collectionLabel: string;

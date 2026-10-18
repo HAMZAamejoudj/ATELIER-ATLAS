@@ -38,6 +38,7 @@ function shopToDetail(product: ShopProductDB): StorefrontProductDetail {
     colorVariants: product.colorVariants?.length
       ? product.colorVariants
       : swatchesToColorVariants(product.swatches, product.image),
+    productOptions: product.productOptions ?? null,
     badge: product.badge,
     collectionSlug: product.collectionSlug,
     collectionLabel: product.collection,

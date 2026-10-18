@@ -11,6 +11,7 @@ import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { AddToWishlistButton } from "@/components/wishlist/add-to-wishlist-button";
 import { useLocalizedProduct } from "@/hooks/use-localized-product";
 import { isRemoteCatalogImage } from "@/lib/catalog-products";
+import { formatMoney } from "@/lib/money";
 import { translateProductName } from "@/lib/product-names-ar";
 import { swatchesToColorVariants } from "@/lib/product-color-variants";
 import type { StorefrontProductDetail } from "@/lib/storefront-product-registry";
@@ -60,9 +61,31 @@ export function ProductDetailView({
         ? variantHeroImage
         : galleryHeroImage;
 
+  const hasOptions = Boolean(
+    product.productOptions?.priceRows &&
+      product.productOptions.priceRows.length > 0,
+  );
+  const [selectedRowIndex, setSelectedRowIndex] = useState(0);
+
+  const selectedRow = hasOptions
+    ? product.productOptions!.priceRows[selectedRowIndex] ||
+      product.productOptions!.priceRows[0]
+    : null;
+
+  const activePriceUsd = selectedRow
+    ? selectedRow.salePriceUsd ?? selectedRow.priceUsd
+    : product.priceUsd;
+
+  const activeCompareAtUsd = selectedRow
+    ? selectedRow.salePriceUsd != null &&
+      selectedRow.salePriceUsd < selectedRow.priceUsd
+      ? selectedRow.priceUsd
+      : null
+    : product.compareAtUsd;
+
   const cardProduct = {
-    name: product.name,
-    priceUsd: product.priceUsd,
+    name: selectedRow ? `${product.name} (${selectedRow.option})` : product.name,
+    priceUsd: activePriceUsd,
     image: heroImage,
     alt: product.alt,
     href: product.href,
@@ -165,12 +188,51 @@ export function ProductDetailView({
           <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight text-atlas-charcoal sm:text-4xl lg:text-[2.65rem] lg:leading-tight">
             {displayName}
           </h1>
-          <p className="mt-4 font-sans text-xl font-bold tabular-nums text-atlas-charcoal sm:text-2xl">
-            {displayPrice}
-          </p>
+          <div className="mt-4 flex flex-wrap items-baseline gap-3">
+            <p className="font-sans text-xl font-bold tabular-nums text-atlas-charcoal sm:text-2xl">
+              {displayPrice}
+            </p>
+            {activeCompareAtUsd != null && activeCompareAtUsd > activePriceUsd && (
+              <span className="font-sans text-sm line-through text-atlas-charcoal/50">
+                {formatMoney(activeCompareAtUsd, locale)}
+              </span>
+            )}
+          </div>
           <p className="mt-5 max-w-xl font-serif text-base leading-relaxed text-atlas-charcoal/85 sm:text-[17px] sm:leading-7">
             {product.shortDescription}
           </p>
+
+          {/* Product Options & Bundles Dropdown */}
+          {hasOptions && (
+            <div className="mt-6 space-y-2">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="product-option-selector"
+                  className="font-sans text-[11px] font-bold uppercase tracking-[0.14em] text-atlas-charcoal/80"
+                >
+                  {product.productOptions?.groups?.[0]?.name ||
+                    (locale === "ar" ? "الخيارات والقياسات" : "Options & Bundles")}
+                </label>
+                {selectedRow?.sku && (
+                  <span className="font-sans text-xs font-semibold text-atlas-charcoal/60">
+                    {selectedRow.sku}
+                  </span>
+                )}
+              </div>
+              <select
+                id="product-option-selector"
+                value={selectedRowIndex}
+                onChange={(e) => setSelectedRowIndex(Number(e.target.value))}
+                className="h-11 w-full rounded-none border border-atlas-charcoal/20 bg-white px-3 font-sans text-xs font-semibold uppercase tracking-wider text-atlas-charcoal shadow-sm transition-colors focus:border-atlas-charcoal focus:outline-none"
+              >
+                {product.productOptions!.priceRows.map((row, idx) => (
+                  <option key={row.id || idx} value={idx}>
+                    {row.option} — {formatMoney(row.salePriceUsd ?? row.priceUsd, locale)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="mt-6 flex flex-wrap items-center gap-2">
             <ProductColorSwatches
@@ -208,7 +270,7 @@ export function ProductDetailView({
           </div>
 
           <p className="mt-4 font-sans text-xs text-atlas-charcoal/60">
-            {t("sku")}: {product.sku}
+            {t("sku")}: {selectedRow?.sku || product.sku}
           </p>
 
           <ul className="mt-10 space-y-4 border-t border-atlas-charcoal/10 pt-8">

@@ -10,6 +10,9 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   images: {
     remotePatterns: supabaseHost
       ? [

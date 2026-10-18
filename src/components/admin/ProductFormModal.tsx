@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
+import { ImagePlus, Loader2, Plus, Trash2, Wand2, X } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
 
 import {
@@ -26,6 +26,13 @@ import {
   swatchesToColorVariants,
   type ProductColorVariant,
 } from "@/lib/product-color-variants";
+import {
+  generateCombinations,
+  generatePriceRowsFromGroups,
+  type ProductOptionGroup,
+  type ProductOptionsConfig,
+  type ProductPriceRow,
+} from "@/lib/product-options";
 import { slugify } from "@/lib/slugify";
 import type {
   CollectionDB,
@@ -73,6 +80,24 @@ export function ProductFormModal({
           ? swatchesToColorVariants(product.swatches, product.image)
           : [],
   );
+  const [optionGroups, setOptionGroups] = useState<ProductOptionGroup[]>(() => {
+    if (product?.productOptions?.groups?.length) {
+      return product.productOptions.groups;
+    }
+    return [
+      {
+        id: "group-1",
+        name: "Save On Bundle",
+        options: [],
+      },
+    ];
+  });
+  const [priceRows, setPriceRows] = useState<ProductPriceRow[]>(() => {
+    if (product?.productOptions?.priceRows?.length) {
+      return product.productOptions.priceRows;
+    }
+    return [];
+  });
   const [badge, setBadge] = useState<ProductBadge | "">(product?.badge ?? "");
   const [filterFacets, setFilterFacets] = useState<Record<string, string>>(
     product?.filterFacets ?? {},
@@ -109,6 +134,108 @@ export function ProductFormModal({
     [collectionSlug],
   );
 
+  const allAvailableOptions = useMemo(() => {
+    return generateCombinations(optionGroups);
+  }, [optionGroups]);
+
+  const addOptionGroup = () => {
+    setOptionGroups((prev) => [
+      ...prev,
+      {
+        id: `group-${Date.now()}`,
+        name: "",
+        options: [],
+      },
+    ]);
+  };
+
+  const removeOptionGroup = (groupId: string) => {
+    setOptionGroups((prev) => prev.filter((g) => g.id !== groupId));
+  };
+
+  const updateGroupName = (groupId: string, name: string) => {
+    setOptionGroups((prev) =>
+      prev.map((g) => (g.id === groupId ? { ...g, name } : g)),
+    );
+  };
+
+  const addOption = (groupId: string) => {
+    setOptionGroups((prev) =>
+      prev.map((g) =>
+        g.id === groupId ? { ...g, options: [...g.options, ""] } : g,
+      ),
+    );
+  };
+
+  const updateOption = (groupId: string, optIndex: number, value: string) => {
+    setOptionGroups((prev) =>
+      prev.map((g) => {
+        if (g.id !== groupId) return g;
+        const nextOpts = [...g.options];
+        nextOpts[optIndex] = value;
+        return { ...g, options: nextOpts };
+      }),
+    );
+  };
+
+  const removeOption = (groupId: string, optIndex: number) => {
+    setOptionGroups((prev) =>
+      prev.map((g) => {
+        if (g.id !== groupId) return g;
+        return {
+          ...g,
+          options: g.options.filter((_, i) => i !== optIndex),
+        };
+      }),
+    );
+  };
+
+  const handleGeneratePriceRows = () => {
+    const generated = generatePriceRowsFromGroups(
+      optionGroups,
+      priceRows,
+      priceUsd,
+      stock,
+      sku || "VAR",
+    );
+    if (generated.length === 0) {
+      alert("Please add at least one option label before generating price rows.");
+      return;
+    }
+    setPriceRows(generated);
+  };
+
+  const addPriceRow = () => {
+    const fallbackOption = allAvailableOptions[0] || "";
+    setPriceRows((prev) => [
+      ...prev,
+      {
+        id: `row-${Date.now()}-${prev.length}`,
+        option: fallbackOption,
+        priceUsd: Number(priceUsd) || 0,
+        salePriceUsd: null,
+        stock: Number(stock) || 0,
+        sku: `${sku || "VAR"}-b${prev.length + 1}`,
+      },
+    ]);
+  };
+
+  const updatePriceRow = (
+    index: number,
+    field: keyof ProductPriceRow,
+    value: unknown,
+  ) => {
+    setPriceRows((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  };
+
+  const removePriceRow = (index: number) => {
+    setPriceRows((prev) => prev.filter((_, i) => i !== index));
+  };
+
   useEffect(() => {
     if (!isOpen) return;
     if (!product && nameEn && !slugEn) {
@@ -126,6 +253,18 @@ export function ProductFormModal({
           ? swatchesToColorVariants(product.swatches, product.image)
           : [],
     );
+    setOptionGroups(
+      product?.productOptions?.groups?.length
+        ? product.productOptions.groups
+        : [
+            {
+              id: "group-1",
+              name: "Save On Bundle",
+              options: [],
+            },
+          ],
+    );
+    setPriceRows(product?.productOptions?.priceRows || []);
   }, [isOpen, product]);
 
   if (!isOpen) return null;
@@ -198,6 +337,35 @@ export function ProductFormModal({
           return;
         }
 
+        const hasOptions =
+          optionGroups.some((g) => g.options.some((o) => o.trim().length > 0)) ||
+          priceRows.length > 0;
+
+        const productOptionsPayload: ProductOptionsConfig | null = hasOptions
+          ? {
+              groups: optionGroups
+                .map((g) => ({
+                  ...g,
+                  name: g.name.trim(),
+                  options: g.options.map((o) => o.trim()).filter(Boolean),
+                }))
+                .filter((g) => g.name || g.options.length > 0),
+              priceRows: priceRows
+                .map((r, i) => ({
+                  id: r.id || `row-${i}`,
+                  option: r.option.trim(),
+                  priceUsd: Number(r.priceUsd) || 0,
+                  salePriceUsd:
+                    r.salePriceUsd != null && r.salePriceUsd !== ("" as unknown)
+                      ? Number(r.salePriceUsd)
+                      : null,
+                  stock: Number(r.stock) || 0,
+                  sku: (r.sku || "").trim(),
+                }))
+                .filter((r) => r.option.length > 0),
+            }
+          : null;
+
         const input: CreateProductInput = {
           collectionId,
           priceUsd: Number(priceUsd),
@@ -205,7 +373,12 @@ export function ProductFormModal({
           stock: Number(stock),
           material,
           swatches,
-          attributes: { colorVariants: uploadedColorVariants },
+          attributes: {
+            ...((product?.attributes as Record<string, unknown>) || {}),
+            colorVariants: uploadedColorVariants,
+            productOptions: productOptionsPayload,
+          },
+          productOptions: productOptionsPayload,
           badge: badge || null,
           filterFacets,
           isFeatured,
@@ -259,7 +432,7 @@ export function ProductFormModal({
   return (
     <>
       <div className="fixed inset-0 z-[90] flex items-start justify-center overflow-y-auto bg-black/40 p-4 pt-10">
-        <div className="mb-10 w-full max-w-4xl rounded-xl bg-white shadow-2xl">
+        <div className="mb-10 w-full max-w-5xl rounded-xl bg-white shadow-2xl">
           <div className="flex items-center justify-between border-b px-6 py-4">
             <h2 className="font-serif text-xl">
               {product ? "Edit product" : "New product"}
@@ -652,6 +825,253 @@ export function ProductFormModal({
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* PRODUCT OPTIONS & BUNDLES */}
+          <div className="border-t border-stone-200 px-6 py-6">
+            <div className="rounded-2xl border border-[#96532b]/40 bg-[#fdfcfb] p-6 shadow-sm">
+              {/* Header Badge */}
+              <div className="inline-flex items-center rounded-full border border-[#96532b] bg-white px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#96532b]">
+                Product Options & Bundles
+              </div>
+
+              <p className="mt-2.5 text-xs text-stone-600">
+                Configure Body Size and Save On Bundle dropdowns. Add option labels, generate combinations, then set a price for each row.
+              </p>
+
+              {/* Option Group Cards */}
+              <div className="mt-5 space-y-4">
+                {optionGroups.map((group, groupIdx) => (
+                  <div
+                    key={group.id || groupIdx}
+                    className="rounded-xl border border-stone-200/90 bg-white p-5 shadow-sm"
+                  >
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Label className="text-xs font-semibold text-stone-700 min-w-[3.5rem]">
+                        Label
+                      </Label>
+                      <Input
+                        value={group.name}
+                        onChange={(e) => updateGroupName(group.id, e.target.value)}
+                        placeholder="e.g. Save On Bundle or Dimensions"
+                        className="h-9 max-w-xs text-sm"
+                      />
+                      {optionGroups.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeOptionGroup(group.id)}
+                          className="ml-auto inline-flex items-center gap-1 text-xs text-stone-400 hover:text-red-600 transition-colors"
+                        >
+                          <Trash2 size={14} /> Remove group
+                        </button>
+                      )}
+                    </div>
+
+                    <p className="mt-4 mb-2 text-xs text-stone-500">
+                      Options (shown as dropdown choices on product page)
+                    </p>
+
+                    <div className="space-y-2 max-w-md">
+                      {group.options.map((opt, optIdx) => (
+                        <div key={optIdx} className="flex items-center gap-2">
+                          <Input
+                            value={opt}
+                            onChange={(e) =>
+                              updateOption(group.id, optIdx, e.target.value)
+                            }
+                            placeholder="e.g. Faucet Only or 60 x 80 cm"
+                            className="h-9 text-sm flex-1"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeOption(group.id, optIdx)}
+                            className="p-1.5 text-stone-400 hover:text-red-600 transition-colors rounded hover:bg-stone-50"
+                            title="Remove option"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => addOption(group.id)}
+                        className="h-8 text-xs font-medium text-stone-700 hover:bg-stone-50"
+                      >
+                        <Plus size={14} className="mr-1.5" /> Add option
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="pt-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={addOptionGroup}
+                    className="h-8 text-xs text-stone-600 hover:text-stone-900"
+                  >
+                    <Plus size={14} className="mr-1.5" /> Add another option group (e.g. Body Size)
+                  </Button>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-6 flex flex-wrap items-center gap-5 border-t border-stone-200/60 pt-4">
+                <button
+                  type="button"
+                  onClick={handleGeneratePriceRows}
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#96532b] hover:text-[#743c1b] transition-colors"
+                >
+                  <Wand2 size={15} /> Generate bundle prices
+                </button>
+                <button
+                  type="button"
+                  onClick={addPriceRow}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#96532b] hover:text-[#743c1b] transition-colors"
+                >
+                  <Plus size={15} /> Add price row
+                </button>
+              </div>
+
+              <p className="mt-3 text-xs text-stone-500">
+                Set a price for each bundle row below, then save the product. Customers will see the bundle price on the shop page.
+              </p>
+
+              {/* Price Rows Table */}
+              {priceRows.length > 0 ? (
+                <div className="mt-4 overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="border-b border-stone-200 bg-[#f8fafc] font-bold uppercase tracking-wider text-stone-600">
+                        <tr>
+                          <th className="px-4 py-3">BUNDLE</th>
+                          <th className="px-4 py-3">PRICE (USD)</th>
+                          <th className="px-4 py-3">SALE</th>
+                          <th className="px-4 py-3">STOCK</th>
+                          <th className="px-4 py-3">SKU</th>
+                          <th className="w-12 px-3 py-3 text-center"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-100 font-sans">
+                        {priceRows.map((row, idx) => (
+                          <tr key={row.id || idx} className="hover:bg-stone-50/60 transition-colors">
+                            <td className="p-3 min-w-[14rem]">
+                              {allAvailableOptions.length > 0 ? (
+                                <select
+                                  value={row.option}
+                                  onChange={(e) =>
+                                    updatePriceRow(idx, "option", e.target.value)
+                                  }
+                                  className="h-9 w-full rounded-md border border-stone-200 bg-white px-2.5 text-xs focus:border-stone-400 focus:outline-none"
+                                >
+                                  {allAvailableOptions.map((opt) => (
+                                    <option key={opt} value={opt}>
+                                      {opt}
+                                    </option>
+                                  ))}
+                                  {!allAvailableOptions.includes(row.option) && row.option && (
+                                    <option value={row.option}>{row.option}</option>
+                                  )}
+                                </select>
+                              ) : (
+                                <Input
+                                  value={row.option}
+                                  onChange={(e) =>
+                                    updatePriceRow(idx, "option", e.target.value)
+                                  }
+                                  placeholder="Option name"
+                                  className="h-9 text-xs"
+                                />
+                              )}
+                            </td>
+                            <td className="p-3 w-32">
+                              <Input
+                                type="number"
+                                min={0}
+                                step="any"
+                                value={row.priceUsd}
+                                onChange={(e) =>
+                                  updatePriceRow(
+                                    idx,
+                                    "priceUsd",
+                                    Number(e.target.value),
+                                  )
+                                }
+                                className="h-9 text-xs"
+                              />
+                            </td>
+                            <td className="p-3 w-32">
+                              <Input
+                                type="number"
+                                min={0}
+                                step="any"
+                                value={row.salePriceUsd ?? ""}
+                                onChange={(e) =>
+                                  updatePriceRow(
+                                    idx,
+                                    "salePriceUsd",
+                                    e.target.value === ""
+                                      ? null
+                                      : Number(e.target.value),
+                                  )
+                                }
+                                placeholder="—"
+                                className="h-9 text-xs"
+                              />
+                            </td>
+                            <td className="p-3 w-28">
+                              <Input
+                                type="number"
+                                min={0}
+                                value={row.stock}
+                                onChange={(e) =>
+                                  updatePriceRow(
+                                    idx,
+                                    "stock",
+                                    Number(e.target.value),
+                                  )
+                                }
+                                className="h-9 text-xs"
+                              />
+                            </td>
+                            <td className="p-3 min-w-[9rem]">
+                              <Input
+                                value={row.sku}
+                                onChange={(e) =>
+                                  updatePriceRow(idx, "sku", e.target.value)
+                                }
+                                placeholder="VAR-b1"
+                                className="h-9 text-xs"
+                              />
+                            </td>
+                            <td className="p-3 text-center w-12">
+                              <button
+                                type="button"
+                                onClick={() => removePriceRow(idx)}
+                                className="p-1.5 text-stone-400 hover:text-red-600 transition-colors rounded hover:bg-stone-100"
+                                title="Delete row"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 rounded-xl border border-dashed border-stone-300 p-6 text-center text-xs text-stone-400">
+                  No bundle or option price rows generated yet. Add options above and click &quot;Generate bundle prices&quot; or &quot;Add price row&quot;.
+                </div>
+              )}
             </div>
           </div>
 

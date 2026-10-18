@@ -8,6 +8,10 @@ import { supabase } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import type { Json } from "@/types/database";
 import { parseColorVariantsFromAttributes } from "@/lib/product-color-variants";
+import {
+  parseProductOptionsFromAttributes,
+  sanitizeProductOptions,
+} from "@/lib/product-options";
 import type {
   CreateProductInput,
   LanguageCode,
@@ -100,6 +104,8 @@ function transformProduct(product: any, lang: LanguageCode = "en"): ShopProductD
       mainImage,
       parseSwatches(product.swatches),
     ),
+    productOptions: parseProductOptionsFromAttributes(product.attributes),
+    attributes: (product.attributes as Record<string, unknown> | null) ?? null,
     badge: (product.badge as ProductBadge | null) ?? null,
     filterFacets: parseFilterFacets(product.filterFacets),
     inStock: product.isAvailable && (product.stock ?? 0) > 0,
@@ -329,6 +335,13 @@ export async function isSlugUnique(
 export async function createProduct(input: CreateProductInput) {
   try {
     await checkAdmin();
+    const attributesToSave = {
+      ...(input.attributes || {}),
+      ...(input.productOptions !== undefined && {
+        productOptions: sanitizeProductOptions(input.productOptions),
+      }),
+    };
+
     const { data: product, error } = await supabaseAdmin
       .from("Product")
       .insert({
@@ -344,7 +357,7 @@ export async function createProduct(input: CreateProductInput) {
         isAvailable: input.isAvailable ?? true,
         isFeatured: input.isFeatured ?? false,
         sortOrder: input.sortOrder ?? 0,
-        attributes: (input.attributes ?? null) as Json | null,
+        attributes: (Object.keys(attributesToSave).length > 0 ? attributesToSave : null) as Json | null,
       })
       .select()
       .single();
@@ -387,6 +400,17 @@ export async function createProduct(input: CreateProductInput) {
 export async function updateProduct(id: string, input: UpdateProductInput) {
   try {
     await checkAdmin();
+
+    const attributesToSave =
+      input.attributes !== undefined || input.productOptions !== undefined
+        ? {
+            ...((input.attributes as Record<string, unknown>) || {}),
+            ...(input.productOptions !== undefined && {
+              productOptions: sanitizeProductOptions(input.productOptions),
+            }),
+          }
+        : undefined;
+
     await supabaseAdmin
       .from("Product")
       .update({
@@ -404,8 +428,8 @@ export async function updateProduct(id: string, input: UpdateProductInput) {
         ...(input.isAvailable != null && { isAvailable: input.isAvailable }),
         ...(input.isFeatured != null && { isFeatured: input.isFeatured }),
         ...(input.sortOrder != null && { sortOrder: input.sortOrder }),
-        ...(input.attributes !== undefined && {
-          attributes: input.attributes as Json,
+        ...(attributesToSave !== undefined && {
+          attributes: attributesToSave as Json,
         }),
       })
       .eq("id", id);

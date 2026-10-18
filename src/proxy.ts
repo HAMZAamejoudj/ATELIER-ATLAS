@@ -7,15 +7,30 @@ import { ensureAuthEnv, isSecureAuthCookie } from "@/lib/ensure-auth-env";
 
 ensureAuthEnv();
 
+function nextWithPathname(req: NextRequest) {
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", req.nextUrl.pathname);
+  return NextResponse.next({ request: { headers: requestHeaders } });
+}
+
 export default async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  const isAuthRoute =
+    pathname === "/login" ||
+    pathname.startsWith("/login/") ||
+    pathname.startsWith("/atlasadmin");
+
+  if (!isAuthRoute) {
+    return nextWithPathname(req);
+  }
 
   if (isAdminAuthDisabled()) {
     if (pathname === "/login" || pathname.startsWith("/login/")) {
       return NextResponse.redirect(new URL("/atlasadmin", req.url));
     }
     if (pathname.startsWith("/atlasadmin")) {
-      return NextResponse.next();
+      return nextWithPathname(req);
     }
   }
 
@@ -33,7 +48,7 @@ export default async function proxy(req: NextRequest) {
         new URL(from && from.startsWith("/atlasadmin") ? from : "/atlasadmin", req.url),
       );
     }
-    return NextResponse.next();
+    return nextWithPathname(req);
   }
 
   if (pathname.startsWith("/atlasadmin")) {
@@ -48,9 +63,11 @@ export default async function proxy(req: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return nextWithPathname(req);
 }
 
 export const config = {
-  matcher: ["/login", "/login/:path*", "/atlasadmin", "/atlasadmin/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml|json|woff2?)$).*)",
+  ],
 };
