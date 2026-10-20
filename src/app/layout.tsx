@@ -6,7 +6,6 @@ import {
   Noto_Sans_Arabic,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 
@@ -86,8 +85,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const locale = await getLocale();
   const allMessages = await getMessages();
-  const pathname = (await headers()).get("x-pathname") ?? "/";
-  const messages = getClientMessages(allMessages, pathname);
+  const messages = getClientMessages(allMessages);
 
   return (
     <html

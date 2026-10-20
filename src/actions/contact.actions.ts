@@ -13,6 +13,10 @@ import {
   type InquiryStatus,
   type InquiryType,
 } from "@/lib/contact-types";
+import {
+  contactNotifyEmail,
+  sendContactInquiryEmail,
+} from "@/lib/resend";
 
 const CONTACT_SETTINGS_PAGE_ID = "sp_contact_settings";
 const CONTACT_INQUIRIES_PAGE_ID = "sp_contact_inquiries";
@@ -278,6 +282,11 @@ export async function submitContactInquiry(data: {
 
     const updated = [newInquiry, ...currentInquiries];
     await persistInquiries(updated);
+
+    await sendContactInquiryEmail({
+      inquiry: newInquiry,
+      to: contactNotifyEmail(),
+    });
 
     return {
       success: true as const,

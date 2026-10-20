@@ -223,32 +223,32 @@ export function ContactAdminClient({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-700 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-stone-300 pb-5">
         <div>
-          <h1 className="text-2xl font-serif font-bold text-white flex items-center gap-2.5">
-            <Mail className="size-6 text-amber-400" />
+          <h1 className="flex items-center gap-2.5 text-2xl font-serif font-bold text-stone-900">
+            <Mail className="size-6 text-amber-600" />
             Contact & Client Inquiries
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-stone-600">
             Manage inquiries from bespoke clients, architects, showroom visits, and edit Marrakech atelier contact info.
           </p>
         </div>
 
         {/* Tab Toggle */}
-        <div className="flex rounded-lg bg-slate-800 p-1 border border-slate-700 text-sm">
+        <div className="flex rounded-lg border border-stone-300 bg-white p-1 text-sm">
           <button
             type="button"
             onClick={() => setActiveTab("inquiries")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all font-medium ${
+            className={`flex items-center gap-2 rounded-md px-4 py-2 font-medium transition-all ${
               activeTab === "inquiries"
                 ? "bg-amber-600 text-white shadow"
-                : "text-slate-400 hover:text-white"
+                : "text-stone-600 hover:text-stone-900"
             }`}
           >
             <MessageSquare className="size-4" />
             <span>Inquiries</span>
             {newCount > 0 && (
-              <span className="rounded-full bg-amber-400 text-black px-1.5 py-0.2 text-[10px] font-bold">
+              <span className="rounded-full bg-amber-400 px-1.5 text-[10px] font-bold text-black">
                 {newCount}
               </span>
             )}
@@ -256,10 +256,10 @@ export function ContactAdminClient({
           <button
             type="button"
             onClick={() => setActiveTab("settings")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all font-medium ${
+            className={`flex items-center gap-2 rounded-md px-4 py-2 font-medium transition-all ${
               activeTab === "settings"
                 ? "bg-amber-600 text-white shadow"
-                : "text-slate-400 hover:text-white"
+                : "text-stone-600 hover:text-stone-900"
             }`}
           >
             <Building className="size-4" />
