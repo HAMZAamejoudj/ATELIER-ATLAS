@@ -17,14 +17,15 @@ const ALLOWED_MIME = [
 ];
 const MAX_UPLOAD_BYTES = 150 * 1024;
 
+function normalizeMime(mimeType: string): string {
+  return mimeType === "image/jpg" ? "image/jpeg" : mimeType;
+}
+
 async function isDecodableImage(buffer: Buffer): Promise<boolean> {
   try {
     const sharp = (await import("sharp")).default;
-    const { data, info } = await sharp(buffer)
-      .ensureAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-    return Boolean(info.width && info.height && data.length > 0);
+    const meta = await sharp(buffer).metadata();
+    return Boolean(meta.width && meta.height);
   } catch {
     return false;
   }
@@ -94,12 +95,15 @@ export async function processAndUploadLibraryImage(
     const crypto = await import("crypto");
 
     if (!original.length) throw new Error("Empty file");
-    if (!ALLOWED_MIME.includes(mimeType)) throw new Error("Invalid file type");
+    const normalizedMime = normalizeMime(mimeType);
+    if (!ALLOWED_MIME.includes(normalizedMime)) {
+      throw new Error("Invalid file type. Use JPG, PNG, WebP, or GIF.");
+    }
 
     const hash = crypto.createHash("md5").update(original).digest("hex");
 
     let uploadBuffer: Buffer = original;
-    let uploadMime = mimeType;
+    let uploadMime = normalizedMime;
     let uploadExt = filename.split(".").pop()?.toLowerCase() || "jpg";
     let width: number | null = null;
     let height: number | null = null;
@@ -120,7 +124,7 @@ export async function processAndUploadLibraryImage(
       (await isDecodableImage(original))
     ) {
       uploadBuffer = original;
-      uploadMime = mimeType;
+      uploadMime = normalizedMime;
       uploadExt = filename.split(".").pop()?.toLowerCase() || "jpg";
     } else {
       throw new Error(

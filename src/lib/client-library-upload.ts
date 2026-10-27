@@ -1,33 +1,78 @@
+import { prepareImageForUpload } from "@/lib/compress-image-client";
+
 export type LibraryUploadResult =
   | { success: true; url: string }
   | { success: false; error: string };
 
+function errorFromBody(error: unknown, fallback: string): string {
+  return typeof error === "string" && error.trim() ? error : fallback;
+}
+
 export async function uploadImageFile(
   file: File,
 ): Promise<LibraryUploadResult> {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const response = await fetch("/api/admin/library/upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  let data: { success?: boolean; url?: string; error?: string };
+  let prepared: File;
   try {
-    data = await response.json();
-  } catch {
+    prepared = await prepareImageForUpload(file);
+  } catch (error) {
     return {
       success: false,
       error:
-        response.status === 401
-          ? "Please sign in again."
-          : "Upload failed — invalid server response.",
+        error instanceof Error ? error.message : "Could not prepare image",
+    };
+  }
+
+  const formData = new FormData();
+  formData.append("file", prepared);
+
+  let response: Response;
+  try {
+    response = await fetch("/api/admin/library/upload", {
+      method: "POST",
+      body: formData,
+    });
+  } catch {
+    return {
+      success: false,
+      error: "Network error. Check your connection and try again.",
+    };
+  }
+
+  const text = await response.text();
+  let data: { success?: boolean; url?: string; error?: string };
+  try {
+    data = JSON.parse(text) as {
+      success?: boolean;
+      url?: string;
+      error?: string;
+    };
+  } catch {
+    if (response.status === 413) {
+      return {
+        success: false,
+        error: "Image is too large for the server. Use a smaller JPG or PNG.",
+      };
+    }
+    if (response.status === 401) {
+      return { success: false, error: "Please sign in again." };
+    }
+    if (response.status === 502 || response.status === 504) {
+      return {
+        success: false,
+        error: "Upload timed out. Try a smaller image.",
+      };
+    }
+    return {
+      success: false,
+      error: `Upload failed (HTTP ${response.status || "unknown"}). Try a smaller JPG or PNG.`,
     };
   }
 
   if (!response.ok || !data.success || !data.url) {
-    return { success: false, error: data.error || "Upload failed" };
+    return {
+      success: false,
+      error: errorFromBody(data.error, "Upload failed"),
+    };
   }
 
   return { success: true, url: data.url };

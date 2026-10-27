@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ImagePlus, Loader2, Search, Upload, X, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getLibraryImages } from '@/actions/library.actions';
 import type { LibraryImage } from '@/types/library';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { uploadImageFile } from '@/lib/client-library-upload';
 import { cn } from '@/lib/utils';
 import { resolveMediaLibraryUrl } from '@/lib/media-library-url';
 
@@ -22,7 +23,7 @@ export function MediaPickerModal({ open, onClose, onSelect, title = 'Choose Imag
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [uploadError, setUploadError] = useState('');
-  const [isPending, startTransition] = useTransition();
+  const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const loadImages = useCallback(async (q?: string) => {
@@ -53,22 +54,25 @@ export function MediaPickerModal({ open, onClose, onSelect, title = 'Choose Imag
     return () => clearTimeout(timer);
   }, [search, open, loadImages]);
 
-  const handleUpload = (files: FileList | null) => {
+  const handleUpload = async (files: FileList | null) => {
     if (!files?.[0]) return;
     const file = files[0];
     setUploadError('');
-    
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const base64 = (reader.result as string).split(',')[1];
-      const pendingUrl = `pending-upload:${encodeURIComponent(file.name)}:${file.type}:${base64}`;
-      setSelectedUrl(pendingUrl);
+    setUploading(true);
+    try {
+      const result = await uploadImageFile(file);
+      if (!result.success) {
+        setUploadError(result.error);
+        return;
+      }
+      setSelectedUrl(result.url);
+      await loadImages(search);
+    } catch {
+      setUploadError('Failed to upload file');
+    } finally {
+      setUploading(false);
       if (fileRef.current) fileRef.current.value = '';
-    };
-    reader.onerror = () => {
-      setUploadError('Failed to read file');
-    };
+    }
   };
 
   const handleConfirm = () => {
@@ -170,25 +174,25 @@ export function MediaPickerModal({ open, onClose, onSelect, title = 'Choose Imag
           </TabsContent>
 
           <TabsContent value="upload" className="mt-0 flex-1 px-6 py-6">
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleUpload(e.target.files)} />
+            <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="hidden" onChange={(e) => handleUpload(e.target.files)} />
             <button
               type="button"
-              disabled={isPending}
+              disabled={uploading}
               onClick={() => fileRef.current?.click()}
               className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 py-16 text-slate-500 transition-colors hover:border-amber-700 hover:text-amber-800"
             >
-              {isPending ? (
+              {uploading ? (
                 <Loader2 className="mb-3 h-10 w-10 animate-spin" />
               ) : (
                 <Upload className="mb-3 h-10 w-10" />
               )}
-              <span className="text-sm font-medium">{isPending ? 'Uploading...' : 'Click to upload from your PC'}</span>
-              <span className="mt-1 text-xs text-slate-400">JPG, PNG, WebP — max 10MB</span>
+              <span className="text-sm font-medium">{uploading ? 'Uploading...' : 'Click to upload from your PC'}</span>
+              <span className="mt-1 text-xs text-slate-400">JPG, PNG, WebP — photos are compressed automatically</span>
             </button>
             {uploadError && <p className="mt-3 text-sm text-red-600">{uploadError}</p>}
-            {selectedUrl && (
+            {selectedUrl && !uploading && (
               <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3">
-                <p className="mb-2 text-sm font-medium text-green-800">File loaded — click &quot;Use selected&quot; below</p>
+                <p className="mb-2 text-sm font-medium text-green-800">Uploaded — click &quot;Use selected&quot; below</p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={resolveMediaLibraryUrl({ url: selectedUrl, storagePath: selectedUrl })} alt="" className="mx-auto max-h-40 rounded object-contain" />
               </div>
@@ -216,7 +220,7 @@ export function MediaPickerModal({ open, onClose, onSelect, title = 'Choose Imag
             <Button
               type="button"
               className="bg-amber-800 hover:bg-amber-900"
-              disabled={!selectedUrl}
+              disabled={!selectedUrl || uploading}
               onClick={handleConfirm}
             >
               Use selected
