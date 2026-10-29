@@ -15,7 +15,7 @@ const ALLOWED_MIME = [
   "image/webp",
   "image/gif",
 ];
-const MAX_UPLOAD_BYTES = 150 * 1024;
+const MAX_UPLOAD_BYTES = 2 * 1024 * 1024;
 
 function normalizeMime(mimeType: string): string {
   return mimeType === "image/jpg" ? "image/jpeg" : mimeType;
@@ -43,8 +43,8 @@ async function compressToJpegMaxBytes(
 } | null> {
   const sharp = (await import("sharp")).default;
   const meta = await sharp(buffer).metadata();
-  let width = Math.min(meta.width || 1200, 1200);
-  let quality = 85;
+  let width = Math.min(meta.width || 2560, 2560);
+  let quality = 90;
 
   for (let i = 0; i < 20; i++) {
     const result = await sharp(buffer)
@@ -66,11 +66,11 @@ async function compressToJpegMaxBytes(
       };
     }
 
-    if (quality > 40) {
-      quality -= 10;
-    } else if (width > 120) {
-      width = Math.floor(width * 0.75);
-      quality = 75;
+    if (quality > 70) {
+      quality -= 5;
+    } else if (width > 1400) {
+      width = Math.floor(width * 0.85);
+      quality = 85;
     } else {
       break;
     }
@@ -112,24 +112,27 @@ export async function processAndUploadLibraryImage(
     width = meta.width ?? null;
     height = meta.height ?? null;
 
-    const jpeg = await compressToJpegMaxBytes(original, MAX_UPLOAD_BYTES);
-    if (jpeg) {
-      uploadBuffer = jpeg.buffer;
-      uploadMime = jpeg.mimeType;
-      uploadExt = jpeg.extension;
-      width = jpeg.width;
-      height = jpeg.height;
-    } else if (
+    if (
       original.length <= MAX_UPLOAD_BYTES &&
+      (meta.width || 0) <= 2560 &&
       (await isDecodableImage(original))
     ) {
       uploadBuffer = original;
       uploadMime = normalizedMime;
       uploadExt = filename.split(".").pop()?.toLowerCase() || "jpg";
     } else {
-      throw new Error(
-        "Image is too large and could not be compressed below 150 KB",
-      );
+      const jpeg = await compressToJpegMaxBytes(original, MAX_UPLOAD_BYTES);
+      if (jpeg) {
+        uploadBuffer = jpeg.buffer;
+        uploadMime = jpeg.mimeType;
+        uploadExt = jpeg.extension;
+        width = jpeg.width;
+        height = jpeg.height;
+      } else {
+        throw new Error(
+          "Image is too large and could not be compressed below 2 MB",
+        );
+      }
     }
 
     const baseName = filename

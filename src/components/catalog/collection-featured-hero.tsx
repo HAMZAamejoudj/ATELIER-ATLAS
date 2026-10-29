@@ -122,6 +122,7 @@ export function CollectionFeaturedHero({
           alt={heroAlt}
           fill
           priority
+          quality={90}
           className={featured.heroClassName ?? heroImageClassName}
           sizes="100vw"
         />

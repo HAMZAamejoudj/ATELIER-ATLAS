@@ -1,7 +1,7 @@
-const MAX_INPUT_BYTES = 10 * 1024 * 1024;
-const MAX_POST_BYTES = 3.5 * 1024 * 1024;
-const TARGET_BYTES = 400 * 1024;
-const MAX_WIDTH = 1600;
+const MAX_INPUT_BYTES = 15 * 1024 * 1024;
+const MAX_POST_BYTES = 4.5 * 1024 * 1024;
+const TARGET_BYTES = 2 * 1024 * 1024;
+const MAX_WIDTH = 2560;
 const ALLOWED_MIME = new Set([
   "image/jpeg",
   "image/jpg",
@@ -57,7 +57,7 @@ async function compressWithCanvas(file: File): Promise<File> {
     ctx.drawImage(bitmap, 0, 0, width, height);
 
     const baseName = file.name.replace(/\.[^.]+$/, "") || "upload";
-    const qualities = [0.82, 0.7, 0.58, 0.45];
+    const qualities = [0.92, 0.85, 0.78];
     let lastBlob: Blob | null = null;
 
     for (const quality of qualities) {
